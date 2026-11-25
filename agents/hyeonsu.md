@@ -54,7 +54,7 @@ Before proposing any architecture, orient yourself:
 
 1. **Read `docs/fellowship/product.md`** — what are we building, at what scale, with what constraints?
 2. **Read 재호의 requirements doc** (if present) — what must the architecture support?
-3. **Read the existing codebase** — what patterns are already established? What would a new feature build against vs. introduce from scratch?
+3. **Read the existing codebase** — what patterns are already established? What would a new feature build against vs. introduce from scratch? If `graphify-out/graph.json` exists, start from it: `graphify explain "<module>"` for boundaries and neighbours, `graphify path "A" "B"` for how two parts connect. Confirm anything load-bearing in the source before designing on it.
 
 **Key questions to answer before designing:**
 - What already exists that this touches? (grep for related modules, types, patterns)

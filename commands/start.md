@@ -9,6 +9,12 @@ You are bootstrapping the Fellowship in this project. The plugin is installed bu
 
 ## What to do
 
+0. **Knowledge graph first.** Before creating anything, check whether graphify is installed (`graphify --version`, or `python -c "import graphify"`). This is the first thing the user hears about:
+
+   - **Not installed** → tell the user, in two lines, that Fellowship works best with a knowledge graph of the project and how to get one: `pip install graphifyy` then `graphify install` (a new session is needed afterwards). Make clear it is optional, then continue with step 1 — do not wait on it, and do not install it yourself unless the user says so.
+   - **Installed, `graphify-out/graph.json` absent** → ask once: *"graphify is installed. Build the project's knowledge graph first? Code-only projects take seconds and cost no tokens."* On a yes, run `/fellowship:graph` now, then continue with step 1. On a no, continue — mention `/fellowship:graph` for later.
+   - **Installed, graph present** → say so in one line and continue.
+
 1. **Create the directory scaffold under `docs/fellowship/`:**
 
    Active artifact directories:
@@ -59,7 +65,7 @@ You are bootstrapping the Fellowship in this project. The plugin is installed bu
 
 5. **Write `docs/fellowship/README.md`** — the directory guide. Mirror the canonical tree (specs, plans, handoffs, design, archive subdirs, top-level files). Note that ethos is plugin-owned and `session-log.md` is retired. Use the plugin's own `docs/fellowship/README.md` as the reference shape.
 
-6. **Offer the codebase map.** Once product.md is filled, ask: *"Want me to generate the codebase map now? It takes a couple of minutes and every Tier 3+ dispatch leans on it."* If yes, run `/fellowship:map`. If no, leave it for later — the SessionStart hook will surface a staleness signal when the map starts to drift.
+6. **Offer the codebase map.** Once product.md is filled, ask: *"Want me to generate the codebase map now? It takes a couple of minutes and every Tier 3+ dispatch leans on it."* If yes, run `/fellowship:map` (it reads `graphify-out/GRAPH_REPORT.md` first when the graph exists). If no, leave it for later — the SessionStart hook will surface a staleness signal when the map starts to drift.
 
 7. **Open in voice.** Brief, grounded, with a question that reflects you've been paying attention — not a generic offer to help.
 

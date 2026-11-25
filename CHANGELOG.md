@@ -4,6 +4,14 @@ All notable changes to Fellowship are documented here.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+- **`/fellowship:graph` — graphify knowledge graph.** New command that checks whether [graphify](https://graphify.com) (PyPI `graphifyy`, Apache-2.0, not bundled) is installed. If it is missing, the command shows the install steps and stops. If it is present, the command builds the graph, or refreshes it with `graphify update .`, in `graphify-out/`, and offers to add that folder to `.gitignore`.
+- **Graph-first setup.** `/fellowship:start` gains a step 0. It offers to build the knowledge graph before the scaffold when graphify is installed, and otherwise gives two lines of optional install guidance. The dormant SessionStart notice now mentions graphify too.
+- **`<KNOWLEDGE_GRAPH>` session notice.** When `docs/fellowship/` and `graphify-out/graph.json` both exist, `hooks/session-start` tells 민준수 to answer structural and impact questions with `graphify query`/`path`/`explain` before grepping. 현수, 주혁, 승현 and `/fellowship:map` (via `GRAPH_REPORT.md`) use the graph when it exists.
+
 ## [1.2.0] — 2026-06-12
 
 ### Added

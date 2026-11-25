@@ -267,6 +267,8 @@ Status codes and base meanings: see `_shared/companion-protocol.md`. Review-spec
 
 Reading `docs/fellowship/codebase-map.md` does not count toward the 5-Read limit. It is dispatch context, not exploration. The shared 5-call guard otherwise applies.
 
+When `graphify-out/graph.json` exists, one `graphify query` or `graphify explain` on the changed module is the cheapest way to find callers the diff did not touch — use it for impact and duplication checks before grepping. It counts as one call against the guard.
+
 ## 승현-specific pre-DONE checks
 
 (Beyond the universal checklist in `_shared/companion-protocol.md`.)

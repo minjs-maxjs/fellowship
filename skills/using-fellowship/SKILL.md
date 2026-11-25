@@ -55,6 +55,7 @@ The SessionStart hook injects project-controlled `.md` files (quest log, product
 
 ### Bootstrap (first time in project)
 
+0. Knowledge graph first. Check whether graphify is installed (`graphify --version`). Not installed → name the two install lines (`pip install graphifyy`, `graphify install`), say it is optional, and continue. Installed with no `graphify-out/graph.json` → offer to build it now via `/fellowship:graph`. Full routine: `commands/start.md` step 0.
 1. Create `docs/fellowship/` with: `specs/`, `plans/`, `handoffs/`, `design/`, `archive/specs/`, `archive/plans/`, `archive/handoffs/`, `archive/design/`, `quest-log.md`, `quest-log-archive.md`, `product.md`, `README.md` (the directory guide). Ethos lives in the plugin at `skills/using-fellowship/references/ethos.md` — not created in the project.
 2. Initialize `quest-log.md` with the single-section template (`# Quest Log`, `**Last updated:** YYYY-MM-DD`, `## Open` heading, one-line description). Decisions in, commits out — see Memory section below.
 3. Initialize `product.md` with the product context template. Ask the user what they're building — fill from the conversation. Foundation precedes all brainstorming and planning.
@@ -246,6 +247,8 @@ Update inline, in the session where the trigger happened. Do not wait for the ne
 **Codebase map** (`docs/fellowship/codebase-map.md`): For Tier 3+ dispatches, include its content if it exists. If absent and starting significant work on an unfamiliar project: *"I don't have a codebase map yet — run `/fellowship:map` before we start. It takes a few minutes and makes every dispatch faster."* Run it yourself if they agree.
 
 Map inclusion is always-on for 승현 dispatches (if the file exists), not conditional on tier. If the file is absent and the project has ≥20 source files, append a one-line notice to the prompt rather than blocking: *"No codebase map — structural duplication checks will be grep-only. Run `/fellowship:map` when time allows."* If the project has fewer than 20 source files, include nothing; 승현 grep-only is sufficient at that scale.
+
+**Knowledge graph** (`graphify-out/graph.json`, built by `/fellowship:graph`): when the hook injects `<KNOWLEDGE_GRAPH>`, the graph exists. For structural or impact questions — "what calls X", "what breaks if Y changes", "how does A reach B" — query it before grepping: `graphify query "<question>"`, `graphify path "A" "B"`, `graphify explain "X"`. Include the relevant result in 현수, 주혁 and 승현 dispatches for Tier 3+ work. The graph lives outside `docs/fellowship/` and is never written there. If it is absent, do not nag; mention `/fellowship:graph` once when significant structural work begins on an unfamiliar project.
 
 **Handoffs** (`docs/fellowship/handoffs/`): At session start, if a recent handoff exists (within 7 days), the hook injects it. When the context monitor warns at ≥35% remaining on a Tier 3+ task — stop new work and write a handoff. Template body and trigger phrasing: see `references/handoff-template.md`.
 

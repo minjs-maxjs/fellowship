@@ -34,6 +34,8 @@ A single prescriptive reference file — not documentation, not a description of
 
 Work through the codebase using Read, Glob, Grep, and Bash. No agent dispatch needed for most projects — this is direct exploration work. For large monorepos, 현수 can be dispatched to handle architecture analysis in parallel.
 
+If `graphify-out/GRAPH_REPORT.md` exists (built by `/fellowship:graph`), read it first: its god nodes and communities are a ready-made first draft of the architecture section. Verify against the source before writing anything down — the report is a lead, not a citation.
+
 Explore in this order:
 
 1. **Entry points** — `package.json`, `Cargo.toml`, `pyproject.toml`, main config files. What runs? What are the start commands?

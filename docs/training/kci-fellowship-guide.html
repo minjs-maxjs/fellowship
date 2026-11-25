@@ -118,8 +118,8 @@ footer{padding-top:56px;color:var(--muted);font-size:.85rem}
   <div class="stats" aria-label="프로젝트 규모">
     <div class="stat"><b>10</b><small>AI 팀원</small></div>
     <div class="stat"><b>12</b><small>워크플로우 스킬</small></div>
-    <div class="stat"><b>18</b><small>슬래시 명령</small></div>
-    <div class="stat"><b>126</b><small>자동 테스트</small></div>
+    <div class="stat"><b>19</b><small>슬래시 명령</small></div>
+    <div class="stat"><b>130</b><small>자동 테스트</small></div>
     <div class="stat"><b>11</b><small>평가(eval) 묶음</small></div>
     <div class="stat"><b>29,000+</b><small>줄 · 파일 227개</small></div>
   </div>
@@ -267,6 +267,7 @@ footer{padding-top:56px;color:var(--muted);font-size:.85rem}
       <div class="prompt"><span class="who">주인공</span><code>/fellowship:start D:\PYthon프로그램들\창고관리시스템 이 프로젝트에 Fellowship을 설정해줘</code></div>
       <p>그러면 민준수가 다음 순서로 진행합니다.</p>
       <ol class="seq">
+        <li><b>지식 그래프 먼저.</b> graphify가 설치돼 있는지 확인합니다. 설치돼 있으면 "프로젝트 지식 그래프부터 만들까요?"라고 묻고, 예라고 하면 <code>/fellowship:graph</code>가 실행됩니다. 설치돼 있지 않으면 설치 방법을 두 줄로 안내하고 그대로 다음 단계로 넘어갑니다. 선택 사항입니다.</li>
         <li><b>폴더 틀 만들기.</b> 프로젝트 안에 <code>docs/fellowship/</code>를 만들고 그 아래에 사양서·계획·인수인계·디자인 폴더와 보관함(archive)을 둡니다.</li>
         <li><b>기본 문서 만들기.</b> 퀘스트 로그(<code>quest-log.md</code>), 지난 로그 보관(<code>quest-log-archive.md</code>), 제품 설명(<code>product.md</code>), 폴더 안내(<code>README.md</code>)를 만듭니다.</li>
         <li><b>제품 질문.</b> "무엇을, 누구를 위해 만드나요?"라고 묻습니다. 예: <i>"자재 입출고와 재고를 관리하는 사내 시스템이고, 사용자는 창고 담당자와 구매팀이야."</i> 답이 <code>product.md</code>에 들어가며, 이 답이 채워지기 전에는 팀원을 부르지 않습니다.</li>
@@ -302,6 +303,7 @@ footer{padding-top:56px;color:var(--muted);font-size:.85rem}
         <thead><tr><th>명령</th><th>하는 일</th><th>입력 예시</th></tr></thead>
         <tbody>
           <tr><td><code>/fellowship:start</code></td><td>프로젝트에 <code>docs/fellowship/</code> 틀을 만들고 제품 질문을 던집니다. 프로젝트마다 처음 한 번.</td><td><code>/fellowship:start</code> 이 프로젝트에 Fellowship을 설정해줘</td></tr>
+          <tr><td><code>/fellowship:graph</code></td><td>graphify가 설치돼 있는지 먼저 확인합니다. 없으면 설치 방법을 알려 주고 멈추며, 있으면 지금 프로젝트의 지식 그래프(<code>graphify-out/</code>)를 만들거나 갱신합니다.</td><td><code>/fellowship:graph</code></td></tr>
           <tr><td><code>/fellowship:map</code></td><td>기술 스택, 구조, 코딩 관례, 위험 지점을 조사해 <code>docs/fellowship/codebase-map.md</code>로 정리합니다. 코드가 많이 바뀌었을 때 다시 돌리세요.</td><td><code>/fellowship:map</code> 창고관리시스템 구조 지도 만들어줘</td></tr>
         </tbody>
       </table></div>
@@ -374,7 +376,9 @@ graphify install</pre>
     <div class="step"><div>
       <h3>그래프 만들기</h3>
       <div class="prompt"><span class="who">주인공</span><code>/graphify D:\PYthon프로그램들\창고관리시스템</code></div>
-      <p>경로를 생략하면 지금 열린 폴더를 분석합니다. 끝나면 프로젝트 안에 <code>graphify-out/</code> 폴더가 생기고 세 가지 결과물이 들어갑니다.</p>
+      <p>원정대 안에서는 <code>/fellowship:graph</code>를 입력해도 됩니다. 설치 여부를 확인한 뒤 그래프가 없으면 새로 만들고, 있으면 바뀐 파일만 갱신하며, <code>graphify-out/</code>을 <code>.gitignore</code>에 넣을지도 물어봅니다.</p>
+      <div class="prompt"><span class="who">주인공</span><code>/fellowship:graph</code></div>
+      <p>어느 쪽이든 경로를 생략하면 지금 열린 폴더를 분석합니다. 끝나면 프로젝트 안에 <code>graphify-out/</code> 폴더가 생기고 세 가지 결과물이 들어갑니다.</p>
       <div class="tbl"><table>
         <thead><tr><th>파일</th><th>내용</th></tr></thead>
         <tbody>
@@ -386,7 +390,7 @@ graphify install</pre>
     </div></div>
     <div class="step"><div>
       <h3>그래프에 질문하기</h3>
-      <p>그래프가 한 번 만들어지면 다시 분석하지 않고 바로 답합니다.</p>
+      <p>그래프가 한 번 만들어지면 다시 분석하지 않고 바로 답합니다. 원정대 프로젝트에 그래프가 있으면 세션을 열 때 플러그인이 민준수에게 알려 주고, 민준수·현수·주혁·승현은 구조나 영향 범위를 물으면 grep보다 그래프를 먼저 조회합니다. <code>/fellowship:map</code>도 <code>GRAPH_REPORT.md</code>를 먼저 읽습니다.</p>
       <div class="tbl"><table>
         <thead><tr><th>명령</th><th>하는 일</th><th>입력 예시</th></tr></thead>
         <tbody>
@@ -426,10 +430,10 @@ graphify install</pre>
     <tbody>
       <tr><td><code>agents/</code></td><td>팀원 9명의 정의 파일. 역할, 성격, 작업 방식, 보고 형식이 한 파일에 모두 있습니다. <code>references/</code>에는 문서 템플릿과 체크리스트가 있습니다.</td></tr>
       <tr><td><code>skills/</code></td><td>여러 팀원이 함께 쓰는 작업 방법 12종. 민준수 자신도 <code>using-fellowship</code> 스킬입니다.</td></tr>
-      <tr><td><code>commands/</code></td><td>슬래시 명령 18개. 대부분 스킬이나 팀원 역할을 불러오는 입구입니다.</td></tr>
+      <tr><td><code>commands/</code></td><td>슬래시 명령 19개. 대부분 스킬이나 팀원 역할을 불러오는 입구입니다.</td></tr>
       <tr><td><code>hooks/</code></td><td>자동 실행 스크립트. 세션 시작 시 문맥 주입, 파일 수정 전 계획 확인, 문맥 사용량 감시, 세션 종료 시 정리.</td></tr>
       <tr><td><code>evals/</code></td><td>팀원별 평가 시나리오. AutoImprove가 이걸로 지시문을 스스로 개선합니다.</td></tr>
-      <tr><td><code>tests/</code></td><td>훅 동작을 검증하는 Node.js 테스트 126개.</td></tr>
+      <tr><td><code>tests/</code></td><td>훅 동작을 검증하는 Node.js 테스트 130개.</td></tr>
       <tr><td><code>docs/fellowship/</code></td><td>퀘스트 로그, 제품 맥락, 설계 기록. 세션이 바뀌어도 팀이 기억을 이어가는 곳입니다.</td></tr>
     </tbody>
   </table></div>

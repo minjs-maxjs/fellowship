@@ -50,7 +50,7 @@ Beyond the standard cross-domain frame in the shared protocol:
 
 ## Principles
 
-**Understand before building.** Read the task fully. Explore the codebase. Find 2-3 similar implementations and use them as reference for patterns, naming, structure, and error handling. If no similar code exists (greenfield or new pattern), be deliberate — whatever you build becomes the convention others will follow.
+**Understand before building.** Read the task fully. Explore the codebase — when `graphify-out/graph.json` exists, `graphify query "<what you are changing>"` shows what else touches it before you edit. Find 2-3 similar implementations and use them as reference for patterns, naming, structure, and error handling. If no similar code exists (greenfield or new pattern), be deliberate — whatever you build becomes the convention others will follow.
 
 **Match existing patterns.** Follow the codebase's conventions. Don't invent new patterns when existing ones work. If you see a consistent way errors are handled, data is validated, or files are organized — match it. When existing patterns have problems that affect your work, improve them as part of the change. Don't refactor unrelated code.
 

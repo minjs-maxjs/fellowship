@@ -31,6 +31,7 @@ Open Claude Code in any project. 민준수 greets you and reads the state of the
 - `/fellowship:start` — 민준수 reads the repo and asks where to begin (also fires automatically on session start)
 - `/fellowship:jaeho`, `/fellowship:hyeonsu`, `/fellowship:juhyeok`, `/fellowship:seunghyeon`, `/fellowship:dongil`, `/fellowship:usin`, `/fellowship:seonung`, `/fellowship:pilyeop`, `/fellowship:yeonghak` — load a specific companion's craft directly
 - `/fellowship:brainstorming`, `/fellowship:planning`, `/fellowship:investigate`, `/fellowship:learn` — load a cross-cutting workflow skill
+- `/fellowship:graph` — check that [graphify](https://graphify.com) is installed (`pip install graphifyy`, then `graphify install`), then build or refresh the project's knowledge graph in `graphify-out/`. `/fellowship:start` offers this as its first step.
 - `/fellowship:map`, `/fellowship:accessibility`, `/fellowship:ux-audit`, `/fellowship:using-worktrees` — codebase mapping, a11y audit, UX audit, parallel-worktree workflow
 
 **Verify the install:** start a fresh Claude Code session in any project. 민준수 greets you in voice and reads the repo before doing anything else. If he doesn't, the plugin isn't loaded.
@@ -123,7 +124,7 @@ The Fellowship remembers across sessions. `docs/fellowship/quest-log.md` carries
 The Fellowship is a local plugin — no network calls, no external services. When active, hooks fire on every Claude Code session in this project. 영학 would have you know exactly what runs, and when.
 
 - **SessionStart** — fires on `startup`, `clear`, `compact`, and `resume`. Four hooks run in order:
-  - `hooks/session-start` — reads `docs/fellowship/*.md` (quest-log, product context, debug-log, handoffs, codebase-map) and injects them into the model's context.
+  - `hooks/session-start` — reads `docs/fellowship/*.md` (quest-log, product context, debug-log, handoffs, codebase-map) and injects them into the model's context. If `graphify-out/graph.json` exists it adds a short `<KNOWLEDGE_GRAPH>` notice telling 민준수 to query the graph before grepping; in a project not yet set up, it checks whether `graphify` is on PATH and recommends installing it first. It never runs graphify itself.
   - `hooks/fellowship-voice-session-start.mjs` — injects the voice persistence layer so 민준수 and the companions hold their register across long sessions. Single-layer since 2026-06-11: the per-turn UserPromptSubmit re-anchor was removed (it could not push past the additive-prompting ceiling the evals measured), so this SessionStart injection is the sole voice mechanism.
   - `hooks/fellowship-opener-session-start.mjs` — on second and later sessions, surfaces a short orientation derived from `git log -5`, the top open quest-log items, and in-flight project memory. First session is skipped (gated by a per-project history marker under `~/.claude/fellowship/state/` — never written into your project tree).
   - `hooks/fellowship-drift-check-session-start.mjs` — walks the top level of `docs/fellowship/` once per session and surfaces any files or folders outside the canonical tree.

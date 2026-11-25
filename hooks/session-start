@@ -60,6 +60,13 @@ if [ -d "$FELLOWSHIP_DIR" ]; then
     session_context="<EXTREMELY_IMPORTANT>\n${minjunsu_wrapper}\n</EXTREMELY_IMPORTANT>"
 else
     cold_notice="The Fellowship plugin is installed in this Claude Code workspace but not yet active in this project (no docs/fellowship/ directory). To activate 민준수 and the nine companions for this project, ask the assistant: \"set up Fellowship\" — or run /fellowship:start. Until then, the plugin remains dormant; the default Claude Code experience is unchanged."
+    # Knowledge-graph hint (first-start guidance): setup begins with graphify.
+    # Presence check only — never installs anything.
+    if command -v graphify >/dev/null 2>&1; then
+        cold_notice="${cold_notice} graphify is installed: setup will offer to build the project's knowledge graph first (/fellowship:graph)."
+    else
+        cold_notice="${cold_notice} Recommended before setup: install graphify so the project gets a knowledge graph — run \"pip install graphifyy\" then \"graphify install\", and open a new session. Mention this alongside /fellowship:start; it is optional."
+    fi
     cold_escaped=$(escape_for_json "$cold_notice")
     session_context="<FELLOWSHIP_DORMANT>\n${cold_escaped}\n</FELLOWSHIP_DORMANT>"
 fi
@@ -192,6 +199,17 @@ if [ -f "$CODEBASE_MAP" ]; then
             session_context="${session_context}\\n<CODEBASE_MAP_STALENESS>\\n${staleness_escaped}\\n</CODEBASE_MAP_STALENESS>"
         fi
     fi
+fi
+
+# ── 6b. graphify knowledge graph (presence notice) ──────────────────────────
+# The graph lives in <project>/graphify-out/, outside docs/fellowship/. Only a
+# fixed notice is injected — never graph content — so nothing project-authored
+# reaches the context through this block. Active projects only.
+GRAPH_JSON="${PROJECT_CWD}/graphify-out/graph.json"
+if [ -d "$FELLOWSHIP_DIR" ] && [ -f "$GRAPH_JSON" ]; then
+    graph_notice="A graphify knowledge graph exists at graphify-out/graph.json (summary: graphify-out/GRAPH_REPORT.md). For structural or impact questions, query it before grepping: graphify query \"<question>\", graphify path \"A\" \"B\", graphify explain \"X\". Refresh with /fellowship:graph after large changes."
+    graph_escaped=$(escape_for_json "$graph_notice")
+    session_context="${session_context}\\n<KNOWLEDGE_GRAPH>\\n${graph_escaped}\\n</KNOWLEDGE_GRAPH>"
 fi
 
 # ── 7. Project-local skills and agents survey (P6) ───────────────────────────

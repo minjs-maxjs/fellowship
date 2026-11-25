@@ -116,6 +116,12 @@ function createFixture(opts = {}) {
     }
   }
 
+  // Optional graphify output (graphify-out/graph.json)
+  if (opts.graph) {
+    mkdirSync(join(projectDir, 'graphify-out'));
+    writeFileSync(join(projectDir, 'graphify-out', 'graph.json'), '{"nodes":[],"links":[]}');
+  }
+
   return { root, projectDir, scriptPath: join(root, 'hooks', 'session-start') };
 }
 
@@ -205,6 +211,41 @@ describe('session-start — cold-install path (no docs/fellowship)', () => {
     assert.doesNotMatch(ctx, /<UNTRUSTED_QUEST_LOG>/);
     assert.doesNotMatch(ctx, /<UNTRUSTED_PRODUCT>/);
     assert.doesNotMatch(ctx, /<FELLOWSHIP_CONTEXT>/);
+  });
+});
+
+describe('session-start — graphify knowledge graph notice', () => {
+  it('cold-install notice mentions graphify', async () => {
+    const fx = createFixture();
+    try {
+      const ctx = extractContext((await runHook(fx.scriptPath, fx.projectDir)).parsed);
+      assert.match(ctx, /<FELLOWSHIP_DORMANT>/);
+      assert.match(ctx, /graphify/);
+    } finally { cleanup(fx.root); }
+  });
+
+  it('injects KNOWLEDGE_GRAPH when docs/fellowship and graphify-out/graph.json exist', async () => {
+    const fx = createFixture({ fellowship: {}, graph: true });
+    try {
+      const ctx = extractContext((await runHook(fx.scriptPath, fx.projectDir)).parsed);
+      assert.match(ctx, /<KNOWLEDGE_GRAPH>\s*A graphify knowledge graph exists/);
+    } finally { cleanup(fx.root); }
+  });
+
+  it('omits KNOWLEDGE_GRAPH when there is no graph', async () => {
+    const fx = createFixture({ fellowship: {} });
+    try {
+      const ctx = extractContext((await runHook(fx.scriptPath, fx.projectDir)).parsed);
+      assert.doesNotMatch(ctx, /A graphify knowledge graph exists at graphify-out/);
+    } finally { cleanup(fx.root); }
+  });
+
+  it('omits KNOWLEDGE_GRAPH in a dormant project even if a graph exists', async () => {
+    const fx = createFixture({ graph: true });
+    try {
+      const ctx = extractContext((await runHook(fx.scriptPath, fx.projectDir)).parsed);
+      assert.doesNotMatch(ctx, /A graphify knowledge graph exists at graphify-out/);
+    } finally { cleanup(fx.root); }
   });
 });
 
