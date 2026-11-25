@@ -187,11 +187,6 @@ Research, design notes, and source list at [`docs/fellowship/research.md`](docs/
 
 Issues, ideas, and orchestration gaps welcome at [github.com/minjs-maxjs/fellowship/issues](https://github.com/minjs-maxjs/fellowship/issues). Real-project usage reports are especially valuable — the gaps that only appear when the stakes are real are exactly what v1.1 needs to find.
 
-## Developers
-
-- **wta**
-- **민준수** — [github.com/minjs-maxjs](https://github.com/minjs-maxjs)
-
 ## License
 
 MIT
