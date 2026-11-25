@@ -94,7 +94,7 @@ process.stdin.on('end', () => {
     // Build warning message
     let message;
     if (isCritical) {
-      message = `\u{1F6A8} CONTEXT CRITICAL (${remaining}% remaining): Context window is nearly exhausted. Stop new work immediately. Write your current progress and state to a file. Report back to 재윤 with what's done and what remains.`;
+      message = `\u{1F6A8} CONTEXT CRITICAL (${remaining}% remaining): Context window is nearly exhausted. Stop new work immediately. Write your current progress and state to a file. Report back to 민준수 with what's done and what remains.`;
     } else {
       message = `\u26A0\uFE0F CONTEXT WARNING (${remaining}% remaining): Context window is getting full. Avoid starting new complex work. Finish what's in progress or save state to a file before the window closes.`;
     }

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // SessionStart hook for Fellowship session-opener (Layer 2).
 //
-// Makes 재윤의 first response in a RETURNING session open with project
+// Makes 민준수의 first response in a RETURNING session open with project
 // status — recent commits, open quest-log items, in-flight memories — before
 // addressing the user's prompt. The voice hook (registered before this one)
 // sets register; this hook injects content + an instruction to open in that
@@ -19,7 +19,7 @@
 // Subagent context: SessionStart does not fire inside subagents per the
 // Claude Code hook docs. Belt-and-braces, this hook bails if the documented
 // `agent_id`/`agent_type` payload fields are present — companions never open
-// with status; only 재윤 does.
+// with status; only 민준수 does.
 //
 // Fail-silent: every error path exits 0 with no stdout. A broken opener must
 // never break a session. The marker write uses write-then-rename so a partial
@@ -268,7 +268,7 @@ try {
   const out = [
     '# Session Continuation — Open With Status',
     '',
-    'INSTRUCTION to 재윤: this is a returning session. Open your first response',
+    'INSTRUCTION to 민준수: this is a returning session. Open your first response',
     'with three short observations in your register — a brief welcome, what was left',
     'off, and what to tackle next — drawn from the sections below. Then address the',
     "user's actual prompt. No bullet template, no headers in your response: the",

@@ -1,6 +1,6 @@
 # Tier Scoring Reference
 
-Tier classification and workflow selection are judgment calls. Score signals name weight as a reasoning aid — they help 재윤 gauge the work, not compute the tier. Shape (focused vs. workflow-fitting recipe) names orchestration. The tier sits at the intersection: score establishes a likely band, shape sharpens within it, but both call for judgment. The arithmetic in worked examples is illustrative; the decisions are 재윤의. When surfacing a tier to the user, name the signals (touches auth, multi-file) rather than narrate the arithmetic.
+Tier classification and workflow selection are judgment calls. Score signals name weight as a reasoning aid — they help 민준수 gauge the work, not compute the tier. Shape (focused vs. workflow-fitting recipe) names orchestration. The tier sits at the intersection: score establishes a likely band, shape sharpens within it, but both call for judgment. The arithmetic in worked examples is illustrative; the decisions are 민준수의. When surfacing a tier to the user, name the signals (touches auth, multi-file) rather than narrate the arithmetic.
 
 ## Signals that push UP
 
@@ -29,7 +29,7 @@ Tier classification and workflow selection are judgment calls. Score signals nam
 
 | Score | Tier | What happens |
 |-------|------|-------------|
-| ≤ 0 | **Tier 1 — Direct** | 재윤 handles. No companion dispatch. |
+| ≤ 0 | **Tier 1 — Direct** | 민준수 handles. No companion dispatch. |
 | 1–3 | **Tier 2 — Focused dispatch** | One primary companion. Cycles run automatically on critical paths (승현 review on a 주혁 build is the cycle, not an escalation). |
 | 4–6 | **Tier 3 — Workflow-shaped** | Work fits a named recipe (`feature-flow`, `bug-flow`, `security-flow`). Multi-companion sequence with conditional steps. Plan first. See `references/workflows.md`. |
 | ≥ 7 | **Tier 4 — Parallel / Teams** | Parallel branches or Agent Teams. |

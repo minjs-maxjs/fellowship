@@ -2,14 +2,14 @@
 
 **Auditor:** 우신
 **Date:** 2026-04-26
-**Scope:** `tests/` and `evals/` after the v1.0 재윤-skill migration
+**Scope:** `tests/` and `evals/` after the v1.0 민준수-skill migration
 **Mode:** read-only
 
 ---
 
 ## 1. Verdict
 
-Tests are fit-for-ship. Evals are **not** — the AutoImprove infrastructure has a hard breakage for 재윤 that no test caught: `evals/_runner/run_eval.py:131` and `evals/_runner/improve.sh:183,201,214,229,243,251,317` all read `agents/${agent}.md`, but `agents/jaeyun.md` was deleted in this migration (재윤 identity now lives in `skills/using-fellowship/SKILL.md`, injected via SessionStart). Three Python helpers in `evals/jaeyun/` (`holdout.py`, `holdout_validation.py`, `test_holdout.py` — all line 10) hit the same dead path. Anyone running `./improve.sh jaeyun` after tag will get `agent file not found: …/agents/jaeyun.md` and exit 1. This is the ship-block. Everything else — scenario coverage, hard-grader scope, scenario freshness — is in much better shape than I expected. The version-field test inversion at `tests/health-check.test.mjs:217-230` is clean and exemplary; the protected-evaluator chain (`improve.sh:88-92` → `chmod 444`) is real and works as `research.md` describes.
+Tests are fit-for-ship. Evals are **not** — the AutoImprove infrastructure has a hard breakage for 민준수 that no test caught: `evals/_runner/run_eval.py:131` and `evals/_runner/improve.sh:183,201,214,229,243,251,317` all read `agents/${agent}.md`, but `agents/minjunsu.md` was deleted in this migration (민준수 identity now lives in `skills/using-fellowship/SKILL.md`, injected via SessionStart). Three Python helpers in `evals/minjunsu/` (`holdout.py`, `holdout_validation.py`, `test_holdout.py` — all line 10) hit the same dead path. Anyone running `./improve.sh minjunsu` after tag will get `agent file not found: …/agents/minjunsu.md` and exit 1. This is the ship-block. Everything else — scenario coverage, hard-grader scope, scenario freshness — is in much better shape than I expected. The version-field test inversion at `tests/health-check.test.mjs:217-230` is clean and exemplary; the protected-evaluator chain (`improve.sh:88-92` → `chmod 444`) is real and works as `research.md` describes.
 
 ---
 
@@ -33,7 +33,7 @@ Ran `node --test tests/health-check.test.mjs`: 26 tests, 25 pass, 1 skipped, 2.3
 
 **Stale assertions:** none found. The `version` test at line 217 was correctly inverted this session: it now asserts the script *fails* without a version field, with reasoning baked into the test docstring (218-219). Tests at 274-300 explicitly cover the new "absent settings.json or no agent field is correct" semantics. The `Agent(...)` extraction test at 441 matches the implementation at health-check.mjs:271. Tools like `BadTool` and `FooTool` follow the new lenient frontmatter contract. No test asserts orphan-skill detection — that was removed and the skip is current.
 
-**Skipped test (line 368):** `fails when a skill directory exists but no agent references it` — skip reason `'orphan detection removed — see health-check.mjs:261'`. Skip is **current and legitimate**: `checkCrossRefs` at health-check.mjs:315 is intentionally a no-op because skills are loaded contextually by 재윤, not declared in agent frontmatter. The skip should stay; the comment pointer to `:261` is slightly off — the actual no-op explanation lives at `checkCrossRefs` (315-318), not 261. Minor polish item.
+**Skipped test (line 368):** `fails when a skill directory exists but no agent references it` — skip reason `'orphan detection removed — see health-check.mjs:261'`. Skip is **current and legitimate**: `checkCrossRefs` at health-check.mjs:315 is intentionally a no-op because skills are loaded contextually by 민준수, not declared in agent frontmatter. The skip should stay; the comment pointer to `:261` is slightly off — the actual no-op explanation lives at `checkCrossRefs` (315-318), not 261. Minor polish item.
 
 **Coverage gaps (not stale, but missing):**
 
@@ -49,13 +49,13 @@ The plugin ships several hook scripts that have **zero test surface**:
 - `hooks/fellowship-context-monitor.mjs` (4167 bytes) — context-window thresholds, statusline integration
 - `hooks/fellowship-session-end.mjs` (2974 bytes) — session-end persistence
 - `hooks/fellowship-statusline.mjs` (1599 bytes) — small, low risk
-- `hooks/session-start` (10029 bytes) — the **most critical untested code in the repo** — this is the SessionStart hook that injects `using-fellowship` skill content. If it breaks at v1.0 release, every user session boots without 재윤 identity.
+- `hooks/session-start` (10029 bytes) — the **most critical untested code in the repo** — this is the SessionStart hook that injects `using-fellowship` skill content. If it breaks at v1.0 release, every user session boots without 민준수 identity.
 
 Ranked for v1.0 priority:
 
 | Hook | Risk if broken | Test priority |
 |---|---|---|
-| `session-start` | Catastrophic — 재윤 identity disappears | **Should-fix before v1.0** — at minimum a smoke test that exit code is 0 and stdout contains the skill content |
+| `session-start` | Catastrophic — 민준수 identity disappears | **Should-fix before v1.0** — at minimum a smoke test that exit code is 0 and stdout contains the skill content |
 | `fellowship-quest-log-consolidate.mjs` | Quest log corruption, double-consolidation | Should-fix — pure data transform, easy to test |
 | `fellowship-session-end.mjs` | Session log gaps | Polish — v1.1 |
 | `fellowship-context-monitor.mjs` | Statusline shows wrong percentage | Polish — v1.1 |
@@ -73,7 +73,7 @@ The fixture pattern at `tests/health-check.test.mjs:35-129` is good: per-test te
 
 | Companion | scenarios.jsonl | hard.py | soft.md | Status |
 |---|---|---|---|---|
-| 재윤 | 25 scenarios | 10 assertions | 3 assertions | Present |
+| 민준수 | 25 scenarios | 10 assertions | 3 assertions | Present |
 | 주혁 | 21 scenarios | hard.py present | 3 assertions | Present |
 | 승현 | 16 scenarios | hard.py present | 3 assertions | Present |
 | 우신 | 11 scenarios | 11 assertions | **missing** | hard-only |
@@ -88,23 +88,23 @@ The quest-log claim "Eval coverage for 동일/현수/재호/필엽/선웅/영학
 
 ### Stale scenarios
 
-I scanned all four scenario files for the framings the migration removed: `재윤 will dispatch`, `재윤 sends you`, `agents/jaeyun.md` references, strict `tools:` lists. **No matches in any scenario file.** Scenarios speak in user-voice or DONE-report-voice; they do not reach into the dispatcher framing the migration stripped. This is luckier than it deserved to be.
+I scanned all four scenario files for the framings the migration removed: `민준수 will dispatch`, `민준수 sends you`, `agents/minjunsu.md` references, strict `tools:` lists. **No matches in any scenario file.** Scenarios speak in user-voice or DONE-report-voice; they do not reach into the dispatcher framing the migration stripped. This is luckier than it deserved to be.
 
 `evals/juhyeok/scenarios.jsonl:13,16` and `evals/seunghyeon/scenarios.jsonl:1-16` use `[승현 review findings]` and DONE-report inputs that read the same in v1.0 as they did before. Spot-checks pass.
 
 ### Stale eval *infrastructure*
 
-This is the ship-blocker. The migration deleted `agents/jaeyun.md` but did not update the eval runner:
+This is the ship-blocker. The migration deleted `agents/minjunsu.md` but did not update the eval runner:
 
-- `evals/_runner/run_eval.py:131` — `agent_path = Path(worktree) / "agents" / f"{agent}.md"` — hardcoded for every companion. For `--agent jaeyun`, it tries to read a file that no longer exists. Line 136-138 then exits with `agent file not found`.
-- `evals/_runner/improve.sh:183` — the cycle-loop prompt instructs Claude `Read agents/${agent}.md, then output the complete modified agent file with ONE targeted fix.` For 재윤, this is meaningless: the source of 재윤의 behavior is `skills/using-fellowship/SKILL.md`, not an agent file.
-- `evals/_runner/improve.sh:201,214,229,243,251,317` — every git operation, hypothesis extraction, and diff target hits `agents/${agent}.md`. None will work for 재윤.
-- `evals/jaeyun/holdout.py:10`, `evals/jaeyun/holdout_validation.py:10`, `evals/jaeyun/test_holdout.py:10` — `with open("agents/jaeyun.md") as f:` — three separate scripts that will all `FileNotFoundError` on first run.
+- `evals/_runner/run_eval.py:131` — `agent_path = Path(worktree) / "agents" / f"{agent}.md"` — hardcoded for every companion. For `--agent minjunsu`, it tries to read a file that no longer exists. Line 136-138 then exits with `agent file not found`.
+- `evals/_runner/improve.sh:183` — the cycle-loop prompt instructs Claude `Read agents/${agent}.md, then output the complete modified agent file with ONE targeted fix.` For 민준수, this is meaningless: the source of 민준수의 behavior is `skills/using-fellowship/SKILL.md`, not an agent file.
+- `evals/_runner/improve.sh:201,214,229,243,251,317` — every git operation, hypothesis extraction, and diff target hits `agents/${agent}.md`. None will work for 민준수.
+- `evals/minjunsu/holdout.py:10`, `evals/minjunsu/holdout_validation.py:10`, `evals/minjunsu/test_holdout.py:10` — `with open("agents/minjunsu.md") as f:` — three separate scripts that will all `FileNotFoundError` on first run.
 
-**This is a v1.0 ship-block.** The plugin advertises AutoImprove as a feature; running it for 재윤 will crash. Either:
+**This is a v1.0 ship-block.** The plugin advertises AutoImprove as a feature; running it for 민준수 will crash. Either:
 
-(a) Update the runner to accept a `--source-path` argument and point 재윤 at `skills/using-fellowship/SKILL.md`, or
-(b) Document that AutoImprove for 재윤 is disabled at v1.0, with a follow-up issue.
+(a) Update the runner to accept a `--source-path` argument and point 민준수 at `skills/using-fellowship/SKILL.md`, or
+(b) Document that AutoImprove for 민준수 is disabled at v1.0, with a follow-up issue.
 
 Out of scope for me to fix; this goes back to 주혁 or 현수.
 
@@ -114,17 +114,17 @@ Out of scope for me to fix; this goes back to 주혁 or 현수.
 
 1. Real subprocess invocation, not simulation — confirmed at `run_eval.py:48-52` (`subprocess.run(["claude", "--dangerously-skip-permissions", ...])`).
 2. Protected evaluator — confirmed at `improve.sh:88-92`: copy `evals/${agent}/hard.py` to `/tmp/fellowship_eval_${agent}_hard.py`, `chmod 444`. The repo copy is `0644` (writable, expected — agents need to be able to *propose* assertion changes; the protection is about preventing the *running* loop from editing the evaluator mid-cycle). Verified.
-3. Balanced problem sets — partial. 재윤의 25 scenarios include positive cases (proper Tier-1 handling, proper Tier-3 planning) and negative cases (`concern_pushback`, `survey_trap`, `escalation_pushback`, `architect_done` permission-seeking trap). 우신의 11 scenarios include `spec_violation`, `weak_assertions`, `blocked_no_infra`, `browser_verify_blocked_mcp` — all balanced (a behavior that should occur and a temptation that should not). 주혁 scenarios are mostly positive — only `gi011` (urgency), `gi012` (vague_scope), `gi017` (scope-creep trap) are negative. Could be better.
+3. Balanced problem sets — partial. 민준수의 25 scenarios include positive cases (proper Tier-1 handling, proper Tier-3 planning) and negative cases (`concern_pushback`, `survey_trap`, `escalation_pushback`, `architect_done` permission-seeking trap). 우신의 11 scenarios include `spec_violation`, `weak_assertions`, `blocked_no_infra`, `browser_verify_blocked_mcp` — all balanced (a behavior that should occur and a temptation that should not). 주혁 scenarios are mostly positive — only `gi011` (urgency), `gi012` (vague_scope), `gi017` (scope-creep trap) are negative. Could be better.
 4. Hard graders — `hard.py` files exist for all four covered companions, all exit-code-honest, all gated by `scenario.get("type")` so unrelated scenarios don't false-fail.
 
 ### Missing scenarios for post-migration behaviors
 
 These regressions are not protected by any current scenario:
 
-1. **Tier-3 dispatch over build** — 재윤 has `ga005` ("add Google OAuth login", routing_tier3) and `ga014` ("build a full authentication system", routing_tier3) which the `plan_before_dispatch_on_tier3` assertion (`hard.py:87-95`) catches. This is covered.
-2. **Role-first opener compliance** — the dispatcher-framing fix this session removed agent file lines like "재윤 sends you when…". There is no scenario asserting that an agent's response opens with role-first content. **Missing.** A `voice_register` scenario at `holdout.jsonl:gah003` exists for 재윤 only.
-3. **TodoWrite-blocker honesty** — the quest-log notes a v1.0 blocker on 재윤 using TodoWrite when checkboxes in the quest log are the actual contract. **No scenario asserts this.** 재윤 could quietly start using TodoWrite in real sessions and no eval would catch it.
-4. **Skill auto-loading on session start** — the new architecture depends on `skills/using-fellowship/SKILL.md` being injected at boot. No scenario tests that 재윤-the-prompt-state behaves correctly when this is *missing* (negative case) or *present* (positive case). This is more an integration test than an eval, but it deserves to exist somewhere.
+1. **Tier-3 dispatch over build** — 민준수 has `ga005` ("add Google OAuth login", routing_tier3) and `ga014` ("build a full authentication system", routing_tier3) which the `plan_before_dispatch_on_tier3` assertion (`hard.py:87-95`) catches. This is covered.
+2. **Role-first opener compliance** — the dispatcher-framing fix this session removed agent file lines like "민준수 sends you when…". There is no scenario asserting that an agent's response opens with role-first content. **Missing.** A `voice_register` scenario at `holdout.jsonl:gah003` exists for 민준수 only.
+3. **TodoWrite-blocker honesty** — the quest-log notes a v1.0 blocker on 민준수 using TodoWrite when checkboxes in the quest log are the actual contract. **No scenario asserts this.** 민준수 could quietly start using TodoWrite in real sessions and no eval would catch it.
+4. **Skill auto-loading on session start** — the new architecture depends on `skills/using-fellowship/SKILL.md` being injected at boot. No scenario tests that 민준수-the-prompt-state behaves correctly when this is *missing* (negative case) or *present* (positive case). This is more an integration test than an eval, but it deserves to exist somewhere.
 
 ### 우신의 own assertions — self-audit
 
@@ -136,11 +136,11 @@ These regressions are not protected by any current scenario:
 
 ### Ship-block (must land before v1.0 tag)
 
-1. **AutoImprove for 재윤 is broken.** Either fix the runner to handle skill-sourced agents or disable 재윤 in `improve.sh` with a clear error message. Files: `evals/_runner/run_eval.py:131`, `evals/_runner/improve.sh:183-317`, `evals/jaeyun/holdout.py:10`, `evals/jaeyun/holdout_validation.py:10`, `evals/jaeyun/test_holdout.py:10`.
+1. **AutoImprove for 민준수 is broken.** Either fix the runner to handle skill-sourced agents or disable 민준수 in `improve.sh` with a clear error message. Files: `evals/_runner/run_eval.py:131`, `evals/_runner/improve.sh:183-317`, `evals/minjunsu/holdout.py:10`, `evals/minjunsu/holdout_validation.py:10`, `evals/minjunsu/test_holdout.py:10`.
 
 ### Should-fix soon (post-tag, v1.0.x)
 
-2. **`hooks/session-start` has no tests.** Smoke test minimum: exits 0, stdout contains expected SKILL.md content. If this hook breaks silently, every user session boots without 재윤.
+2. **`hooks/session-start` has no tests.** Smoke test minimum: exits 0, stdout contains expected SKILL.md content. If this hook breaks silently, every user session boots without 민준수.
 3. **`hooks/fellowship-quest-log-consolidate.mjs` has no tests.** Pure data transform on quest log. Easy unit-test surface; high blast radius if it corrupts state.
 4. **우신 missing `soft.md`.** Every other companion has LLM-judge soft assertions. 우신 has only string checks. Add 2-3 soft assertions on report quality.
 5. **`checkSettings` absent-file branch uncovered** (`hooks/health-check.mjs:143-149`). Add one test.
@@ -161,7 +161,7 @@ These regressions are not protected by any current scenario:
 - The version-field test inversion (`tests/health-check.test.mjs:217-230`) is exemplary: explanatory docstring, asserts both exit code and stdout pattern, uses the existing fixture pattern. This is what test-after-a-fix should look like.
 - The `settings.json` absent-state pass case (`hooks/health-check.mjs:143-149`) has its rationale baked into the code comment — future readers will understand why absence is correct, not just that it is.
 - Protected-evaluator chain (`improve.sh:88-92`) does what `research.md` claims. The `chmod 444` on the `/tmp` copy is defensive against the agent under improvement modifying its own grader mid-cycle. Real architectural integrity.
-- Scenario files are remarkably free of stale framings. The "재윤 sends you" stripping was thorough enough that no scenario file caught the phrase.
+- Scenario files are remarkably free of stale framings. The "민준수 sends you" stripping was thorough enough that no scenario file caught the phrase.
 - 우신의 `hard.py:104-175` browser-verify assertions are well-scoped: each one keys on `scenario.get("type")` so unrelated scenarios pass through trivially. The `browser_verify_blocked_mcp` exemption (`hard.py:111`) is the kind of careful conditional that keeps assertions honest.
 
 Word count: ~1750.

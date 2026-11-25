@@ -167,11 +167,11 @@ function checkMarketplaceManifest() {
 function checkSettings() {
   const settingsPath = resolve(ROOT, 'settings.json');
   if (!existsSync(settingsPath)) {
-    // Absence is the correct state: 재윤 identity is injected via the
+    // Absence is the correct state: 민준수 identity is injected via the
     // SessionStart hook (skills/using-fellowship/SKILL.md), not via agent override.
     // Plugin-level statusLine is not honored by Claude Code, so a settings.json
     // declaring only that key would be silent dead code.
-    pass('settings.json \u2014 absent (correct \u2014 재윤 injected via hook, no plugin-level overrides needed)');
+    pass('settings.json \u2014 absent (correct \u2014 민준수 injected via hook, no plugin-level overrides needed)');
     return;
   }
 
@@ -180,15 +180,15 @@ function checkSettings() {
 
   const agent = data.agent;
   if (!agent) {
-    // No default-agent override is correct: 재윤 identity is injected via
+    // No default-agent override is correct: 민준수 identity is injected via
     // the SessionStart hook (skills/using-fellowship/SKILL.md), not via agent override.
     // The vanilla default agent inherits all native tools including TodoWrite.
-    pass('settings.json \u2014 no default-agent override (correct \u2014 재윤 injected via hook)');
+    pass('settings.json \u2014 no default-agent override (correct \u2014 민준수 injected via hook)');
     return;
   }
 
   // If an agent field is present, verify it resolves
-  // Resolve agent ref like "fellowship:jaeyun" -> agents/jaeyun.md
+  // Resolve agent ref like "fellowship:minjunsu" -> agents/minjunsu.md
   const agentName = agent.includes(':') ? agent.split(':').pop() : agent;
   const agentFile = `agents/${agentName}.md`;
   if (existsSync(resolve(ROOT, agentFile))) {
@@ -345,13 +345,13 @@ function checkSkillDirs() {
 // ---------------------------------------------------------------------------
 // 7. Cross-references — skill integrity
 // ---------------------------------------------------------------------------
-// Note: skills are loaded contextually by 재윤, not declared in agent frontmatter.
+// Note: skills are loaded contextually by 민준수, not declared in agent frontmatter.
 // We only verify that any skill explicitly referenced in agent frontmatter resolves
 // to a real directory — that check already happens in checkAgents().
 // We do NOT flag skills without agent references as orphans; they are valid.
 
 function checkCrossRefs() {
-  // No-op: orphan detection removed — skills are 재윤-loaded, not agent-declared.
+  // No-op: orphan detection removed — skills are 민준수-loaded, not agent-declared.
   // Future: add a check that every SKILL.md has a non-empty `description` frontmatter field.
 }
 

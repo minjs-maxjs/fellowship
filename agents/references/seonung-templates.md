@@ -157,7 +157,7 @@ Categories to check:
 - **Background jobs** — cron schedules, worker processes
 - **Platform requirements** — feature flags needed in Vercel config, specific Fly.io regions
 
-Format for SendMessage → 재호 (or 재윤):
+Format for SendMessage → 재호 (or 민준수):
 
 ```
 Infrastructure constraints for [feature]:

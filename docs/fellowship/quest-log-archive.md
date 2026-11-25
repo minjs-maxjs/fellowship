@@ -6,9 +6,9 @@ Full history of completed work. Not loaded at session start — read only on req
 
 ## Archived 2026-03-24
 
-- [x] 재윤 voice rewrite — character-first prompt with calibration examples (2026-03-23)
+- [x] 민준수 voice rewrite — character-first prompt with calibration examples (2026-03-23)
 - [x] Build 승현 agent + code-review skill (2026-03-23)
-- [x] Fix agent dispatch — fully-qualified names in jaeyun.md tools, cleaned up settings.json (2026-03-23)
+- [x] Fix agent dispatch — fully-qualified names in minjunsu.md tools, cleaned up settings.json (2026-03-23)
 - [x] Build 우신 agent + testing skill — three modes, spec-driven methodology, reporting format (2026-03-23)
 - [x] E2E validation cycle — health-check.mjs built by 주혁 → 승현 reviewed → 주혁 fixed 2 issues → 우신 wrote 22 tests (2026-03-23)
 - [x] Reference implementation analysis — barkain, wshobson, superpowers → docs/fellowship/reference-implementations.md (2026-03-23)
@@ -18,9 +18,9 @@ Full history of completed work. Not loaded at session start — read only on req
 
 ## Folded into "What Exists" 2026-04-22
 
-- Plugin improvement batch landed — ethos template, investigate skill (100 lines), learn skill (125 lines), 재윤 compression (720→555, 승현-reviewed, Memory section tightened post-review) (2026-04-20)
+- Plugin improvement batch landed — ethos template, investigate skill (100 lines), learn skill (125 lines), 민준수 compression (720→555, 승현-reviewed, Memory section tightened post-review) (2026-04-20)
 - All 4 plugin audit spec improvements — debug knowledge base, plan-before-build gate, context handoff, codebase map (2026-04-12)
-- Browser verification — 우신 Mode 4 + Playwright MCP + 재윤 dispatch + spec (2026-04-12)
+- Browser verification — 우신 Mode 4 + Playwright MCP + 민준수 dispatch + spec (2026-04-12)
 - 필엽 HTML/CSS wireframe fix — "What You Don't Do" scoped to application code only (2026-04-12)
 - Optimize context-monitor hook — removed filesystem I/O from hot path, switched to env-var debounce (2026-03-28)
 - Archive consolidation — 7 design docs (March 19–23) → Phase Foundation summary; old archive cleaned (2026-03-28)
@@ -40,9 +40,9 @@ Full history of completed work. Not loaded at session start — read only on req
 ## Archived 2026-04-26
 
 - [2026-04-22] P2 shipped — 승현 structural review (현수 ADR → 주혁 implementation; prefilter + responsibility test + duplication grep + map + Structural: section + anti-paralysis carve-out)
-- [2026-04-22] P4+P5+P6 shipped — ethos absence notice, project-local skills survey, quest-log consolidation reminder, /fellowship:add-ethos command, 재윤 product.md triggers + Project-Local section (v1.5.0)
+- [2026-04-22] P4+P5+P6 shipped — ethos absence notice, project-local skills survey, quest-log consolidation reminder, /fellowship:add-ethos command, 민준수 product.md triggers + Project-Local section (v1.5.0)
 - [2026-04-22] Quest-log auto-consolidation v1.6.1 — 현수 ADR (parse contract + edit safety + archive schema) → 주혁 hook (`fellowship-quest-log-consolidate.mjs` + Bash shim + slash command, archive-first/atomi...
-- [2026-04-22] Codebase cleanup v1.5.1 — Critical (TodoWrite in KNOWN_TOOLS) + 5 Important (SessionEnd shim, 재윤 color, model: inherit ×9, autoimprove frontmatter, stale test) + 1 Minor (pipefail guard); Lego...
+- [2026-04-22] Codebase cleanup v1.5.1 — Critical (TodoWrite in KNOWN_TOOLS) + 5 Important (SessionEnd shim, 민준수 color, model: inherit ×9, autoimprove frontmatter, stale test) + 1 Minor (pipefail guard); Lego...
 - [2026-04-22] Codebase map generated — `/fellowship:map`
 
 
@@ -66,7 +66,7 @@ Quest-log restructure: `## Recently Completed` and `## What Exists` retired; eve
 - [x] v0.9 polish pass — Cursor full lifecycle parity (`hooks-cursor.json` + `.cursor-plugin/plugin.json`); `grill-me` skill deleted (folded into `brainstorming` pressure-test mode); `using-fellowship/SKILL.md` strengthened on 4 sections; skill bloat refactor across 4 skills; 9-scenario crucial-baseline eval validated post-restructure. Health 27/0; 69 tests pass. (2026-04-26/27)
 - [x] v1.0 deep-improvement pass — six parallel audits → 4 blockers + 6 should-fix + 9 v1.1 candidates against Superpowers and other multi-agent plugins. Eleven follow-up dispatches landed all of it. Spec: `docs/fellowship/specs/2026-04-26-fellowship-v1-improvements.md`. (2026-04-26)
 - [x] v1.0 ship-readiness pass — 선웅 cleared marketplace blockers; 주혁 bloat refactor; 영학 documentation pass; 승현 behavioral consistency audit. Version held at 0.9.0-dev. Health 26/0. (2026-04-26)
-- [x] 재윤-as-skill restructure shipped — `skills/using-fellowship/SKILL.md` is the orchestrator entry point; SessionStart hook injects it as `additionalContext`; `agents/jaeyun.md` deleted; default-agent override removed from `settings.json`; eight companion agents stripped of Tolkien register. (2026-04-26)
+- [x] 민준수-as-skill restructure shipped — `skills/using-fellowship/SKILL.md` is the orchestrator entry point; SessionStart hook injects it as `additionalContext`; `agents/minjunsu.md` deleted; default-agent override removed from `settings.json`; eight companion agents stripped of Tolkien register. (2026-04-26)
 - [x] Three skills adopted from mattpocock/skills (v0.7.x) — `grill-me` standalone; `design-it-twice` for 현수; TDD principles folded into 우신. 승현 APPROVED clean. (2026-04-25)
 - [x] v0.7.0 pre-publication prep — 재호 readiness review + 선웅 publishing-mechanics research; version reset (1.7.0 → 0.7.0); README "On First Run" + status honesty note. (2026-04-25)
 

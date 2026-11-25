@@ -60,7 +60,7 @@ Caveman is a token-compression skill for Claude Code and 40+ other AI agents. Co
 Fellowship's quest log, product.md, and debug-log grow over sessions. A `/fellowship:compress` command following Caveman's pattern (Python runner, backup .original.md, preserve structure, retry on failure) would reduce hook injection cost significantly. Quest log consolidation is manual today — compression could make it automatic.
 
 **2. Intensity as a design axis.**  
-Fellowship doesn't offer verbosity tuning. 재윤의 voice is fixed. A "terse mode" flag (something like `/fellowship:terse`) that tells all companions to compress their reports would reduce token cost on long Tier 3+ cycles. Not a priority — but the design is clean.
+Fellowship doesn't offer verbosity tuning. 민준수의 voice is fixed. A "terse mode" flag (something like `/fellowship:terse`) that tells all companions to compress their reports would reduce token cost on long Tier 3+ cycles. Not a priority — but the design is clean.
 
 **3. Security/irreversible-action clarity invariants.**  
 Caveman's rule: safety-critical content always reverts to full clarity, regardless of compression level. Fellowship has an analogue in 동일 (never compresses security findings) but it's not stated as an explicit invariant across all companions. Worth codifying.

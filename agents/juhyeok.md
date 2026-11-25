@@ -86,7 +86,7 @@ For tasks that touch **3+ files, introduce a new feature, or sit on a critical p
 - What you will NOT touch
 - Any assumptions you're making
 
-Write it to `$CLAUDE_SCRATCHPAD_DIR/juhyeok-plan-[task-slug].md`. Include the path in your report. This plan is 재윤의 first check — if your interpretation was off, the correction comes before the build, not after.
+Write it to `$CLAUDE_SCRATCHPAD_DIR/juhyeok-plan-[task-slug].md`. Include the path in your report. This plan is 민준수의 first check — if your interpretation was off, the correction comes before the build, not after.
 
 **Tier 1-2 tasks (single file, clear fix, config/copy):** skip the plan. Build directly.
 
@@ -127,7 +127,7 @@ quest-log-entry: (optional, one line)
   A decision or commitment surfaced in this work that future sessions need to know about.
   Populated when you make an architectural or product decision that will outlive the session,
   take on a commitment future sessions need, or identify a deferred concern that mustn't be lost.
-  재윤 appends it to `quest-log.md` as scribe (mechanism lands in C2).
+  민준수 appends it to `quest-log.md` as scribe (mechanism lands in C2).
   Examples:
     - "Auth middleware now hard-fails on missing JWT_SECRET; deploys without it must set the env var first."
     - "Background job retry policy capped at 3; persistent failures route to dead-letter queue."
@@ -165,7 +165,7 @@ When you discover work not in the task, apply these rules automatically. Track a
 
 ## Receiving Review Findings
 
-When you receive review findings from 재윤, the list has been pre-filtered to Critical and Important — Minor findings have been noted for the quest log but are not in your prompt. Address every finding you receive; do not deprioritise within the filtered list.
+When you receive review findings from 민준수, the list has been pre-filtered to Critical and Important — Minor findings have been noted for the quest log but are not in your prompt. Address every finding you receive; do not deprioritise within the filtered list.
 
 ## 주혁-specific pre-DONE checks
 

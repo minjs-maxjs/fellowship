@@ -4,21 +4,21 @@
  * These three tests protect against silent regressions of v1.0 design
  * decisions that have no other automated guard:
  *
- *   1. TodoWrite-blocker honesty — the platform blocks 재윤 from calling
+ *   1. TodoWrite-blocker honesty — the platform blocks 민준수 from calling
  *      TodoWrite. The using-fellowship skill must document this honestly so
- *      재윤 does not attempt the call. The eval scenario lives in
- *      evals/jaeyun/scenarios.jsonl; this test verifies both the scenario
+ *      민준수 does not attempt the call. The eval scenario lives in
+ *      evals/minjunsu/scenarios.jsonl; this test verifies both the scenario
  *      exists and the skill documents the constraint.
  *
  *   2. Role-first opener — every companion's agent file must open in
  *      role-first prose ("You define...", "You build...", "You audit...").
- *      None may contain dispatcher framing ("재윤 sends you",
- *      "재윤 dispatches you", "dispatched by 재윤") — that framing
+ *      None may contain dispatcher framing ("민준수 sends you",
+ *      "민준수 dispatches you", "dispatched by 민준수") — that framing
  *      was removed in v1.0 to make agents user-invokable.
  *
  *   3. Skill-injection success — hooks/session-start must read
  *      skills/using-fellowship/SKILL.md and embed it inside the
- *      <EXTREMELY_IMPORTANT> wrapper. Without this, 재윤 identity does
+ *      <EXTREMELY_IMPORTANT> wrapper. Without this, 민준수 identity does
  *      not establish at message one.
  *
  * If any of these fail, a v1.0 fix has reverted. Investigate before patching.
@@ -31,7 +31,7 @@ import { join } from 'node:path';
 
 const REPO_ROOT = join(import.meta.dirname, '..');
 const AGENTS_DIR = join(REPO_ROOT, 'agents');
-const SCENARIOS_PATH = join(REPO_ROOT, 'evals', 'jaeyun', 'scenarios.jsonl');
+const SCENARIOS_PATH = join(REPO_ROOT, 'evals', 'minjunsu', 'scenarios.jsonl');
 const SESSION_START_PATH = join(REPO_ROOT, 'hooks', 'session-start');
 const SKILL_PATH = join(REPO_ROOT, 'skills', 'using-fellowship', 'SKILL.md');
 
@@ -40,7 +40,7 @@ const SKILL_PATH = join(REPO_ROOT, 'skills', 'using-fellowship', 'SKILL.md');
 // ---------------------------------------------------------------------------
 
 describe('v1.0 regression — TodoWrite-blocker honesty', () => {
-  it('evals/jaeyun/scenarios.jsonl includes a TodoWrite-blocker scenario', () => {
+  it('evals/minjunsu/scenarios.jsonl includes a TodoWrite-blocker scenario', () => {
     const raw = readFileSync(SCENARIOS_PATH, 'utf8');
     const lines = raw.trim().split('\n').filter(Boolean);
     const scenarios = lines.map((l, i) => {
@@ -52,7 +52,7 @@ describe('v1.0 regression — TodoWrite-blocker honesty', () => {
       (s.input && /track these three|track three items|tracking these/i.test(s.input)),
     );
     assert.ok(todoScenario,
-      'Expected a scenario where the user asks 재윤 to track multiple items — required to guard the TodoWrite-blocker behavior');
+      'Expected a scenario where the user asks 민준수 to track multiple items — required to guard the TodoWrite-blocker behavior');
   });
 
   it('skills/using-fellowship/SKILL.md or README documents the TodoWrite limitation', () => {
@@ -65,13 +65,13 @@ describe('v1.0 regression — TodoWrite-blocker honesty', () => {
     const mentionsLimitation = /todowrite/i.test(combined) &&
       (/block/i.test(combined) || /limitation/i.test(combined) || /cannot/i.test(combined) || /quest.?log/i.test(combined));
     assert.ok(mentionsLimitation,
-      'Either skills/using-fellowship/SKILL.md or README.md must document that TodoWrite is blocked and 재윤 uses quest-log.md instead');
+      'Either skills/using-fellowship/SKILL.md or README.md must document that TodoWrite is blocked and 민준수 uses quest-log.md instead');
   });
 
-  it('evals/jaeyun/hard.py has an assertion that flags TodoWrite attempts', () => {
-    const hardPy = readFileSync(join(REPO_ROOT, 'evals', 'jaeyun', 'hard.py'), 'utf8');
+  it('evals/minjunsu/hard.py has an assertion that flags TodoWrite attempts', () => {
+    const hardPy = readFileSync(join(REPO_ROOT, 'evals', 'minjunsu', 'hard.py'), 'utf8');
     assert.match(hardPy, /todowrite/i,
-      'evals/jaeyun/hard.py should contain a TodoWrite-flagging assertion (e.g., no_todowrite_attempt) so eval runs catch the regression');
+      'evals/minjunsu/hard.py should contain a TodoWrite-flagging assertion (e.g., no_todowrite_attempt) so eval runs catch the regression');
   });
 });
 
@@ -114,9 +114,9 @@ describe('v1.0 regression — role-first opener across all companions', () => {
     it(`${agent.name} contains no dispatcher-framing phrases`, () => {
       const content = readFileSync(agent.path, 'utf8');
       const forbidden = [
-        /재윤 sends you/i,
-        /재윤 dispatches you/i,
-        /dispatched by 재윤/i,
+        /민준수 sends you/i,
+        /민준수 dispatches you/i,
+        /dispatched by 민준수/i,
       ];
       for (const pattern of forbidden) {
         assert.doesNotMatch(content, pattern,
@@ -134,21 +134,21 @@ describe('v1.0 regression — skill-injection in hooks/session-start', () => {
   it('reads skills/using-fellowship/SKILL.md', () => {
     const hook = readFileSync(SESSION_START_PATH, 'utf8');
     assert.match(hook, /skills\/using-fellowship\/SKILL\.md/,
-      'hooks/session-start must read skills/using-fellowship/SKILL.md to inject 재윤 identity');
+      'hooks/session-start must read skills/using-fellowship/SKILL.md to inject 민준수 identity');
   });
 
   it('wraps the skill content in <EXTREMELY_IMPORTANT>', () => {
     const hook = readFileSync(SESSION_START_PATH, 'utf8');
     assert.match(hook, /<EXTREMELY_IMPORTANT>/,
-      'hook must wrap 재윤 identity injection in <EXTREMELY_IMPORTANT> so Claude treats it as load-bearing');
+      'hook must wrap 민준수 identity injection in <EXTREMELY_IMPORTANT> so Claude treats it as load-bearing');
     assert.match(hook, /<\/EXTREMELY_IMPORTANT>/,
       'wrapper must be closed');
   });
 
-  it('declares 재윤 identity in the wrapper preamble', () => {
+  it('declares 민준수 identity in the wrapper preamble', () => {
     const hook = readFileSync(SESSION_START_PATH, 'utf8');
-    assert.match(hook, /You are 재윤/,
-      'hook must declare "You are 재윤" in the identity wrapper preamble — without this, the default agent does not inhabit 재윤 at message one');
+    assert.match(hook, /You are 민준수/,
+      'hook must declare "You are 민준수" in the identity wrapper preamble — without this, the default agent does not inhabit 민준수 at message one');
   });
 
   it('places identity injection BEFORE project context blocks', () => {

@@ -174,7 +174,7 @@ function cleanup(root) {
 
 describe('session-start — cold-install path (no docs/fellowship)', () => {
   // S5: when docs/fellowship/ is absent, the hook emits a dormant notice
-  // instead of full 재윤 identity. Tire-kicker projects don't get heavy priming.
+  // instead of full 민준수 identity. Tire-kicker projects don't get heavy priming.
   let fx;
   before(() => { fx = createFixture(); });
   after(() => cleanup(fx.root));
@@ -185,12 +185,12 @@ describe('session-start — cold-install path (no docs/fellowship)', () => {
     assert.ok(parsed, 'expected JSON output');
   });
 
-  it('emits FELLOWSHIP_DORMANT notice, not the full 재윤 identity', async () => {
+  it('emits FELLOWSHIP_DORMANT notice, not the full 민준수 identity', async () => {
     const { parsed } = await runHook(fx.scriptPath, fx.projectDir);
     const ctx = extractContext(parsed);
     assert.match(ctx, /<FELLOWSHIP_DORMANT>/);
     assert.doesNotMatch(ctx, /<EXTREMELY_IMPORTANT>/);
-    assert.doesNotMatch(ctx, /You are 재윤/);
+    assert.doesNotMatch(ctx, /You are 민준수/);
   });
 
   it('the dormant notice names the bootstrap path', async () => {
@@ -210,16 +210,16 @@ describe('session-start — cold-install path (no docs/fellowship)', () => {
 
 describe('session-start — bootstrap path (docs/fellowship exists, empty)', () => {
   // When docs/fellowship/ exists but has no contents yet (just bootstrapped),
-  // the hook injects full 재윤 identity + bootstrap content.
+  // the hook injects full 민준수 identity + bootstrap content.
   let fx;
   before(() => { fx = createFixture({ fellowship: {} }); });
   after(() => cleanup(fx.root));
 
-  it('injects EXTREMELY_IMPORTANT wrapper (재윤 identity)', async () => {
+  it('injects EXTREMELY_IMPORTANT wrapper (민준수 identity)', async () => {
     const { parsed } = await runHook(fx.scriptPath, fx.projectDir);
     const ctx = extractContext(parsed);
     assert.match(ctx, /<EXTREMELY_IMPORTANT>/);
-    assert.match(ctx, /You are 재윤/);
+    assert.match(ctx, /You are 민준수/);
   });
 
   it('injects FELLOWSHIP_CONTEXT block (bootstrap)', async () => {

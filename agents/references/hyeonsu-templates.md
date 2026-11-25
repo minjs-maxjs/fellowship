@@ -11,7 +11,7 @@ Load when starting an Architecture Decision Record, an interface contract, or a 
 
 **Status:** Proposed | Accepted
 **Date:** YYYY-MM-DD
-**Decider:** 현수 (technical) + 준수 (final call if scope changes)
+**Decider:** 현수 (technical) + 주인공 (final call if scope changes)
 
 ## Context
 [What situation requires a decision? What problem are we solving?

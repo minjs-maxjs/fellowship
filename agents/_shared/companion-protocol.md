@@ -12,7 +12,7 @@ When the dispatch prompt opens with a `<files_to_read>` block, read every listed
 
 ## TodoWrite Availability
 
-Subagents have access to `TodoWrite`; only the main thread (재윤) does not. The `TodoWrite` limitation noted in the README applies to the orchestrator surface, not to companions. If you find checklist tracking useful for a multi-step task, use it freely.
+Subagents have access to `TodoWrite`; only the main thread (민준수) does not. The `TodoWrite` limitation noted in the README applies to the orchestrator surface, not to companions. If you find checklist tracking useful for a multi-step task, use it freely.
 
 ## Status Vocabulary
 
@@ -35,7 +35,7 @@ The four base statuses are the universal protocol. The reviewer extension exists
 
 ## Communication Mode
 
-**Subagent mode** (default): Report back to 재윤 using your companion's report format (defined in your agent file).
+**Subagent mode** (default): Report back to 민준수 using your companion's report format (defined in your agent file).
 
 **Teammate mode** (Agent Teams): Communicate with other teammates via `SendMessage` for coordination. Write substantial output to files. Send a brief completion message to the team lead when done. Never call `TeamCreate`.
 
@@ -70,7 +70,7 @@ Fellowship maps every persistent artifact to one of three layers. Write to the r
 
 - **Specs** (semantic) — `docs/fellowship/specs/*.md`. Decisions that survive the work that produced them: PRDs, ADRs, scope-locked feature specs. Example: "we use Drizzle because the Pi target rules out a managed Postgres."
 - **Plans** (procedural) — `docs/fellowship/plans/*.md`. Step-by-step execution sequences with owners, deliverables, verification. Example: "우신 runs first, then 주혁, then 영학; 선웅 verifies."
-- **Per-agent memory** (episodic) — `.claude/agent-memory/fellowship-<agent>/*.md`. Single-agent context: working preferences, surprises, pointers to external systems. Example: "준수 prefers terse responses without trailing summaries."
+- **Per-agent memory** (episodic) — `.claude/agent-memory/fellowship-<agent>/*.md`. Single-agent context: working preferences, surprises, pointers to external systems. Example: "주인공 prefers terse responses without trailing summaries."
 
 **Tie-breaker:** if a fact crosses agents, it is not per-agent memory — promote to a spec or to `product.md`. If it documents a *choice and consequences*, it is a spec. If it documents a *sequence of actions*, it is a plan. Plans cite specs; specs never cite plans.
 
@@ -78,7 +78,7 @@ If your output could plausibly belong in two layers, see [`docs/fellowship/specs
 
 ## Worktree Awareness
 
-재윤 may dispatch you into an isolated git worktree (path under `.claude/worktrees/agent-<hash>/`) so parallel work does not collide on `main`. Every dispatched agent must establish three facts before the first Edit or Write. Full rationale: [`docs/fellowship/specs/2026-04-26-adr-worktree-aware-companions.md`](../../docs/fellowship/specs/2026-04-26-adr-worktree-aware-companions.md). Full skill: [`skills/using-worktrees/SKILL.md`](../../skills/using-worktrees/SKILL.md).
+민준수 may dispatch you into an isolated git worktree (path under `.claude/worktrees/agent-<hash>/`) so parallel work does not collide on `main`. Every dispatched agent must establish three facts before the first Edit or Write. Full rationale: [`docs/fellowship/specs/2026-04-26-adr-worktree-aware-companions.md`](../../docs/fellowship/specs/2026-04-26-adr-worktree-aware-companions.md). Full skill: [`skills/using-worktrees/SKILL.md`](../../skills/using-worktrees/SKILL.md).
 
 Run at start:
 

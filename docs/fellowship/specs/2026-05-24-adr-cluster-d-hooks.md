@@ -150,7 +150,7 @@ Lever 1 (companion-set status as part of DONE/APPROVED) is the primary mechanism
 
 The hook *covers Lever 1 misfires*; it does not *replace* Lever 1. If reconciliation grows into the primary path, the contract has failed and the fix is to harden Lever 1 in agent files — not to add inference to the hook.
 
-**Trace signal:** every auto-correction logged is a Lever 1 miss. Reading the trace tells the user (or future-준수) which companion's protocol needs hardening.
+**Trace signal:** every auto-correction logged is a Lever 1 miss. Reading the trace tells the user (or future-주인공) which companion's protocol needs hardening.
 
 ### D5. Plugin-internal trace format
 
@@ -252,7 +252,7 @@ ethos-overrides.md (optional, user-opt-in), specs, plans, handoffs, design, arch
 
 - Contents of `specs/`, `plans/`, `handoffs/`, `design/` (the artifacts themselves). The naming-convention contract governs those; reconcile (Cluster E, v1.1) enforces.
 - Contents of `archive/<type>/` — mis-archived files. Not flagged by this hook. Rationale: archive contents are the long memory; manual curation is acceptable; flagging would create false-positive noise on every session. (Revisit in v1.1 if needed.)
-- Nested directories under `specs/`, `plans/`, etc. The contract permits flat artifact folders only; nested dirs *are* drift. **Decision:** flag any directory inside the first-class artifact folders. (Cheap: one more `readdirSync` per artifact folder, filter for `isDirectory()`.) *(Amended 2026-06-11 — 준수 ruling: `design/` is exempt from the flat rule. The directory guide permits `design/{feature-slug}/` and visual-exploration persists mockups under `design/mockups/<session>/`; the original flat list contradicted both. Lifecycle dirs — `specs/`, `plans/`, `handoffs/` — stay flat.)*
+- Nested directories under `specs/`, `plans/`, etc. The contract permits flat artifact folders only; nested dirs *are* drift. **Decision:** flag any directory inside the first-class artifact folders. (Cheap: one more `readdirSync` per artifact folder, filter for `isDirectory()`.) *(Amended 2026-06-11 — 주인공 ruling: `design/` is exempt from the flat rule. The directory guide permits `design/{feature-slug}/` and visual-exploration persists mockups under `design/mockups/<session>/`; the original flat list contradicted both. Lifecycle dirs — `specs/`, `plans/`, `handoffs/` — stay flat.)*
 
 **Output line format:**
 
@@ -267,9 +267,9 @@ Drift detected — `templates/`, `examples/`, `archive/legacy/` outside the cont
 
 ### D10. Output budget — separate from additionalContext
 
-The voice and opener hooks inject `additionalContext` (the JSON wrapper Claude Code reads into context). Drift-check emits **plain stdout**, no JSON wrapper. This puts the line in the terminal for the user to read, NOT into 재윤의 context window.
+The voice and opener hooks inject `additionalContext` (the JSON wrapper Claude Code reads into context). Drift-check emits **plain stdout**, no JSON wrapper. This puts the line in the terminal for the user to read, NOT into 민준수의 context window.
 
-**Rationale:** drift is the user's housekeeping signal. It does not affect 재윤의 reasoning. Burning context-window tokens on every session for a housekeeping notice would compound across sessions.
+**Rationale:** drift is the user's housekeeping signal. It does not affect 민준수의 reasoning. Burning context-window tokens on every session for a housekeeping notice would compound across sessions.
 
 **Confirmation:** the spec is explicit on this — *"Notice only, no question. No additionalContext injection (the user reads the stdout themselves)."* Lock the channel: stdout only, no `process.stdout.write(JSON.stringify({...}))` wrapper.
 
@@ -285,7 +285,7 @@ The voice and opener hooks inject `additionalContext` (the JSON wrapper Claude C
 - Reviewed artifacts move to archive without user action; the active folders stay scoped to active work.
 - Quest-log stays under 50 entries indefinitely without manual trim.
 - Drift surfaces at session start before it normalizes — the user sees `templates/`, `examples/`, `archive/legacy/` flagged on the next session, which is the trigger for Task 8 (project-tree migration).
-- Trace log gives 준수 and future-현수 a record of which companions miss Lever 1, so the contract can harden empirically.
+- Trace log gives 주인공 and future-현수 a record of which companions miss Lever 1, so the contract can harden empirically.
 
 ### Negative
 
@@ -317,7 +317,7 @@ SessionEnd payload includes `transcript_path`. The trace could live alongside th
 
 ### Alt 4 — Reconciliation as an `additionalContext` notice rather than silent write
 
-Inject a notice into 재윤의 context window each session noting auto-corrections. **Rejected:** the spec is explicit that reconciliation is silent (Lever 2 line 145: *"No user prompt"*); auto-corrections are a plugin signal, not a user concern. The trace is the record.
+Inject a notice into 민준수의 context window each session noting auto-corrections. **Rejected:** the spec is explicit that reconciliation is silent (Lever 2 line 145: *"No user prompt"*); auto-corrections are a plugin signal, not a user concern. The trace is the record.
 
 ### Alt 5 — Use `contract.yaml` now instead of inline constant
 
@@ -325,11 +325,11 @@ Pull Cluster E forward. **Rejected:** 재호의 phased delivery defers Cluster E
 
 ---
 
-## Open Items for 준수
+## Open Items for 주인공
 
 None blocking. Every decision is recommended.
 
-One judgment call worth surfacing: **D5 trace location** (`$HOME/.claude/fellowship-trace.log`). The choice favors diagnostic continuity over per-project tidiness. If 준수 prefers project-local traces (loseable but tidy), flip to `.fellowship-trace.log` at the project root and add to `.gitignore`. The hook logic is identical either way.
+One judgment call worth surfacing: **D5 trace location** (`$HOME/.claude/fellowship-trace.log`). The choice favors diagnostic continuity over per-project tidiness. If 주인공 prefers project-local traces (loseable but tidy), flip to `.fellowship-trace.log` at the project root and add to `.gitignore`. The hook logic is identical either way.
 
 ---
 

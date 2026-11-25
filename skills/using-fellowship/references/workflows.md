@@ -2,11 +2,11 @@
 
 Workflows are named compositions above the atomic cycles in `cycles.md`. Where cycles describe single review/testing/design loops, workflows describe end-to-end shapes of work — *what runs, in what order, with what conditions* — for the kinds of work that recur often enough to deserve a name.
 
-재윤 invokes a workflow when his routing judgment encounters work that is (a) Tier 2 or higher and (b) shaped like one of the recipes named here. Tier 1 (typos, one-liners, two-three line changes) uses cycles alone; no workflow.
+민준수 invokes a workflow when his routing judgment encounters work that is (a) Tier 2 or higher and (b) shaped like one of the recipes named here. Tier 1 (typos, one-liners, two-three line changes) uses cycles alone; no workflow.
 
 Read these as **reference patterns**, not scripts. Each recipe names its canonical shape, the companions involved, the conditional steps, the legitimate variations, and the cases where it is the *wrong* recipe. The recipe inspires the dispatch; it does not dictate it. *"The simplest path that serves the task — that is prudent. The elegant one that serves a future that hasn't arrived — that is folly."*
 
-When 재윤 invokes a workflow, he populates `TaskCreate` with the recipe's canonical sequence upfront — 재호, 현수, 주혁, 승현, 우신, 영학 for `feature-flow`, conditioned to the actual situation (skipped steps get omitted, parallel steps get noted, variations get reflected). The user sees the planned shape before the first dispatch. Adaptations mid-flow update the task list so the visible plan stays current with the actual dispatch.
+When 민준수 invokes a workflow, he populates `TaskCreate` with the recipe's canonical sequence upfront — 재호, 현수, 주혁, 승현, 우신, 영학 for `feature-flow`, conditioned to the actual situation (skipped steps get omitted, parallel steps get noted, variations get reflected). The user sees the planned shape before the first dispatch. Adaptations mid-flow update the task list so the visible plan stays current with the actual dispatch.
 
 ## Meta-rule
 
@@ -61,7 +61,7 @@ Recipes are transport-agnostic. Every Tier 2+ dispatch in any recipe selects its
 
 | Companion | Step | Enter when… | Skip when… |
 |---|---|---|---|
-| investigate (in-session, 재윤-led) | investigate | always — this is the discipline that distinguishes bug-flow from feature-flow | never; skipping investigation is how the wrong fix gets shipped |
+| investigate (in-session, 민준수-led) | investigate | always — this is the discipline that distinguishes bug-flow from feature-flow | never; skipping investigation is how the wrong fix gets shipped |
 | 우신 | reproducer test | bug can be expressed as a failing assertion; valuable for regression-proofing | bug is visual/UX and not test-expressible — use browser-verify after the fix instead |
 | 주혁 | fix | always, *after* root cause is known | never; if no root cause, no 주혁 |
 | 승현 | code review | always on Tier 2+ fixes touching meaningful logic | trivial fix path where the diff is one safe line and review-cycle would be ceremony |
@@ -115,9 +115,9 @@ Recipes are transport-agnostic. Every Tier 2+ dispatch in any recipe selects its
 
 ## Contract verdict composition
 
-When a flow carries a `## Validation Contract`, the validators return partial scores partitioned by the owner-validator tags. 재윤 composes them into the quest verdict by one rule:
+When a flow carries a `## Validation Contract`, the validators return partial scores partitioned by the owner-validator tags. 민준수 composes them into the quest verdict by one rule:
 
-> The contract passes when every P0 assertion is PASS with cited evidence and zero P0 assertions are FAIL. An UNTESTABLE on a P0 is an unscored gate, **not** a pass — 재윤 treats it as a hole to close: the assertion is rewritten so it can be scored, or 준수 accepts the gap explicitly. P1/P2 FAILs and any UNTESTABLE-on-P0 become quest-log entries; P1/P2 do not gate.
+> The contract passes when every P0 assertion is PASS with cited evidence and zero P0 assertions are FAIL. An UNTESTABLE on a P0 is an unscored gate, **not** a pass — 민준수 treats it as a hole to close: the assertion is rewritten so it can be scored, or 주인공 accepts the gap explicitly. P1/P2 FAILs and any UNTESTABLE-on-P0 become quest-log entries; P1/P2 do not gate.
 
 This maps onto the existing status vocabulary — no new code. A P0 FAIL is a Critical finding (`CHANGES_REQUESTED` from 승현/동일, a Finding from 우신) routing into the review cycle exactly as today. The rule is mechanical; the scoring is judgment.
 

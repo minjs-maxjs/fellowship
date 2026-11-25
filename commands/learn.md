@@ -5,4 +5,4 @@ description: Loads the learn skill — reviews, prunes, or exports per-agent mem
 
 # Learn
 
-Loads the `learn` skill for in-session work. See [`skills/learn/SKILL.md`](../skills/learn/SKILL.md) — curator role for the per-agent memory living under `.claude/agent-memory/fellowship-*/`. Surfaces stale entries, proposes pruning, exports snapshots. Never writes without 준수의 approval.
+Loads the `learn` skill for in-session work. See [`skills/learn/SKILL.md`](../skills/learn/SKILL.md) — curator role for the per-agent memory living under `.claude/agent-memory/fellowship-*/`. Surfaces stale entries, proposes pruning, exports snapshots. Never writes without 주인공의 approval.

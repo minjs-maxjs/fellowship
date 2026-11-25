@@ -187,7 +187,7 @@ communication style, decision patterns, debugging approach, UX preferences, vend
 
 It produces a `USER-PROFILE.md` that gets injected into future dispatches, teaching agents how *this specific developer* works. Confidence levels and evidence citations — not guesses.
 
-**Relevance:** Our 재윤 memory files serve part of this role. The user-profiler makes it systematic and evidence-based. Not a priority to build, but the pattern is worth noting for when 재윤의 memory becomes richer.
+**Relevance:** Our 민준수 memory files serve part of this role. The user-profiler makes it systematic and evidence-based. Not a priority to build, but the pattern is worth noting for when 민준수의 memory becomes richer.
 
 ### Defense in Depth
 
@@ -229,7 +229,7 @@ Before context compaction occurs, Context Mode fires a `PreCompact` hook that:
 
 The critical insight: **don't dump everything back into context after compaction — only what's relevant to the current task.**
 
-**Relevance to Fellowship:** Our quest log serves a similar role but is static — it doesn't use semantic retrieval. The PreCompact hook is beyond what we'd build into the plugin, but the principle (only relevant state after compaction) informs how 재윤 should structure the quest log for post-compaction readability.
+**Relevance to Fellowship:** Our quest log serves a similar role but is static — it doesn't use semantic retrieval. The PreCompact hook is beyond what we'd build into the plugin, but the principle (only relevant state after compaction) informs how 민준수 should structure the quest log for post-compaction readability.
 
 ### Not Our Approach
 
@@ -288,30 +288,30 @@ Results: skills starting at 40-50% pass rate reach 75-85% after overnight optimi
 
 Concrete gaps and enhancements for each Fellowship companion, derived from what the reference implementations do well.
 
-### 재윤 (Orchestrator)
+### 민준수 (Orchestrator)
 
 **Gap: Verification enforcement.**
-Superpowers has a dedicated `verification-before-completion` skill with an iron rule: no completion claims without fresh verification output. Our orchestration skill doesn't enforce this — 주혁 can say "DONE" without running tests, and 재윤 trusts it. Superpowers even has rationalization prevention ("I'm confident" → "Confidence != evidence").
+Superpowers has a dedicated `verification-before-completion` skill with an iron rule: no completion claims without fresh verification output. Our orchestration skill doesn't enforce this — 주혁 can say "DONE" without running tests, and 민준수 trusts it. Superpowers even has rationalization prevention ("I'm confident" → "Confidence != evidence").
 
-- **Improvement:** Add a verification gate to the dispatch protocol. When 주혁 reports DONE, 재윤 should check: did the report include verification output? If not, send him back. This could be a lightweight verification skill or a section in the orchestration skill.
+- **Improvement:** Add a verification gate to the dispatch protocol. When 주혁 reports DONE, 민준수 should check: did the report include verification output? If not, send him back. This could be a lightweight verification skill or a section in the orchestration skill.
 - **Source:** `examples/superpowers/skills/verification-before-completion/SKILL.md`
 
 **Gap: Brainstorming hard gate.**
 Superpowers enforces a hard gate: no implementation skill can be invoked until a design is presented and approved. "Every project goes through this process. A todo list, a single-function utility, a config change — all of them." Our brainstorming skill exists but has no enforcement mechanism.
 
-- **Improvement:** Add a `<HARD-GATE>` equivalent to the brainstorming skill — 재윤 should not dispatch 주혁 until the user has approved the design. For simple tasks, the design can be one sentence, but it must exist and be confirmed.
+- **Improvement:** Add a `<HARD-GATE>` equivalent to the brainstorming skill — 민준수 should not dispatch 주혁 until the user has approved the design. For simple tasks, the design can be one sentence, but it must exist and be confirmed.
 - **Source:** `examples/superpowers/skills/brainstorming/SKILL.md`
 
 **Gap: Branch finishing workflow.**
 Superpowers has a `finishing-a-development-branch` skill: verify tests → determine base branch → present 4 options (merge locally, create PR, keep as-is, discard). We have no post-implementation workflow — after 주혁 builds and 승현 reviews, there's no structured "what now?" step.
 
-- **Improvement:** Add a finishing phase to the orchestration skill. After the review cycle completes, 재윤 presents options: commit, create PR, park the branch, or iterate further.
+- **Improvement:** Add a finishing phase to the orchestration skill. After the review cycle completes, 민준수 presents options: commit, create PR, park the branch, or iterate further.
 - **Source:** `examples/superpowers/skills/finishing-a-development-branch/SKILL.md`
 
 **Gap: Agent delegation distrust.**
 Superpowers explicitly says: "Agent reports success → Check VCS diff → Verify changes → Report actual state." We should verify 주혁의 self-report by checking the actual git diff before declaring success.
 
-- **Improvement:** After 주혁 reports DONE, 재윤 runs `git diff --stat` to confirm changes match expectations before dispatching 승현 or declaring complete.
+- **Improvement:** After 주혁 reports DONE, 민준수 runs `git diff --stat` to confirm changes match expectations before dispatching 승현 or declaring complete.
 - **Source:** `examples/superpowers/skills/verification-before-completion/SKILL.md` (agent delegation section)
 
 ### 주혁 (Engineer)
@@ -325,13 +325,13 @@ Superpowers has a dedicated `systematic-debugging` skill with four phases: root 
 **Gap: Plan-aware task execution.**
 Superpowers' `writing-plans` skill produces plans with bite-sized tasks (2-5 min each), explicit file paths, and checkbox tracking. Plans assume "the engineer has zero context for our codebase and questionable taste." Our plans are less structured — they describe what to build but don't always specify exact files to touch or decompose into TDD-sized steps.
 
-- **Improvement:** When 재윤 writes plans for 주혁, include: exact file paths per task, checkbox steps (write test → verify fail → implement → verify pass → commit), and assume 주혁 knows nothing about the codebase.
+- **Improvement:** When 민준수 writes plans for 주혁, include: exact file paths per task, checkbox steps (write test → verify fail → implement → verify pass → commit), and assume 주혁 knows nothing about the codebase.
 - **Source:** `examples/superpowers/skills/writing-plans/SKILL.md`
 
 **Gap: No implementation code without failing test (TDD discipline).**
 Superpowers has a strict iron law: "NO PRODUCTION CODE WITHOUT A FAILING TEST FIRST. Write code before the test? Delete it. Start over." Our engineering skill says 주혁 "may write simple inline tests" but comprehensive testing is 우신의 domain. This creates a gap — 주혁 builds, then 우신 tests after, which means bugs are caught late.
 
-- **Improvement:** For critical-path work, consider dispatching 우신 first in test-first mode (already supported in our testing skill). This is a 재윤 routing decision, not a 주혁 change. But the engineering skill could emphasize: "for pure functions and data transformations, write the test first even if 우신 will test later."
+- **Improvement:** For critical-path work, consider dispatching 우신 first in test-first mode (already supported in our testing skill). This is a 민준수 routing decision, not a 주혁 change. But the engineering skill could emphasize: "for pure functions and data transformations, write the test first even if 우신 will test later."
 - **Source:** `examples/superpowers/skills/test-driven-development/SKILL.md`
 
 ### 승현 (Code Reviewer)
@@ -363,7 +363,7 @@ Superpowers enforces: "If you didn't watch the test fail, you don't know if it t
 - **Source:** `examples/superpowers/skills/test-driven-development/SKILL.md`, `examples/wshobson-agents/plugins/tdd-workflows/commands/tdd-red.md`
 
 **Gap: Diagnostic self-check (already addressed).**
-우신 must clean up lint/diagnostic warnings in test code before reporting done. Already captured in 재윤의 feedback memory. Should be formalized in the testing skill.
+우신 must clean up lint/diagnostic warnings in test code before reporting done. Already captured in 민준수의 feedback memory. Should be formalized in the testing skill.
 
 - **Improvement:** Add to testing skill: "Before reporting done, check for diagnostics (unused imports, unused variables, type warnings) in all test files you created or modified. Fix them. No one reviews your work — you are the last stop."
 - **Source:** Fellowship feedback memory (`feedback_usin_self_cleanup.md`)
@@ -391,7 +391,7 @@ wshobson has a `security-auditor` agent with a structured approach: OWASP Top 10
 **Enhancement idea from GSD: Brownfield codebase mapping.**
 GSD's `gsd-codebase-mapper` spawns 4 parallel Haiku agents to explore an existing codebase and produce structured analysis documents: STACK.md, ARCHITECTURE.md, CONVENTIONS.md, CONCERNS.md, STRUCTURE.md, TESTING.md, INTEGRATIONS.md. This is read-only exploration at scale.
 
-- **Improvement:** 선웅의 devops skill should include an infrastructure mapping mode: run on a new project to map the deployment setup, CI/CD config, container definitions, and environment variables — producing a single structured `infra-context.md` that 재윤 and other companions can reference.
+- **Improvement:** 선웅의 devops skill should include an infrastructure mapping mode: run on a new project to map the deployment setup, CI/CD config, container definitions, and environment variables — producing a single structured `infra-context.md` that 민준수 and other companions can reference.
 - **Source:** `examples/gsd-get-shit-done/agents/gsd-codebase-mapper.md`
 
 **Enhancement idea from wshobson: Parallel research (for future 선웅 capabilities).**
@@ -442,7 +442,7 @@ Derived from this analysis, prioritized by impact:
 ### From GSD (new, highest priority)
 12. **Context monitor hook** — PostToolUse hook that injects remaining-context warnings into 주혁의 conversation. At ≤35%: "wrap up current task." At ≤25%: "write progress to file, stop." Prevents garbage output from context-exhausted agents.
 13. **Debug knowledge base** — 주혁 accumulates resolved debug sessions to `.fellowship/debug-knowledge-base.md`. Short entries: problem, root cause, solution, files. Consulted at the start of new debug sessions.
-14. **Finalization workflow** — after 주혁 builds and 승현 approves, 재윤 presents structured options: commit, create PR, park branch, or iterate. GSD's `finishing-a-development-branch` pattern is directly applicable.
+14. **Finalization workflow** — after 주혁 builds and 승현 approves, 민준수 presents structured options: commit, create PR, park branch, or iterate. GSD's `finishing-a-development-branch` pattern is directly applicable.
 
 ### Skill self-improvement (future)
 15. **AutoResearch eval loop** — define binary assertions for 주혁의 engineering skill and 우신의 testing skill. Run eval overnight. Use pass rate as the signal. Start with 5-10 assertions per skill, measure weekly. This is the Karpathy/AutoResearch pattern applied to Fellowship's core skills.

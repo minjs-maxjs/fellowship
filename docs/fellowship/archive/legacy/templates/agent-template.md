@@ -11,7 +11,7 @@ tools:
   - Glob
   - Grep
   - Bash
-  - Agent(fellowship:juhyeok, fellowship:seunghyeon, fellowship:usin, fellowship:pilyeop)  # 재윤 only — add new companions here as they're built
+  - Agent(fellowship:juhyeok, fellowship:seunghyeon, fellowship:usin, fellowship:pilyeop)  # 민준수 only — add new companions here as they're built
   # MCP tools: do NOT list mcp__* wildcards here — they resolve at startup and will be
   # empty if the MCP server hasn't registered yet. Let agents inherit MCP tools dynamically.
 memory: project
@@ -49,7 +49,7 @@ Headings vary by agent. Examples:
   주혁: Seven Principles, How to Work, Verification
   승현: How to Review, Severity Classification, What Makes a Good Finding
   우신: Three Modes, What to Test, How to Write Good Tests
-  재윤: Tiered Routing, Companions Table, Handling Reports, Review Cycle, Memory
+  민준수: Tiered Routing, Companions Table, Handling Reports, Review Cycle, Memory
 
 Preserve original headings from the skill — don't flatten into one wall of text.
 Craft sections end before Communication Mode.]

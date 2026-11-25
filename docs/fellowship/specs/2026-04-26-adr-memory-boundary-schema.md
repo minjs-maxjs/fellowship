@@ -2,7 +2,7 @@
 
 **Status:** Proposed
 **Date:** 2026-04-26
-**Decider:** 현수 (technical) + 준수 (final call on enforcement timing — v1.0 doc-only vs v1.1 lint)
+**Decider:** 현수 (technical) + 주인공 (final call on enforcement timing — v1.0 doc-only vs v1.1 lint)
 
 ## Context
 
@@ -26,7 +26,7 @@ This ADR locks the schema. Not the lint, not the hook — the rule.
 - "Step 1, step 2, step 3" execution sequences (those are plans).
 - A single agent's transient discovery during craft (that is per-agent memory or a debug-log entry).
 - Status notes ("주혁 started Tuesday, finished Wednesday") — quest log territory.
-- User preferences that aren't load-bearing for the architecture ("준수 prefers TanStack Query" without a constraint reason — that is 재호의 per-agent memory at most, possibly product.md).
+- User preferences that aren't load-bearing for the architecture ("주인공 prefers TanStack Query" without a constraint reason — that is 재호의 per-agent memory at most, possibly product.md).
 
 ### Layer 2 — Plans (procedural)
 
@@ -64,7 +64,7 @@ When a fact could plausibly land in two layers:
 1. **Cross-agent vs single-agent.** If two agents need the fact, it cannot live only in one agent's memory. Promote to product.md (project-wide ground truth) or a spec (architectural decision). Per-agent memory is a private notebook, not a shared one.
 2. **Persistent vs transient.** If the fact survives this quest, it is spec or product.md. If it expires when the quest closes, it is plan or quest-log. If it survives but only matters to one agent, it is per-agent memory.
 3. **Decision vs execution.** If it documents a *choice and its consequences*, it is a spec (ADR). If it documents a *sequence of actions*, it is a plan. The plan may cite the ADR; never the inverse.
-4. **Worked example.** "재호 discovered 준수 prefers TanStack Query over SWR." If the preference is a hard architectural constraint affecting future builds → ADR (with reasoning). If it is a working preference 재호 should not relitigate → 재호의 per-agent memory. If it is a project-wide ground truth all agents must honor → product.md. The schema does not collapse the choice; it forces the agent to *make* the choice and write the answer in exactly one place.
+4. **Worked example.** "재호 discovered 주인공 prefers TanStack Query over SWR." If the preference is a hard architectural constraint affecting future builds → ADR (with reasoning). If it is a working preference 재호 should not relitigate → 재호의 per-agent memory. If it is a project-wide ground truth all agents must honor → product.md. The schema does not collapse the choice; it forces the agent to *make* the choice and write the answer in exactly one place.
 
 ## Optional enforcement
 

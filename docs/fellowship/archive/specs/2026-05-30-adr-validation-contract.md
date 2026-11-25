@@ -14,7 +14,7 @@ decision: Validation contract lives as a `## Validation Contract` section inside
 **Input:** `docs/fellowship/specs/2026-05-30-validation-contract-scope.md` (재호의 locked scope).
 **Status of decisions D-01 through D-06:** locked by 재호, honored here, not relitigated.
 
-This ADR resolves the three HOW questions 재호 left open: where the contract physically lives, the exact shape of one assertion, and the contract between 재윤의 validator dispatch and the validator.
+This ADR resolves the three HOW questions 재호 left open: where the contract physically lives, the exact shape of one assertion, and the contract between 민준수의 validator dispatch and the validator.
 
 ---
 
@@ -38,7 +38,7 @@ The architecture must add these three seams and nothing more. The binding constr
 
 ### What a validator dispatch actually carries today
 
-From `cycles.md` (Review Cycle, step 1): 승현 is dispatched with *"주혁의 report + original spec + git SHAs + content of `docs/fellowship/codebase-map.md`."* From the shared protocol: the `<files_to_read>` block is the deterministic loading contract — 재윤 lists every path the validator must read.
+From `cycles.md` (Review Cycle, step 1): 승현 is dispatched with *"주혁의 report + original spec + git SHAs + content of `docs/fellowship/codebase-map.md`."* From the shared protocol: the `<files_to_read>` block is the deterministic loading contract — 민준수 lists every path the validator must read.
 
 The plan path is **already** in that block — the quest log is where tasks and assignments live; the validator already needs it to know what was built. The spec path is **already** in that block.
 
@@ -46,13 +46,13 @@ The plan path is **already** in that block — the quest log is where tasks and 
 
 | | In-plan `## Validation Contract` section (D-01) | Standalone reference under `plans/` |
 |---|---|---|
-| Paths 재윤 passes in `<files_to_read>` | The plan path — **already present**. Zero new paths. | The plan path **plus** a new contract path. One new path. |
+| Paths 민준수 passes in `<files_to_read>` | The plan path — **already present**. Zero new paths. | The plan path **plus** a new contract path. One new path. |
 | Validator read cost | Read one section of a file already being read. | Read one additional file. |
 | Sync seams | One — the contract sits beside the tasks it scores. | **Two** — the contract and the plan it was extracted from must be kept consistent (assertions cite tasks; tasks move). |
 | Author cost (planning skill) | Append a section to the file it is already writing. | Write a second file, cross-link it, keep the link live. |
 | Drift risk | Low — assertions and the tasks they defend cannot drift apart; they share a file. | Higher — the classic two-artifact divergence the *if-wrong* test exists to catch. |
 
-**The dispatch-cleanliness argument for a standalone reference does not hold.** The validator receives a path either way. Reading a named section of a file 재윤 already passes is not materially harder than reading a separate file — and the standalone route costs *one more path to pass* and *one more seam to keep in sync*. The cleaner consumption is the in-plan section, not the reference.
+**The dispatch-cleanliness argument for a standalone reference does not hold.** The validator receives a path either way. Reading a named section of a file 민준수 already passes is not materially harder than reading a separate file — and the standalone route costs *one more path to pass* and *one more seam to keep in sync*. The cleaner consumption is the in-plan section, not the reference.
 
 **Decision: the validation contract is a `## Validation Contract` section inside the plan (`docs/fellowship/plans/YYYY-MM-DD-<feature>.md`).** D-01 holds. The evidence strengthens it; it does not bend it.
 
@@ -111,9 +111,9 @@ Each assertion is a list item with four labeled parts. The format reuses the pla
 
 ## Decision 3 — Consumption protocol: routing key + scoring block + composition rule. D-05/D-06 honored.
 
-The protocol is the contract between 재윤의 dispatch and the validator. Three parts.
+The protocol is the contract between 민준수의 dispatch and the validator. Three parts.
 
-### 3a. What 재윤 passes (dispatch → validator)
+### 3a. What 민준수 passes (dispatch → validator)
 
 No new dispatch *channel* — the plan path is already in the `<files_to_read>` block (Decision 1). The dispatch gains **one instruction**:
 
@@ -121,7 +121,7 @@ No new dispatch *channel* — the plan path is already in the `<files_to_read>` 
 
 The owner-validator tag is the routing key: 승현 scores `[승현]` assertions, 우신 scores `[우신]`, 동일 scores `[동일]`. A validator ignores assertions not tagged to them. This is how multiple validators partition one contract without collision — the partition is authored into the assertions, not negotiated at dispatch.
 
-### 3b. What the validator returns (validator → 재윤)
+### 3b. What the validator returns (validator → 민준수)
 
 Each validator's existing report gains one block, the **Contract Scoring** block:
 
@@ -142,13 +142,13 @@ Three outcomes, all first-class:
 
 This block maps onto the **existing status vocabulary** — no new status code. A P0 FAIL produces `CHANGES_REQUESTED` (승현/동일) or surfaces as a finding (우신) exactly as today. The contract sharpens *what* gets reported; it does not change the report's verdict codes.
 
-### 3c. How partial scores compose into a quest verdict (재윤-side)
+### 3c. How partial scores compose into a quest verdict (민준수-side)
 
-재윤 already consolidates validator reports. The composition rule is one line he applies:
+민준수 already consolidates validator reports. The composition rule is one line he applies:
 
 > **The contract passes when every P0 assertion has a PASS from its owner-validator, and zero P0 assertions are FAIL.** P1/P2 FAILs and any UNTESTABLE-on-P0 become quest-log entries; P1/P2 do not gate.
 
-A P0 scored UNTESTABLE is **not a pass** — it is an unscored gate. 재윤 treats it as a hole: either the assertion is rewritten so it can be scored, or 준수 accepts the gap explicitly. This closes the loophole where "I couldn't test it" silently clears the gate.
+A P0 scored UNTESTABLE is **not a pass** — it is an unscored gate. 민준수 treats it as a hole: either the assertion is rewritten so it can be scored, or 주인공 accepts the gap explicitly. This closes the loophole where "I couldn't test it" silently clears the gate.
 
 This is thin determinism: the *rule* is mechanical (all P0 PASS), the *scoring* is judgment (prose read by fresh context). No parser, no DSL, no machine gate — consistent with D-03 and the "intelligence in prose" constraint.
 
@@ -160,7 +160,7 @@ This is thin determinism: the *rule* is mechanical (all P0 PASS), the *scoring* 
 |---|---|
 | Standalone `plans/contract-<feature>.md` reference | Decision 1 — adds a path and a sync seam for no dispatch-cleanliness gain. |
 | New status code for contract verdicts (e.g. `CONTRACT_FAILED`) | The existing vocabulary carries it: P0 FAIL → Critical finding → `CHANGES_REQUESTED`. A new code would be ceremony. |
-| Machine-parsed assertion IDs for composition | Out of scope (재호) and unearned — 재윤 composes by reading three short reports, not parsing N artifacts. |
+| Machine-parsed assertion IDs for composition | Out of scope (재호) and unearned — 민준수 composes by reading three short reports, not parsing N artifacts. |
 | Folding into Cluster E `contract.yaml` | Different concern (state contract, machine-readable tree). Explicitly held separate by 재호. The noun collides; the substance does not. |
 | A `validation-contract.md` reference doc explaining the format | See "Does the reference doc earn its place" below. |
 
@@ -197,7 +197,7 @@ Each gains a **"Validation Contract Scoring"** subsection and a **Contract scori
 
 In `feature-flow` and `bug-flow`, add a line to the validator step noting the validators score the `## Validation Contract`. In `security-flow`, note 동일 scores security-property assertions. This is a *reference to the scoring step*, not a new step — the validators already run; they now run against the contract. No change to the recipe sequence.
 
-### Composition rule (재윤-side, documented in workflows.md)
+### Composition rule (민준수-side, documented in workflows.md)
 
 One line where the validator step closes: *"The contract passes when every P0 assertion is PASS with evidence and zero P0 FAIL. UNTESTABLE on a P0 is an unscored gate, not a pass. P1/P2 FAILs → quest log."*
 

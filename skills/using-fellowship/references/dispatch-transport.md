@@ -44,7 +44,7 @@ Signals are for *detection only*. How to split a pane, name a workspace, or addr
 
 For rungs 3–4, where the harness already delivers results in-band, the report file is additive, not a replacement — in-session and background dispatches may keep returning reports in-band.
 
-Session handoffs (`jaeyun-<YYYY-MM-DD>-<slug>.md`, see `handoff-template.md`) share this directory but are a different artifact: context transfer between 재윤 sessions, not dispatch protocol. The `-brief` / `-report` suffixes keep the two apart.
+Session handoffs (`minjunsu-<YYYY-MM-DD>-<slug>.md`, see `handoff-template.md`) share this directory but are a different artifact: context transfer between 민준수 sessions, not dispatch protocol. The `-brief` / `-report` suffixes keep the two apart.
 
 ### Brief shape
 

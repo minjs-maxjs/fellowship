@@ -4,18 +4,18 @@
 
 **Date:** 2026-05-17
 **Design spec:** `docs/fellowship/specs/2026-05-17-session-opener-design.md`
-**Predecessor:** `docs/fellowship/plans/2026-05-16-voice-persistence.md` (재윤 v1) and `docs/fellowship/plans/2026-05-17-per-companion-voice.md` (per-companion voice)
+**Predecessor:** `docs/fellowship/plans/2026-05-16-voice-persistence.md` (민준수 v1) and `docs/fellowship/plans/2026-05-17-per-companion-voice.md` (per-companion voice)
 
 ## Goal
 
-Make 재윤의 first response in a returning Fellowship session open with *where we left off, what to tackle next, a brief welcome* — before addressing the user's prompt. New SessionStart hook injects content + instruction; voice persistence carries the register.
+Make 민준수의 first response in a returning Fellowship session open with *where we left off, what to tackle next, a brief welcome* — before addressing the user's prompt. New SessionStart hook injects content + instruction; voice persistence carries the register.
 
 ## Key decisions from brainstorming
 
 - **Continuation-marker gate** — `.fellowship-session-history` file at project root. Absent → first session in this project, opener skipped. Present → opener fires. Gitignored.
 - **Separate hook, not merged** — `hooks/fellowship-opener-session-start.mjs` registers on SessionStart alongside the voice hook. Voice hook validated; don't touch it.
 - **Content surface, computed at SessionStart:** recent commits (`git log --oneline -5`), open quest-log items (top 3 `- [ ]` lines), in-flight project memories (`description:` from `memory/project_*.md`).
-- **Voice-derived format** — hook injects content + instruction; 재윤 produces the opener in his register as three short observations.
+- **Voice-derived format** — hook injects content + instruction; 민준수 produces the opener in his register as three short observations.
 - **Fail-silent contract** — any error path exits 0 with no output. A broken opener must never break a session.
 
 ## Tech stack
@@ -56,9 +56,9 @@ Dispatch 주혁 for the hook implementation. Single-file change with a clear con
 
 ### Phase 2 — Validation
 
-3. ⬜ **Manual fresh-session validation** — 준수. Open a fresh Claude Code session in this project. Confirm:
-   - First session: marker created, opener does NOT fire (no status preamble in 재윤의 first response).
-   - Second session: marker present, opener DOES fire — 재윤의 first response opens with three short observations (welcome, left-off, next), then addresses the user's prompt.
+3. ⬜ **Manual fresh-session validation** — 주인공. Open a fresh Claude Code session in this project. Confirm:
+   - First session: marker created, opener does NOT fire (no status preamble in 민준수의 first response).
+   - Second session: marker present, opener DOES fire — 민준수의 first response opens with three short observations (welcome, left-off, next), then addresses the user's prompt.
    - Marker timestamp updates on each session start.
 4. ⬜ **README and quest log close** — direct work in-session. `hooks/README.md` documents the opener; `docs/fellowship/quest-log.md` marks the entry done; commit.
 
@@ -129,19 +129,19 @@ A SessionStart hook per the design spec at `docs/fellowship/specs/2026-05-17-ses
 
 ### Task 3: Manual fresh-session validation
 
-**Assigned to:** 준수 (in-session work).
+**Assigned to:** 주인공 (in-session work).
 **Depends on:** Task 2 approved.
 
 **What to verify:**
 - Delete `.fellowship-session-history` if it exists (this is the first-session test).
-- Open a fresh Claude Code session. 재윤 should NOT open with status — first session. Marker should be created.
-- Close the session (or simply start another). 재윤 SHOULD open with status — second session. Marker timestamp should update.
+- Open a fresh Claude Code session. 민준수 should NOT open with status — first session. Marker should be created.
+- Close the session (or simply start another). 민준수 SHOULD open with status — second session. Marker timestamp should update.
 - Open with a trivial prompt ("hi"). Confirm the opener still fires and is short.
-- Open with a focused prompt ("fix the auth bug"). Confirm the opener fires before 재윤 addresses the bug.
+- Open with a focused prompt ("fix the auth bug"). Confirm the opener fires before 민준수 addresses the bug.
 
 **Acceptance criteria:**
 - [ ] First-session-in-project does not produce an opener.
-- [ ] Continuation sessions produce a short opener in 재윤의 register.
+- [ ] Continuation sessions produce a short opener in 민준수의 register.
 - [ ] Opener does not crash the session if git/quest-log/memory are missing.
 - [ ] Marker timestamp updates on each continuation.
 
@@ -171,6 +171,6 @@ A SessionStart hook per the design spec at `docs/fellowship/specs/2026-05-17-ses
 
 ## Risks
 
-- **`hooks.json` registration order may not map to stdout order.** Per the spec, this is an unknown to verify in implementation. If the order is wrong, the opener instruction lands before the voice context — 재윤 might open in default register, not his voice. Mitigation: if order is wrong, merge the opener output into the voice hook (back to the rejected "merge" option), accepting the small regression risk.
+- **`hooks.json` registration order may not map to stdout order.** Per the spec, this is an unknown to verify in implementation. If the order is wrong, the opener instruction lands before the voice context — 민준수 might open in default register, not his voice. Mitigation: if order is wrong, merge the opener output into the voice hook (back to the rejected "merge" option), accepting the small regression risk.
 - **Memory path slug derivation.** If the `$CLAUDE_PROJECT_DIR` → memory-dir slug computation is wrong, the memory section silently empties. Acceptable; opener still has commits + quest log. Worth a 주혁 verification step in implementation.
 - **The opener annoys on tiny prompts.** "Hi" gets a status paragraph. If this proves tedious in practice, the opener can be tightened (one observation instead of three) in a v1.1 content-only revision — no mechanism change needed.

@@ -4,12 +4,12 @@
 # Usage:
 #   ./improve.sh <agent>              # single agent, 25 cycles
 #   ./improve.sh <agent> --cycles N   # single agent, N cycles
-#   ./improve.sh --all                # sequential: 주혁 → 재윤 → 승현
+#   ./improve.sh --all                # sequential: 주혁 → 민준수 → 승현
 #   ./improve.sh --all --cycles N     # sequential, N cycles each
 #
 # Examples:
 #   ./improve.sh juhyeok
-#   ./improve.sh jaeyun --cycles 15
+#   ./improve.sh minjunsu --cycles 15
 #   ./improve.sh --all --cycles 10
 #
 # Architecture: claude is called exactly three types of times:
@@ -71,10 +71,10 @@ run_agent() {
     local branch="autoimprove/${agent}-${timestamp}"
     local worktree="/tmp/fellowship-improve-${agent}"
 
-    # 재윤 identity lives in the using-fellowship skill, not an agent file.
+    # 민준수 identity lives in the using-fellowship skill, not an agent file.
     # AGENT_FILE is the relative path inside the worktree to the agent's prompt.
     local AGENT_FILE
-    if [[ "$agent" == "jaeyun" ]]; then
+    if [[ "$agent" == "minjunsu" ]]; then
         AGENT_FILE="skills/using-fellowship/SKILL.md"
     else
         AGENT_FILE="agents/${agent}.md"
@@ -340,7 +340,7 @@ PYEOF
 #
 # Recognized agents (any with an evals/<agent>/ directory):
 #   Mature suites (validated, --all-eligible):
-#     juhyeok, jaeyun, seunghyeon, usin
+#     juhyeok, minjunsu, seunghyeon, usin
 #   Authored 2026-04-26 (real scenarios written by 우신, not yet validated end-to-end):
 #     jaeho, pilyeop, yeonghak, dongil, hyeonsu, seonung
 #
@@ -350,11 +350,11 @@ PYEOF
 # baseline scores yet — run them individually first.
 
 if [[ "$RUN_ALL" == true ]]; then
-    echo "Starting sequential autoimprove: 주혁 → 재윤 → 승현 → 우신"
+    echo "Starting sequential autoimprove: 주혁 → 민준수 → 승현 → 우신"
     echo "(Skipping authored-but-unvalidated suites: jaeho, pilyeop, yeonghak, dongil, hyeonsu, seonung — run individually first.)"
     echo "Cycles per agent: $CYCLES"
     run_agent "juhyeok" "$CYCLES"
-    run_agent "jaeyun" "$CYCLES"
+    run_agent "minjunsu" "$CYCLES"
     run_agent "seunghyeon" "$CYCLES"
     run_agent "usin" "$CYCLES"
     echo ""

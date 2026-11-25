@@ -12,7 +12,7 @@ The repo is **clean enough to ship v1.0** with two embarrassments to fix first. 
 
 What does need to be fixed before tagging v1.0:
 
-- **`docs/fellowship/codebase-map.md` lies twice about `agents/jaeyun.md`** — the file no longer exists (deleted in the skill restructure on 2026-04-26 per the quest log) but the map still describes it as a "legacy orchestrator file (retained)" on line 32 and instructs editors to "study it before editing any other companion" on line 109. A new contributor running `/fellowship:map` against the repo's own map will be misled on first read. **Block.**
+- **`docs/fellowship/codebase-map.md` lies twice about `agents/minjunsu.md`** — the file no longer exists (deleted in the skill restructure on 2026-04-26 per the quest log) but the map still describes it as a "legacy orchestrator file (retained)" on line 32 and instructs editors to "study it before editing any other companion" on line 109. A new contributor running `/fellowship:map` against the repo's own map will be misled on first read. **Block.**
 - **`hooks/fellowship-statusline.mjs` is an orphan dead-code file.** It's a complete Node script implementing a `statusLine` hook for the user's status bar — but Claude Code does not honor plugin-level `statusLine`, a fact `hooks/health-check.mjs:146` explicitly comments on while validating the absence of `settings.json`. The file is not referenced from `hooks/hooks.json`, not invoked by any `run-hook.cmd` call, and not exercised by any test. It is residue from an attempt that was abandoned. **Should-fix** before v1.0 — the marketplace user will grep `hooks/` and ask what it does.
 
 Everything else surfaced below is polish or v1.1 backlog.
@@ -40,7 +40,7 @@ Found via `find . -type d -empty -not -path './.git/*' -not -path './node_module
 | `tests/auth-login.test.mjs` | Clean — gitignored | Listed in `.gitignore`. Was an orphan, properly fenced. |
 | `src/__tests__/email.test.ts` | Clean — gitignored | `src/` is gitignored entirely. |
 | `docs/fellowship/examples/bmad/` & `caveman/` | Clean — gitignored | `bmad/` is in `.gitignore`; both directories are reference clones not shipped to marketplace. |
-| `evals/usin/` missing `holdout_validation.py` and `test_holdout.py` (which jaeyun evals has) | Polish | Inconsistent eval coverage — 우신 has `holdout.jsonl` but no validation script. Quest log already tracks this under "Eval coverage for 동일/현수/재호/필엽/선웅/영학." |
+| `evals/usin/` missing `holdout_validation.py` and `test_holdout.py` (which minjunsu evals has) | Polish | Inconsistent eval coverage — 우신 has `holdout.jsonl` but no validation script. Quest log already tracks this under "Eval coverage for 동일/현수/재호/필엽/선웅/영학." |
 | `commands/fellowship-add-ethos.md`, `commands/fellowship-consolidate.md` | Clean | Both reachable; `add-ethos` referenced from `hooks/session-start:121`, `consolidate` referenced from quest log workflow. |
 
 Every `agents/*.md` (재호, 필엽, 영학, 동일, 주혁, 승현, 현수, 우신, 선웅) is in the companion roster at `skills/using-fellowship/references/companions.md`. Every `skills/*/SKILL.md` is real and either in the roster or routed via `using-fellowship/SKILL.md` (planning, brainstorming, codebase-map, autoimprove, investigate, learn, grill-me, design-it-twice, accessibility, ux-audit, visual-exploration). No skill orphans.
@@ -50,7 +50,7 @@ Every `agents/*.md` (재호, 필엽, 영학, 동일, 주혁, 승현, 현수, 우
 | Path | Finding | Severity |
 |---|---|---|
 | `hooks/fellowship-statusline.mjs` (entire file) | See 2.2 — script's purpose is unsupported by the runtime. | Should-fix |
-| `hooks/health-check.mjs` (orphan-detection) | Lines 313–316 leave the no-op stub `// orphan detection removed — skills are 재윤-loaded, not agent-declared` after removing the actual logic. The matching `tests/health-check.test.mjs:368` test is `skip:` with the same explanation. The skip is **not stale** — it documents intentional dead functionality that was deliberately removed. Leave both as-is or delete the empty test stub and the corresponding empty function in one polish commit. | Polish |
+| `hooks/health-check.mjs` (orphan-detection) | Lines 313–316 leave the no-op stub `// orphan detection removed — skills are 민준수-loaded, not agent-declared` after removing the actual logic. The matching `tests/health-check.test.mjs:368` test is `skip:` with the same explanation. The skip is **not stale** — it documents intentional dead functionality that was deliberately removed. Leave both as-is or delete the empty test stub and the corresponding empty function in one polish commit. | Polish |
 | `hooks/fellowship-context-monitor.mjs`, `fellowship-quest-log-consolidate.mjs`, `fellowship-session-end.mjs`, `session-start` | Grepped for `TODO`/`FIXME`/`XXX`/`HACK` — none found. Functions defined are all called. | Clean |
 | `agents/*.md` and `skills/*/SKILL.md` | One mention of `XXX` (필엽 line 157, in a JSON schema example for port placeholders) and one of `TODO` (승현 line 93, listing things he flags). Both legitimate textual usage, not graveyards. | Clean |
 
@@ -58,18 +58,18 @@ Every `agents/*.md` (재호, 필엽, 영학, 동일, 주혁, 승현, 현수, 우
 
 | File | Line | Issue | Severity |
 |---|---|---|---|
-| `docs/fellowship/codebase-map.md` | 32 | Lists `agents/jaeyun.md` as "legacy orchestrator file (retained; superceded by using-fellowship skill)" — the file was deleted on 2026-04-26 per the quest log. | **Block** |
-| `docs/fellowship/codebase-map.md` | 109 | "재윤의 register is documented in `agents/jaeyun.md` — study it before editing any other companion." Voice now lives in `skills/using-fellowship/references/voice.md`. | **Block** |
+| `docs/fellowship/codebase-map.md` | 32 | Lists `agents/minjunsu.md` as "legacy orchestrator file (retained; superceded by using-fellowship skill)" — the file was deleted on 2026-04-26 per the quest log. | **Block** |
+| `docs/fellowship/codebase-map.md` | 109 | "민준수의 register is documented in `agents/minjunsu.md` — study it before editing any other companion." Voice now lives in `skills/using-fellowship/references/voice.md`. | **Block** |
 | `docs/fellowship/codebase-map.md` | 11 | Says plugin manifest is at `v1.5.0`. Real version per `.claude-plugin/plugin.json` is `1.0.0` (reset for public release per the quest log entry on 2026-04-25). | Should-fix |
-| `docs/fellowship/specs/hyeonsu-adr-seunghyeon-structural-review.md` | 170, 192–201 | References `agents/jaeyun.md:493` and `agents/jaeyun.md` edits. Historical spec — content is intact, only the file path is stale. | Polish — move to `specs/archive/` post-1.0 since the work is done. |
-| `docs/fellowship/specs/2026-04-22-fellowship-real-usage-improvements.md` | 79, 87, 98, 116, 128, 139, 150, 167–168, 188, 236, 267 | Same — historical references to `agents/jaeyun.md`. Spec body is still useful as a record. | Polish — archive. |
-| `docs/fellowship/research.md` | 334 | Mentions `agents/jaeyun.md` in passing. Research doc; rephrase or leave since it's discussing format compatibility. | Polish |
-| `docs/fellowship/archive/2026-03-23-dual-mode-tier-scoring.md` | 155, 178 | References `agents/jaeyun.md`. Already archived; no action. | Clean |
-| `docs/fellowship/quest-log-archive.md` | 11 | Historical entry — "Fix agent dispatch — fully-qualified names in jaeyun.md tools" (2026-03-23). Historical record, accurate at the time. | Clean — archives are immutable. |
-| `docs/fellowship/plans/2026-04-22-p4-p5-p6-plan.md` | 206, 222 | References `agents/jaeyun.md` for edit locations. Plan should already be in `plans/archive/` — sister file `2026-04-26-jaeyun-skill-restructure.md` is properly archived but this earlier plan is still at `plans/` top level. | Polish — move to `plans/archive/`. |
+| `docs/fellowship/specs/hyeonsu-adr-seunghyeon-structural-review.md` | 170, 192–201 | References `agents/minjunsu.md:493` and `agents/minjunsu.md` edits. Historical spec — content is intact, only the file path is stale. | Polish — move to `specs/archive/` post-1.0 since the work is done. |
+| `docs/fellowship/specs/2026-04-22-fellowship-real-usage-improvements.md` | 79, 87, 98, 116, 128, 139, 150, 167–168, 188, 236, 267 | Same — historical references to `agents/minjunsu.md`. Spec body is still useful as a record. | Polish — archive. |
+| `docs/fellowship/research.md` | 334 | Mentions `agents/minjunsu.md` in passing. Research doc; rephrase or leave since it's discussing format compatibility. | Polish |
+| `docs/fellowship/archive/2026-03-23-dual-mode-tier-scoring.md` | 155, 178 | References `agents/minjunsu.md`. Already archived; no action. | Clean |
+| `docs/fellowship/quest-log-archive.md` | 11 | Historical entry — "Fix agent dispatch — fully-qualified names in minjunsu.md tools" (2026-03-23). Historical record, accurate at the time. | Clean — archives are immutable. |
+| `docs/fellowship/plans/2026-04-22-p4-p5-p6-plan.md` | 206, 222 | References `agents/minjunsu.md` for edit locations. Plan should already be in `plans/archive/` — sister file `2026-04-26-minjunsu-skill-restructure.md` is properly archived but this earlier plan is still at `plans/` top level. | Polish — move to `plans/archive/`. |
 | `agents/references/*.md`, `skills/using-fellowship/references/*.md` | All checked | All upstream files referenced (`figma-mcp-recovery` ↔ `pilyeop.md:137`; `owasp-checklist` ↔ `dongil.md:56`; `playwright-tools` ↔ `usin.md:109`; `companions.md`, `voice.md`, etc. ↔ `using-fellowship/SKILL.md`). | Clean |
 
-Found via `grep -rn 'jaeyun\.md\|agents/jaeyun' docs/ skills/ agents/` and `grep -rn 'design/\|fellowship/design' skills/ agents/`.
+Found via `grep -rn 'minjunsu\.md\|agents/minjunsu' docs/ skills/ agents/` and `grep -rn 'design/\|fellowship/design' skills/ agents/`.
 
 ### 2.5 Stale frontmatter declarations
 
@@ -91,7 +91,7 @@ Spot-checked `agents/seonung.md`, `usin.md`, `hyeonsu.md`, `pilyeop.md`. All dec
 
 ### 2.9 Tests and fixtures
 
-- `tests/health-check.test.mjs` — 1 skipped test on line 368 (`'fails when a skill directory exists but no agent references it'`). The skip is **not stale** — the orphan-detection feature was deliberately removed (`hooks/health-check.mjs:313–316` documents the rationale: skills are 재윤-loaded, not agent-declared, so a skill without an agent reference is not an orphan). The skip stub is intentional documentation. Either keep as-is for the audit trail or delete in a polish commit. **Polish.**
+- `tests/health-check.test.mjs` — 1 skipped test on line 368 (`'fails when a skill directory exists but no agent references it'`). The skip is **not stale** — the orphan-detection feature was deliberately removed (`hooks/health-check.mjs:313–316` documents the rationale: skills are 민준수-loaded, not agent-declared, so a skill without an agent reference is not an orphan). The skip stub is intentional documentation. Either keep as-is for the audit trail or delete in a polish commit. **Polish.**
 - No other tests reference removed code paths.
 
 ### 2.10 Environment variables
@@ -108,7 +108,7 @@ No env vars read but never set, none set but never read. **Clean.**
 
 ### 2.11 Memory files
 
-- `.claude/agent-memory/fellowship-jaeyun/` — 13 files, MEMORY.md as index, mix of `feedback_*`, `project_*`, `reference_*`. Not auditing content (승현의 domain), but directory structure follows Anthropic's per-agent memory convention. **Clean.**
+- `.claude/agent-memory/fellowship-minjunsu/` — 13 files, MEMORY.md as index, mix of `feedback_*`, `project_*`, `reference_*`. Not auditing content (승현의 domain), but directory structure follows Anthropic's per-agent memory convention. **Clean.**
 - Empty memory directories: `fellowship-jaeho/`, `fellowship-pilyeop/`, `fellowship-yeonghak/`, `fellowship-usin/`, `fellowship-seonung/`. These exist as bootstrapped scaffolding for agents that have not yet written memories in this repo. **Clean** — empty memory is the correct starting state.
 - `.claude/worktrees/` — gitignored, two ephemeral agent worktrees from prior parallel dispatches. Not shipped. **Clean.**
 
@@ -116,12 +116,12 @@ No env vars read but never set, none set but never read. **Clean.**
 
 ## 3. Recommended cleanup batch
 
-준수 decides bucketing; this is a recommendation.
+주인공 decides bucketing; this is a recommendation.
 
 **Bucket A — fix in one commit before tagging v1.0** (block-level)
 
-1. `docs/fellowship/codebase-map.md:32` — remove the `agents/jaeyun.md — legacy orchestrator file` bullet entirely.
-2. `docs/fellowship/codebase-map.md:109` — change "documented in `agents/jaeyun.md`" to "documented in `skills/using-fellowship/references/voice.md`".
+1. `docs/fellowship/codebase-map.md:32` — remove the `agents/minjunsu.md — legacy orchestrator file` bullet entirely.
+2. `docs/fellowship/codebase-map.md:109` — change "documented in `agents/minjunsu.md`" to "documented in `skills/using-fellowship/references/voice.md`".
 3. `docs/fellowship/codebase-map.md:11` — bump documented version `v1.5.0` → `v1.0.0`.
 4. Either delete `hooks/fellowship-statusline.mjs` or add a header comment explaining why it's retained (e.g., "kept for reference; not active — plugin-level statusLine not honored by Claude Code as of 2026-04").
 
@@ -134,7 +134,7 @@ No env vars read but never set, none set but never read. **Clean.**
 **Bucket C — v1.1 backlog**
 
 8. Eval coverage for 우신 (`holdout_validation.py`, `test_holdout.py`) and the six other companions without eval scenarios. Already tracked in quest log.
-9. `docs/fellowship/research.md:334` — minor wording update to remove the `jaeyun.md` reference. Not user-facing; can wait.
+9. `docs/fellowship/research.md:334` — minor wording update to remove the `minjunsu.md` reference. Not user-facing; can wait.
 
 ---
 

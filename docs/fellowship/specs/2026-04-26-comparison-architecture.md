@@ -19,7 +19,7 @@ Fellowship has roughly **3× the hook surface area** of Superpowers (one Session
 
 **Divergence:** Stylistic verging on Minor. Field duplication in the marketplace.json is a maintenance trap — `health-check.mjs:113-135` already encodes the rule that "version lives in marketplace.json for relative-path plugins"; if any other field drifts between the two files, the failure is silent.
 
-**Question for 준수:** Do we want marketplace.json to be a thin pointer (Superpowers pattern) or a full-fat redeclaration? If the latter, the health check should diff them and fail on drift.
+**Question for 주인공:** Do we want marketplace.json to be a thin pointer (Superpowers pattern) or a full-fat redeclaration? If the latter, the health check should diff them and fail on drift.
 
 ---
 
@@ -36,7 +36,7 @@ Fellowship has roughly **3× the hook surface area** of Superpowers (one Session
 
 **Divergence:** Important. The asymmetry is real and partly justified — Fellowship is a stateful multi-agent system, Superpowers is a skills library — but the *scale* of the asymmetry isn't questioned anywhere. The PostToolUse hook fires on every tool call; even at ~10ms per invocation it accumulates. The matcher `resume` on SessionStart means we re-inject all eight context blocks every time the user wakes a paused conversation, which can grow stale (handoff from yesterday, debug-log from last week) and may double-prime the model.
 
-**Question for 준수:** Is the eight-block injection at startup the v1.0 contract, or is it grown-by-accretion? If grown, which blocks have *demonstrated* user value (signal observed in logs/feedback) vs. which are "felt right when added"? Specifically: debug-log tail, handoff replay on `resume`, and codebase-map head — these three together make the SessionStart payload non-trivially large.
+**Question for 주인공:** Is the eight-block injection at startup the v1.0 contract, or is it grown-by-accretion? If grown, which blocks have *demonstrated* user value (signal observed in logs/feedback) vs. which are "felt right when added"? Specifically: debug-log tail, handoff replay on `resume`, and codebase-map head — these three together make the SessionStart payload non-trivially large.
 
 ---
 
@@ -50,16 +50,16 @@ Fellowship has roughly **3× the hook surface area** of Superpowers (one Session
 
 **Divergence:** Important–Critical (because it ships docs the plugin contradicts).
 
-**Question for 준수:** Do we want skill names to also be slash commands (Superpowers's deprecation-stub pattern, redirecting to the skill), or do we want the README and using-fellowship skill rewritten to stop promising slash invocations that don't exist? Either fix is fine; the current state is a doc contract Fellowship can't honour.
+**Question for 주인공:** Do we want skill names to also be slash commands (Superpowers's deprecation-stub pattern, redirecting to the skill), or do we want the README and using-fellowship skill rewritten to stop promising slash invocations that don't exist? Either fix is fine; the current state is a doc contract Fellowship can't honour.
 
 ---
 
 ## 4. Settings.json Convention
 
 **Superpowers:** ships none.
-**Fellowship:** ships none (the project-root `.claude/settings.json` was just removed; per-plugin no `settings.json` at root either). `health-check.mjs:141-173` documents this as the correct state — 재윤 identity is injected via the SessionStart hook, not via `agent` field override.
+**Fellowship:** ships none (the project-root `.claude/settings.json` was just removed; per-plugin no `settings.json` at root either). `health-check.mjs:141-173` documents this as the correct state — 민준수 identity is injected via the SessionStart hook, not via `agent` field override.
 
-**Divergence:** None. Both projects have converged on "no settings.json." The codified rationale in the health check (`settings.json:148`: "absent (correct — 재윤 injected via hook, no plugin-level overrides needed)") is good architectural hygiene that Superpowers leaves implicit.
+**Divergence:** None. Both projects have converged on "no settings.json." The codified rationale in the health check (`settings.json:148`: "absent (correct — 민준수 injected via hook, no plugin-level overrides needed)") is good architectural hygiene that Superpowers leaves implicit.
 
 **Severity:** Stylistic. We do this slightly better — the absence is explained.
 
@@ -78,7 +78,7 @@ Fellowship has roughly **3× the hook surface area** of Superpowers (one Session
 
 **Divergence:** This is genuine differentiation. Superpowers has nothing here. The check we have is the right *shape* but its coverage is narrower than the bugs in this audit have already revealed.
 
-**Question for 준수:** Should health-check.mjs be the v1.0 ship-blocking gate? If yes, the four gaps above (especially "slash commands referenced exist") need to land before publishing.
+**Question for 주인공:** Should health-check.mjs be the v1.0 ship-blocking gate? If yes, the four gaps above (especially "slash commands referenced exist") need to land before publishing.
 
 ---
 
@@ -90,7 +90,7 @@ Fellowship has roughly **3× the hook surface area** of Superpowers (one Session
 
 **Divergence:** Important. Fellowship's parallel-dispatch story stops at "give each agent different files." Real concurrent work — e.g. 주혁 + 필엽 on the same feature, or two 동일 security audits — needs branch isolation. Superpowers has the skill ready; we don't reuse it and don't have our own.
 
-**Question for 준수:** Are Tier 4 Agent Teams expected to share the working tree, or branch into worktrees? If shared, "no two teammates touch the same file" is the only safety primitive and should be enforced (승현? a hook?). If isolated, we owe the user a worktree skill — adopting Superpowers's `using-git-worktrees` is a candidate.
+**Question for 주인공:** Are Tier 4 Agent Teams expected to share the working tree, or branch into worktrees? If shared, "no two teammates touch the same file" is the only safety primitive and should be enforced (승현? a hook?). If isolated, we owe the user a worktree skill — adopting Superpowers's `using-git-worktrees` is a candidate.
 
 ---
 
@@ -102,7 +102,7 @@ Fellowship has roughly **3× the hook surface area** of Superpowers (one Session
 
 **Divergence:** Minor on the loud-vs-silent fail (defensible — we want Windows users to know context is missing). Important on the missing `hooks-cursor.json`: our session-start has Cursor support code that no Cursor host is wired to invoke.
 
-**Question for 준수:** Do we support Cursor as a v1.0 target? If yes, `hooks-cursor.json` is a missing file and the Cursor branch in session-start is dead code. If no, the Cursor branch should be removed (or commented as "future").
+**Question for 주인공:** Do we support Cursor as a v1.0 target? If yes, `hooks-cursor.json` is a missing file and the Cursor branch in session-start is dead code. If no, the Cursor branch should be removed (or commented as "future").
 
 ---
 
@@ -126,11 +126,11 @@ Fellowship has roughly **3× the hook surface area** of Superpowers (one Session
 
 **Superpowers `/plugin install`:** copies the directory, registers `hooks.json` (one event), wires `commands/*.md` (three deprecation stubs), exposes `skills/*` for the Skill tool. No file-system writes outside the plugin dir on first run. No required env vars.
 
-**Fellowship `/plugin install`:** same wiring, but at first SessionStart the hook starts probing the *project's* CWD for `docs/fellowship/quest-log.md`, `product.md`, `debug-log.md`, `handoffs/`, `codebase-map.md`, `templates/ethos.md`, `.claude/skills/`, `.claude/agents/`, and writes/deletes `.quest-log-reminder` (`hooks/session-start:166-174`). These are graceful no-ops when missing — but a user who installs Fellowship in a non-Fellowship project gets the bootstrap injection (line 41-50: "You are 재윤 — orchestrator..."), which is heavy identity priming for someone who may have wanted to evaluate the plugin without committing.
+**Fellowship `/plugin install`:** same wiring, but at first SessionStart the hook starts probing the *project's* CWD for `docs/fellowship/quest-log.md`, `product.md`, `debug-log.md`, `handoffs/`, `codebase-map.md`, `templates/ethos.md`, `.claude/skills/`, `.claude/agents/`, and writes/deletes `.quest-log-reminder` (`hooks/session-start:166-174`). These are graceful no-ops when missing — but a user who installs Fellowship in a non-Fellowship project gets the bootstrap injection (line 41-50: "You are 민준수 — orchestrator..."), which is heavy identity priming for someone who may have wanted to evaluate the plugin without committing.
 
-**Divergence:** Important. Superpowers respects the cold-install user — they get a skills library on demand. Fellowship's cold-install user gets 재윤 injected on every session start whether they wanted it or not, plus a notice if `templates/ethos.md` is missing.
+**Divergence:** Important. Superpowers respects the cold-install user — they get a skills library on demand. Fellowship's cold-install user gets 민준수 injected on every session start whether they wanted it or not, plus a notice if `templates/ethos.md` is missing.
 
-**Question for 준수:** Should there be a "dormant until invoked" mode for fresh installs — e.g. don't inject the 재윤 identity wrapper unless `docs/fellowship/` exists or the user has explicitly initialized? Or is unconditional 재윤 the v1.0 product promise? Either is valid; the current behaviour should be a *choice*.
+**Question for 주인공:** Should there be a "dormant until invoked" mode for fresh installs — e.g. don't inject the 민준수 identity wrapper unless `docs/fellowship/` exists or the user has explicitly initialized? Or is unconditional 민준수 the v1.0 product promise? Either is valid; the current behaviour should be a *choice*.
 
 ---
 
@@ -146,7 +146,7 @@ Fellowship has roughly **3× the hook surface area** of Superpowers (one Session
 
 **Divergence:** Important. The user has at least three mental models presented (slash, subagent, project path), the slash form is broken in three out of three references in the using-fellowship skill, and there's no documented rule for which prefix means what.
 
-**Question for 준수:** What is the canonical invocation grammar?
+**Question for 주인공:** What is the canonical invocation grammar?
 1. `/fellowship:<command>` for slash commands → must be a real file in `commands/`
 2. `fellowship:<agent>` for `subagent_type` → resolves to `agents/<name>.md`
 3. `<skill-name>` for autoloaded skills → directory name in `skills/`
@@ -177,4 +177,4 @@ Once locked, the using-fellowship skill and README need a single sweep to honour
 
 ---
 
-*End of comparison. ~2,000 words. No remediation proposed; questions for 준수 flagged in each section.*
+*End of comparison. ~2,000 words. No remediation proposed; questions for 주인공 flagged in each section.*

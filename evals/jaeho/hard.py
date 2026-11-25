@@ -61,8 +61,8 @@ def surfaces_scope_risk_on_creep(response: str, scenario: dict = None) -> bool:
     return any(s in lower for s in risk_signals)
 
 
-def does_not_decide_for_junsu(response: str, scenario: dict = None) -> bool:
-    """On ring_not_yours scenarios, 재호 must defer the decision to 준수."""
+def does_not_decide_for_juingong(response: str, scenario: dict = None) -> bool:
+    """On ring_not_yours scenarios, 재호 must defer the decision to 주인공."""
     if scenario and scenario.get("category") != "ring_not_yours":
         return True
     lower = response.lower()
@@ -70,7 +70,7 @@ def does_not_decide_for_junsu(response: str, scenario: dict = None) -> bool:
         "your call",
         "your decision",
         "you decide",
-        "junsu",
+        "juingong",
         "i recommend",
         "my counsel",
         "but the choice",
@@ -126,7 +126,7 @@ ASSERTIONS = [
     report_has_status_field,
     no_corporate_phrases,
     surfaces_scope_risk_on_creep,
-    does_not_decide_for_junsu,
+    does_not_decide_for_juingong,
     needs_context_on_empty_product_md,
     routes_architecture_questions_away,
     has_locked_decisions_format,

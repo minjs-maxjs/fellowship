@@ -15,7 +15,7 @@
 //
 // Output channel: plain stdout (terminal text), NOT a JSON additionalContext
 // wrapper. Drift is the user's housekeeping signal; it does not need to
-// occupy 재윤의 context window. Under Cursor, which ignores plain
+// occupy 민준수의 context window. Under Cursor, which ignores plain
 // sessionStart stdout, the same line goes out as `additional_context`
 // (lib/session-output.mjs) — the only channel Cursor reads.
 //

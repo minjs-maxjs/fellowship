@@ -2,13 +2,13 @@
 
 A LotR-themed multi-agent system for solo product development. Built as a [Claude Code](https://docs.anthropic.com/en/docs/claude-code) plugin.
 
-You are 준수. You carry the Ring — your product, your vision, your burden. The Fellowship exists to serve you on the quest.
+You are 주인공. You carry the Ring — your product, your vision, your burden. The Fellowship exists to serve you on the quest.
 
 ## How it works
 
-Open Claude Code in a project. 재윤 is already there. Before he writes a line, he reads the state of the repo — what you're building, what's open, where things stood when you last left off. *"Where shall we begin?"* he asks, and means it.
+Open Claude Code in a project. 민준수 is already there. Before he writes a line, he reads the state of the repo — what you're building, what's open, where things stood when you last left off. *"Where shall we begin?"* he asks, and means it.
 
-When you give him a task, he weighs it. A typo fix is a Tier 1 — he handles it himself. A new component is Tier 2 — he loads a skill or sends one companion. A multi-file refactor is Tier 3 — companions work in sequence. A whole feature is Tier 4 — 재호 first reviews the scope, then companions work in parallel. 재윤 is conservative; he never summons the full Fellowship when one will do.
+When you give him a task, he weighs it. A typo fix is a Tier 1 — he handles it himself. A new component is Tier 2 — he loads a skill or sends one companion. A multi-file refactor is Tier 3 — companions work in sequence. A whole feature is Tier 4 — 재호 first reviews the scope, then companions work in parallel. 민준수 is conservative; he never summons the full Fellowship when one will do.
 
 Every companion has a craft. 재호 defines *what* to build. 현수 decides *how*. 주혁 builds it. 승현 reviews it. 동일 guards it. 우신 tests it. 선웅 ships it. 필엽 designs the surface. 영학 writes it down. They each have scoped tools, persistent memory, and a voice you'll come to recognize.
 
@@ -21,19 +21,19 @@ When 주혁 builds on a critical path, 승현 reviews. If issues surface, 주혁
 /plugin install fellowship@fellowship
 ```
 
-Open Claude Code in any project. 재윤 greets you and reads the state of the repo before anything else.
+Open Claude Code in any project. 민준수 greets you and reads the state of the repo before anything else.
 
 - **Fresh project:** he bootstraps `docs/fellowship/` and asks *"What are we building, and who is it for?"*
 - **Existing project:** he picks up the thread from the quest log.
 
 **Mid-session shortcuts:**
 
-- `/fellowship:start` — 재윤 reads the repo and asks where to begin (also fires automatically on session start)
+- `/fellowship:start` — 민준수 reads the repo and asks where to begin (also fires automatically on session start)
 - `/fellowship:jaeho`, `/fellowship:hyeonsu`, `/fellowship:juhyeok`, `/fellowship:seunghyeon`, `/fellowship:dongil`, `/fellowship:usin`, `/fellowship:seonung`, `/fellowship:pilyeop`, `/fellowship:yeonghak` — load a specific companion's craft directly
 - `/fellowship:brainstorming`, `/fellowship:planning`, `/fellowship:investigate`, `/fellowship:learn` — load a cross-cutting workflow skill
 - `/fellowship:map`, `/fellowship:accessibility`, `/fellowship:ux-audit`, `/fellowship:using-worktrees` — codebase mapping, a11y audit, UX audit, parallel-worktree workflow
 
-**Verify the install:** start a fresh Claude Code session in any project. 재윤 greets you in voice and reads the repo before doing anything else. If he doesn't, the plugin isn't loaded.
+**Verify the install:** start a fresh Claude Code session in any project. 민준수 greets you in voice and reads the repo before doing anything else. If he doesn't, the plugin isn't loaded.
 
 **Updating:**
 
@@ -58,7 +58,7 @@ Ten companions walk beside you. Each carries a distinct purpose — no two share
 | 🌟 | **필엽** | 프로덕트 디자이너 (Product Designer) | KCI의 깃발을 수놓은 인물(이필엽) — 민준수가 왕권을 주장하기 전부터 그의 정체성을 디자인했습니다. 시각 언어와 사용자 흐름을 설계하고, UX·접근성·스타일 측면에서 완성도를 검수합니다. |
 | 📖 | **영학** | 테크니컬 라이터 (Technical Writer) | 누구보다 논리적인 인물(고영학). 외로운 KCI 원정을 다시 수행할 수 있도록 지도를 만들었습니다. 명확한 글쓰기 역시 엔지니어링의 한 형태입니다. |
 
-> *You (준수) are the eleventh. You carry the weight. You make the final call. The Fellowship serves the Ring-bearer.*
+> *You (주인공) are the eleventh. You carry the weight. You make the final call. The Fellowship serves the Ring-bearer.*
 
 ## Architecture
 
@@ -66,28 +66,28 @@ Ten companions walk beside you. Each carries a distinct purpose — no two share
 
 **Agents** are self-contained companions. Each agent's craft methodology lives inline in their agent file — character, role, craft, behavioral contracts, and reporting format in one document. No cross-referencing, no drift.
 
-재윤 is the orchestration skill loaded at session start by a SessionStart hook. The nine companions are agents.
+민준수 is the orchestration skill loaded at session start by a SessionStart hook. The nine companions are agents.
 
 ### Tiered Routing
 
-재윤 classifies every task by weight before assembling the party.
+민준수 classifies every task by weight before assembling the party.
 
 | Tier | What happens | Overhead |
 |------|-------------|----------|
-| **1** | 재윤 handles it alone | None |
-| **2** | 재윤 loads a skill or dispatches one agent | Minimal |
+| **1** | 민준수 handles it alone | None |
+| **2** | 민준수 loads a skill or dispatches one agent | Minimal |
 | **3** | Sequential chain — agent output feeds the next | ~3-5 min |
 | **4** | 재호 consulted on scope, then parallel agents | ~8-15 min |
 
-재윤 is conservative — a solo dev's time is precious. Borderline cases err toward the lower tier. Before Tier 4 work, 재윤 consults 재호; scope that seems necessary in the moment often isn't.
+민준수 is conservative — a solo dev's time is precious. Borderline cases err toward the lower tier. Before Tier 4 work, 민준수 consults 재호; scope that seems necessary in the moment often isn't.
 
 ### The Review Cycle
 
 When 주혁 builds on critical paths (auth, payments, data mutations, public APIs), 승현 reviews. Inspired by [Superpowers](https://github.com/obra/superpowers)' subagent-driven-development.
 
 ```
-재윤 → 주혁 builds, reports DONE
-  → 재윤 dispatches 승현 to review
+민준수 → 주혁 builds, reports DONE
+  → 민준수 dispatches 승현 to review
     → IF issues found:
         주혁 stays alive via SendMessage, fixes, reports DONE
         → 승현 re-reviews
@@ -95,8 +95,8 @@ When 주혁 builds on critical paths (auth, payments, data mutations, public API
     → approved → task complete
 ```
 
-- 재윤 decides whether to dispatch 승현 — not all work needs review.
-- 승현 never edits code — findings flow back through 재윤 to 주혁.
+- 민준수 decides whether to dispatch 승현 — not all work needs review.
+- 승현 never edits code — findings flow back through 민준수 to 주혁.
 - Once review starts, the cycle runs to completion.
 
 Findings are categorized **Critical** (bugs, security, data loss), **Important** (architecture, missing features, test gaps), or **Minor** (style, optimization, docs).
@@ -124,7 +124,7 @@ The Fellowship is a local plugin — no network calls, no external services. Whe
 
 - **SessionStart** — fires on `startup`, `clear`, `compact`, and `resume`. Four hooks run in order:
   - `hooks/session-start` — reads `docs/fellowship/*.md` (quest-log, product context, debug-log, handoffs, codebase-map) and injects them into the model's context.
-  - `hooks/fellowship-voice-session-start.mjs` — injects the voice persistence layer so 재윤 and the companions hold their register across long sessions. Single-layer since 2026-06-11: the per-turn UserPromptSubmit re-anchor was removed (it could not push past the additive-prompting ceiling the evals measured), so this SessionStart injection is the sole voice mechanism.
+  - `hooks/fellowship-voice-session-start.mjs` — injects the voice persistence layer so 민준수 and the companions hold their register across long sessions. Single-layer since 2026-06-11: the per-turn UserPromptSubmit re-anchor was removed (it could not push past the additive-prompting ceiling the evals measured), so this SessionStart injection is the sole voice mechanism.
   - `hooks/fellowship-opener-session-start.mjs` — on second and later sessions, surfaces a short orientation derived from `git log -5`, the top open quest-log items, and in-flight project memory. First session is skipped (gated by a per-project history marker under `~/.claude/fellowship/state/` — never written into your project tree).
   - `hooks/fellowship-drift-check-session-start.mjs` — walks the top level of `docs/fellowship/` once per session and surfaces any files or folders outside the canonical tree.
 - **PreToolUse** (`hooks/fellowship-plan-gate.mjs`) — runs on every `Edit`, `Write`, and `MultiEdit` tool call.
@@ -137,7 +137,7 @@ The eval harness (`evals/_runner/improve.sh`) invokes `claude --dangerously-skip
 
 ## Known Limitations
 
-**Coexistence with other identity-injecting plugins.** Fellowship's SessionStart hook injects a strong "you are 재윤" identity wrapper. If another orchestrator-as-skill plugin (Superpowers, GSD) is also active, both injections fire and the model receives competing personas. Mitigation: enable only one orchestrator plugin per Claude Code installation. Skill-only and agent-only plugins coexist cleanly.
+**Coexistence with other identity-injecting plugins.** Fellowship's SessionStart hook injects a strong "you are 민준수" identity wrapper. If another orchestrator-as-skill plugin (Superpowers, GSD) is also active, both injections fire and the model receives competing personas. Mitigation: enable only one orchestrator plugin per Claude Code installation. Skill-only and agent-only plugins coexist cleanly.
 
 ## AutoImprove
 
@@ -148,7 +148,7 @@ A self-improvement loop for agent instruction files. Each agent has an eval suit
 ./evals/_runner/improve.sh --all --cycles 15  # ~3-5 hours
 ```
 
-Currently covers all nine companions (재호, 현수, 주혁, 승현, 동일, 우신, 선웅, 필엽, 영학) plus 재윤 and a `voice-persistence` suite that exercises the voice hook end-to-end. Outer loop on Sonnet, inner workers on Haiku — ~$0.60–$1.50 per 15-cycle run, originally measured per single-agent target; the per-run figure should hold per target but `--all` runs scale linearly across twelve suites. Scope guardrail: the loop modifies only `agents/<target>.md` and `evals/<target>/`.
+Currently covers all nine companions (재호, 현수, 주혁, 승현, 동일, 우신, 선웅, 필엽, 영학) plus 민준수 and a `voice-persistence` suite that exercises the voice hook end-to-end. Outer loop on Sonnet, inner workers on Haiku — ~$0.60–$1.50 per 15-cycle run, originally measured per single-agent target; the per-run figure should hold per target but `--all` runs scale linearly across twelve suites. Scope guardrail: the loop modifies only `agents/<target>.md` and `evals/<target>/`.
 
 ## Compared to Superpowers
 
@@ -158,7 +158,7 @@ The Fellowship is inspired by [Superpowers](https://github.com/obra/superpowers)
 |---|---|---|
 | Workflow skills | ✅ Mature, proven | ✅ Ported and extended |
 | Specialized agents | 1 (code-reviewer) | 10 (scoped tools + memory) |
-| Code review cycle | Two-stage, every task | Combined single-pass, 재윤의 judgment per task |
+| Code review cycle | Two-stage, every task | Combined single-pass, 민준수의 judgment per task |
 | Product / Security / Design / Docs / DevOps | — | ✅ 재호 / 동일 / 필엽 / 영학 / 선웅 |
 | Project memory | — | ✅ Persistent across sessions |
 | Agent memory | — | ✅ Domain-specific accumulation |
@@ -173,7 +173,7 @@ The Fellowship is inspired by [Superpowers](https://github.com/obra/superpowers)
 - **Insight flows forward.** Each agent's output feeds the next — no work is lost.
 - **Memory endures.** Key decisions persist across sessions.
 - **Latency is the enemy.** Default conservative. Escalate only when the task demands it.
-- **Start with 재윤.** Add agents one at a time, only when you feel the gap.
+- **Start with 민준수.** Add agents one at a time, only when you feel the gap.
 
 ## Status
 

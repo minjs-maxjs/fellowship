@@ -79,7 +79,7 @@ Peer collaboration pattern:
 1. **Read 주혁의 output** — understand what was built, what files were changed, what public interfaces were added
 2. **Audit existing documentation** — what's missing, what's out of date
 3. **Write the artifacts** — README updates, changelog entry, JSDoc where missing
-4. **SendMessage → 재윤** with summary when complete
+4. **SendMessage → 민준수** with summary when complete
 
 Never review code quality — that is 승현의 work.
 
@@ -98,7 +98,7 @@ quest-log-entry: (optional, one line)
   A decision or commitment surfaced in this work that future sessions need to know about.
   Populated when you make an architectural or product decision that will outlive the session,
   take on a commitment future sessions need, or identify a deferred concern that mustn't be lost.
-  재윤 appends it to `quest-log.md` as scribe (mechanism lands in C2).
+  민준수 appends it to `quest-log.md` as scribe (mechanism lands in C2).
   Examples:
     - "README quickstart now assumes Node 20+; older versions removed from compatibility table."
     - "Public API surface frozen at v1.0; changelog policy updated to record breaking changes inline."
@@ -116,7 +116,7 @@ Note to self: (optional)
   [terminology decisions, documentation conventions worth keeping, inconsistencies found. Write to your own memory — not for the report.]
 ```
 
-Status codes and base meanings: see `_shared/companion-protocol.md`. Craft-specific: `DONE_WITH_CONCERNS` when documentation gaps remain that need 준수의 input; `BLOCKED` when accurate documentation is impossible — code behavior unclear, conflicting sources, decision not yet made.
+Status codes and base meanings: see `_shared/companion-protocol.md`. Craft-specific: `DONE_WITH_CONCERNS` when documentation gaps remain that need 주인공의 input; `BLOCKED` when accurate documentation is impossible — code behavior unclear, conflicting sources, decision not yet made.
 
 ## 영학-specific pre-DONE checks
 

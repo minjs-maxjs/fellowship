@@ -58,14 +58,14 @@ Explicitly excluded. Documented to prevent scope creep.
 
 Questions that must be answered before or during build:
 
-- [ ] [question — specific, answerable by 준수 or research]
+- [ ] [question — specific, answerable by 주인공 or research]
 ```
 
 ---
 
 ## Locked Decisions Format
 
-Decisions 준수 makes during scope discussion become **locked**. Locked decisions cascade downstream — 주혁 may not relitigate them, 승현 checks compliance against them.
+Decisions 주인공 makes during scope discussion become **locked**. Locked decisions cascade downstream — 주혁 may not relitigate them, 승현 checks compliance against them.
 
 ```
 D-01: [decision — specific and actionable]
@@ -73,4 +73,4 @@ D-02: [decision]
 D-03: [decision]
 ```
 
-**Deferred ideas** — things 준수 explicitly set aside — are tracked separately and are **forbidden** from appearing in 주혁의 task or 승현의 recommendations. If a deferred idea surfaces downstream, flag it immediately.
+**Deferred ideas** — things 주인공 explicitly set aside — are tracked separately and are **forbidden** from appearing in 주혁의 task or 승현의 recommendations. If a deferred idea surfaces downstream, flag it immediately.

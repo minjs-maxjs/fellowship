@@ -78,7 +78,7 @@ YYYY-MM-DD-<kebab-slug>.md
 **Two rules:**
 
 - **Date prefix is mandatory.** Chronological sort across a flat folder of markdown beats every other indexing scheme. The date is the artifact's creation date (taken from `created:` in frontmatter; if absent, from git log of the file's first commit).
-- **Slug is descriptive, not encoded.** Type indicators (`adr-`, `spec-`, `comparison-`), author names (`hyeonsu-`, `jaeyun-`), and status markers do NOT belong in the filename. That information lives in frontmatter (`type:`, `author:`, `status:`). The filename answers exactly *when* and *what*, nothing else.
+- **Slug is descriptive, not encoded.** Type indicators (`adr-`, `spec-`, `comparison-`), author names (`hyeonsu-`, `minjunsu-`), and status markers do NOT belong in the filename. That information lives in frontmatter (`type:`, `author:`, `status:`). The filename answers exactly *when* and *what*, nothing else.
 
 **Examples:**
 
@@ -86,11 +86,11 @@ YYYY-MM-DD-<kebab-slug>.md
 specs/2026-05-15-project-state-contract.md
 specs/2026-04-22-adr-seunghyeon-structural-review.md     # adr is the slug, not a type prefix
 plans/2026-04-22-p4-p5-p6-plan.md
-handoffs/2026-04-26-jaeyun-to-juhyeok-todowrite-blocker.md
+handoffs/2026-04-26-minjunsu-to-juhyeok-todowrite-blocker.md
 design/2026-05-15-onboarding-wireframe.md
 ```
 
-**Handoffs note.** The slug for a handoff can encode `from-to-<topic>` (e.g., `jaeyun-to-juhyeok-auth-cleanup`) because that *is* the content. It is still the slug, not a separate field — the date prefix still leads.
+**Handoffs note.** The slug for a handoff can encode `from-to-<topic>` (e.g., `minjunsu-to-juhyeok-auth-cleanup`) because that *is* the content. It is still the slug, not a separate field — the date prefix still leads.
 
 **Enforcement, three levers:**
 
@@ -150,7 +150,7 @@ The SessionEnd hook reconciles status drift without asking the user. Housekeepin
 
 1. Survey the session: any companion reports of DONE / APPROVED?
 2. For each, check the relevant spec/plan/handoff frontmatter.
-3. If a transition was missed (e.g., 주혁 reported DONE but the spec is still `active`), 재윤 sets the correct status based on the report. No user prompt.
+3. If a transition was missed (e.g., 주혁 reported DONE but the spec is still `active`), 민준수 sets the correct status based on the report. No user prompt.
 4. Log the auto-correction to a plugin-internal trace (for diagnostics — companion contract violations are a plugin-improvement signal, not a user concern).
 
 Then the archival sweep, fully automatic:
@@ -165,7 +165,7 @@ The summary line is the *only* user-facing output. No prompts, no confirmations.
 
 ## Quest-Log Auto-Update
 
-Quest-log entries (decisions and commitments that survive across sessions) get written by the companion that made the decision, appended by 재윤 as scribe.
+Quest-log entries (decisions and commitments that survive across sessions) get written by the companion that made the decision, appended by 민준수 as scribe.
 
 ### Mechanism
 
@@ -175,7 +175,7 @@ Every companion's structured report includes an optional one-line field:
 quest-log-entry: <one-line decision or commitment, dated implicitly>
 ```
 
-If the field is non-empty, 재윤 appends it to `quest-log.md` as part of consuming the report, prefixed with today's date and the source companion:
+If the field is non-empty, 민준수 appends it to `quest-log.md` as part of consuming the report, prefixed with today's date and the source companion:
 
 ```markdown
 - [ ] **<entry text>** (<companion>, YYYY-MM-DD)
@@ -187,7 +187,7 @@ Companions are instructed (in their agent files) to populate this field whenever
 - Take on a commitment that future sessions need to know about
 - Identify a deferred concern that mustn't be lost
 
-**Backstop:** 재윤 reviews the session at end-of-session for decisions made in conversation (not via companion dispatch) and appends them directly. Candidate entries surface in the SessionEnd summary line so the user sees what was logged. No prompt. If 재윤 mis-classified casual chat as a decision, the user removes the line in the next session — but the default is to log, not to ask.
+**Backstop:** 민준수 reviews the session at end-of-session for decisions made in conversation (not via companion dispatch) and appends them directly. Candidate entries surface in the SessionEnd summary line so the user sees what was logged. No prompt. If 민준수 mis-classified casual chat as a decision, the user removes the line in the next session — but the default is to log, not to ask.
 
 ### Quest-Log Size Control
 
@@ -249,7 +249,7 @@ These are the concrete changes required to land this contract. Each becomes an e
 4. **Add `quest-log-entry:` field** to each companion's report structure.
 5. **Write the SessionEnd hook** — verification pass + archival sweep + summary print.
 6. **Write the SessionStart drift check** — new dedicated hook file `hooks/fellowship-drift-check-session-start.mjs`. Registered in `hooks.json` after the opener hook. Fail-silent per the voice/opener contract. (Revised 2026-05-24; original phrasing said "extend existing SessionStart hook" when only one such hook existed.)
-7. **Add 재윤 scribe behavior** — `using-fellowship/SKILL.md` orchestration rules: consume `quest-log-entry:` field from each companion report and append to quest-log.
+7. **Add 민준수 scribe behavior** — `using-fellowship/SKILL.md` orchestration rules: consume `quest-log-entry:` field from each companion report and append to quest-log.
 8. **Migrate this project's tree** — sweep existing drift in `/Users/Karolus/projects/Fellowship/docs/fellowship/` to match the contract (move `research.md`, `reference-implementations.md`, `examples/`, etc. to appropriate locations or remove).
 9. **Update `docs/fellowship/README.md`** — reflect the new canonical shape.
 10. **Build `/fellowship:reconcile`** — contract-driven command that brings any project's `docs/fellowship/` into agreement with the canonical shape. Strictly scoped to `docs/fellowship/` — never touches paths outside. Reads the machine-readable contract (task 11) as its single source of truth, so contract changes never require command changes. Auto-renames mis-named files per the naming convention. Idempotent — running twice is a no-op. One summary line at end.
@@ -260,5 +260,5 @@ These are the concrete changes required to land this contract. Each becomes an e
 ## Open Questions
 
 - Should `archive/quest-log/` exist as a directory of dated quest-log snapshots, or is a single `quest-log-archive.md` enough? Current spec: single file. Revisit if it grows past ~500 entries.
-- Should companion reports failing to set status frontmatter raise a hard error (block the report) or trigger silent auto-correction by 재윤? Current spec: silent auto-correction with internal logging — no user-facing noise. Reassess after live use if 재윤 gets it wrong often.
+- Should companion reports failing to set status frontmatter raise a hard error (block the report) or trigger silent auto-correction by 민준수? Current spec: silent auto-correction with internal logging — no user-facing noise. Reassess after live use if 민준수 gets it wrong often.
 - Should `design/` artifacts archive at all, or stay forever (mockups have ongoing reference value)? Current spec: archive on review-pass like other artifacts. Revisit if it proves wrong.

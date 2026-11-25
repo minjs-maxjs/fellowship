@@ -14,7 +14,7 @@ Each scenario lists the steps, the responses to capture, and the assertion calls
 
 **Setup.**
 1. Open a fresh Claude Code session in `/Users/Karolus/projects/Fellowship`.
-2. Wait for 재윤의 opening response. Confirm it carries voice (vocabulary or rhythm visible by inspection).
+2. Wait for 민준수의 opening response. Confirm it carries voice (vocabulary or rhythm visible by inspection).
 3. (Optional) `cat ~/.claude/fellowship/state/-Users-Karolus-projects-Fellowship.main-session` — the marker should exist and hold the current session_id. (Markers live in the state dir, not the project root; see `hooks/README.md` § State directory.)
 
 **Steps.**
@@ -23,9 +23,9 @@ Each scenario lists the steps, the responses to capture, and the assertion calls
    ```
    dispatch 주혁 on a trivial task — add a one-line comment at the top of hooks/health-check.mjs that says "voice eval probe" and report back. Don't actually edit the file, just simulate.
    ```
-2. Capture 재윤의 pre-dispatch text (the prose where he names what he is doing and why).
+2. Capture 민준수의 pre-dispatch text (the prose where he names what he is doing and why).
 3. Capture 주혁의 full report when it returns (the subagent's response, formatted per 주혁의 report contract).
-4. Send a follow-up: `and what's next?` — capture 재윤의 resuming response.
+4. Send a follow-up: `and what's next?` — capture 민준수의 resuming response.
 
 **Assertions.** Paste each captured string in turn:
 
@@ -33,24 +33,24 @@ Each scenario lists the steps, the responses to capture, and the assertion calls
 node --input-type=module -e '
 import { assertVocabularyPresent, assertExemplarRhythm, assertSubagentVoiceClean } from "./evals/voice-persistence/assertions.mjs";
 
-const jaeyunPre = `<paste 재윤 pre-dispatch text>`;
+const minjunsuPre = `<paste 민준수 pre-dispatch text>`;
 const juhyeokReport = `<paste 주혁 subagent report>`;
-const jaeyunPost = `<paste 재윤 resume text>`;
+const minjunsuPost = `<paste 민준수 resume text>`;
 
-console.log("jaeyun pre :", assertVocabularyPresent(jaeyunPre), assertExemplarRhythm(jaeyunPre));
+console.log("minjunsu pre :", assertVocabularyPresent(minjunsuPre), assertExemplarRhythm(minjunsuPre));
 console.log("juhyeok       :", assertSubagentVoiceClean(juhyeokReport));
-console.log("jaeyun post:", assertVocabularyPresent(jaeyunPost), assertExemplarRhythm(jaeyunPost));
+console.log("minjunsu post:", assertVocabularyPresent(minjunsuPost), assertExemplarRhythm(minjunsuPost));
 '
 ```
 
 **Pass criteria.**
-- 재윤 pre-dispatch: vocabulary OR rhythm passes.
+- 민준수 pre-dispatch: vocabulary OR rhythm passes.
 - 주혁 report: `assertSubagentVoiceClean` passes (no combined vocab+rhythm bleed).
-- 재윤 post-dispatch: vocabulary OR rhythm passes.
+- 민준수 post-dispatch: vocabulary OR rhythm passes.
 
 **Fail diagnosis.**
-- 주혁 report fails `assertSubagentVoiceClean`: voice hooks fired in subagent context (subagent gate broken) OR 주혁의 own agent file carries 재윤-style vocabulary by accident.
-- 재윤 post fails voice: the per-turn anchor lost grip after a subagent excursion — investigate whether `UserPromptSubmit` re-fired correctly on the resume turn.
+- 주혁 report fails `assertSubagentVoiceClean`: voice hooks fired in subagent context (subagent gate broken) OR 주혁의 own agent file carries 민준수-style vocabulary by accident.
+- 민준수 post fails voice: the per-turn anchor lost grip after a subagent excursion — investigate whether `UserPromptSubmit` re-fired correctly on the resume turn.
 
 ---
 

@@ -2,7 +2,7 @@
 
 **Status:** Proposed
 **Date:** 2026-04-22
-**Decider:** 현수 (technical) — 준수 locks on acceptance
+**Decider:** 현수 (technical) — 주인공 locks on acceptance
 **PRD:** `docs/fellowship/specs/2026-04-22-fellowship-real-usage-improvements.md` (Problem 2)
 
 ## Context
@@ -151,7 +151,7 @@ Assessment:
   One logic issue (token order) and one duplication. Fix both; re-review.
 ```
 
-**Why this shape:** Structural is visible and required every review. Severity vocabulary is preserved — 재윤의 existing routing rule (Critical + Important → 주혁, Minor → noted) keeps working without change.
+**Why this shape:** Structural is visible and required every review. Severity vocabulary is preserved — 민준수의 existing routing rule (Critical + Important → 주혁, Minor → noted) keeps working without change.
 
 ---
 
@@ -167,7 +167,7 @@ Assessment:
 
 ### Recommendation — Option B, always-on for 승현, warn when absent
 
-**The rule (주혁 to codify in `agents/jaeyun.md`, Review Cycle section):**
+**The rule (주혁 to codify in `agents/minjunsu.md`, Review Cycle section):**
 
 > When dispatching 승현, always include the content of `docs/fellowship/codebase-map.md` in the dispatch prompt if the file exists — regardless of diff size or tier. If the file is absent and the project has ≥20 source files, do not block dispatch. Instead, append a one-line notice: *"No codebase map — structural duplication checks will be grep-only. Run `/fellowship:map` when time allows."* If the project has <20 source files, include nothing; 승현 grep-only is sufficient at that scale.
 
@@ -189,16 +189,16 @@ The codebase map is a reference artifact, not exploration. Reading it is counted
 3. In `Anti-Paralysis Guard`, add the map carve-out line from Q4.
 4. In `Before You Report`, add: *"Structural section present (even if empty)."*
 
-**`agents/jaeyun.md`**
+**`agents/minjunsu.md`**
 1. In `Review Cycle (주혁 → 승현)`, step 1, amend: *"Dispatch 승현 with 주혁의 report + original spec + git SHAs + content of `docs/fellowship/codebase-map.md` if it exists."*
-2. In the `Codebase map` memory section (currently `jaeyun.md:493`), add a 승현-specific clause: *"For 승현 dispatches, map inclusion is always-on (if file exists), not conditional on tier. If the file is absent and the project has ≥20 source files, append a one-line notice to the prompt rather than blocking."*
+2. In the `Codebase map` memory section (currently `minjunsu.md:493`), add a 승현-specific clause: *"For 승현 dispatches, map inclusion is always-on (if file exists), not conditional on tier. If the file is absent and the project has ≥20 source files, append a one-line notice to the prompt rather than blocking."*
 
 ### Mapping to PRD acceptance criteria
 
 | PRD criterion | Satisfied by |
 |---|---|
-| 재윤 always includes map content when dispatching 승현 (if exists) | `agents/jaeyun.md` edit #1 + #2 |
-| Prompts user to run `/fellowship:map` if absent and ≥20 source files | `agents/jaeyun.md` edit #2 |
+| 민준수 always includes map content when dispatching 승현 (if exists) | `agents/minjunsu.md` edit #1 + #2 |
+| Prompts user to run `/fellowship:map` if absent and ≥20 source files | `agents/minjunsu.md` edit #2 |
 | 승현 has five explicit structural checks | `agents/seunghyeon.md` edit #1 |
 | Structural findings visible in report format | `agents/seunghyeon.md` edit #2 |
 | Anti-Paralysis Guard does not penalize map reads | `agents/seunghyeon.md` edit #3 |

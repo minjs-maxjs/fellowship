@@ -1,6 +1,6 @@
 # Voice persistence — eval suite
 
-Verifies that 재윤의 voice survives long main-agent conversations, that the subagent gate prevents voice leakage into companion subagents, and that voice does not bleed into structured artifacts.
+Verifies that 민준수의 voice survives long main-agent conversations, that the subagent gate prevents voice leakage into companion subagents, and that voice does not bleed into structured artifacts.
 
 The four scenarios trace to Task 4 of `docs/fellowship/plans/2026-05-16-voice-persistence.md` and the success criteria in `docs/fellowship/specs/2026-05-16-voice-persistence-spec.md`.
 
@@ -76,7 +76,7 @@ If you need to verify against the real lifecycle, run the manual walkthrough.
 1. Look at `last-report.json` — the `per_turn` array shows which turn produced which forbidden phrases.
 2. For voice-mechanism faults, re-run with `FELLOWSHIP_HOOK_DEBUG=1` exported and inspect `/tmp/fellowship-hook-debug.log` — every hook invocation appends a record with the stdin payload, CLAUDE-prefixed env vars, and the marker state.
 3. If `assertSubagentVoiceClean` fails: check the marker file (`${CLAUDE_CONFIG_DIR:-~/.claude}/fellowship/state/<slug>.main-session`, where `<slug>` is the project path with every non-alphanumeric character replaced by `-`) is present and `hooks/lib/subagent-detection.mjs` is reading the same session_id. The two-tier detection (payload `agent_id`/`agent_type` then marker comparison) is the authoritative gate.
-4. If `assertNoForbiddenPhrases` fails on a single phrase only: voice.md may have grown a new forbidden phrase that the anchor does not name. Either reinforce the anchor or accept the phrase as benign and remove from `ALL_FORBIDDEN` — but only after 재윤의 voice has demonstrated stability without it.
+4. If `assertNoForbiddenPhrases` fails on a single phrase only: voice.md may have grown a new forbidden phrase that the anchor does not name. Either reinforce the anchor or accept the phrase as benign and remove from `ALL_FORBIDDEN` — but only after 민준수의 voice has demonstrated stability without it.
 
 ## Caveats and known limits
 

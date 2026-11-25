@@ -12,17 +12,17 @@ Before building the Fellowship plugin, we researched and designed the foundation
 
 ## Key Decisions
 
-### 1. 재윤 Is the Orchestrator (Not a Direct Agent)
+### 1. 민준수 Is the Orchestrator (Not a Direct Agent)
 
-**Decision:** 재윤 lives in `agents/jaeyun.md` and coordinates all work. He is the permanent guide, never dispatched.
+**Decision:** 민준수 lives in `agents/minjunsu.md` and coordinates all work. He is the permanent guide, never dispatched.
 
 **Entry points (four ways to activate):**
-- Mid-session skill load: `/jaeyun` or `/fellowship`
-- Project default: `{"agent": "fellowship:jaeyun"}` in settings.json
-- One-off CLI: `claude --agent fellowship:jaeyun`
+- Mid-session skill load: `/minjunsu` or `/fellowship`
+- Project default: `{"agent": "fellowship:minjunsu"}` in settings.json
+- One-off CLI: `claude --agent fellowship:minjunsu`
 - Auto-dispatch: Implicit when companions match a task
 
-**Why:** The orchestrator role is distinct from builder, reviewer, tester, architect. 재윤의 job is to route work, not execute it.
+**Why:** The orchestrator role is distinct from builder, reviewer, tester, architect. 민준수의 job is to route work, not execute it.
 
 ### 2. Skills + Agents Dual Architecture
 
@@ -35,17 +35,17 @@ Before building the Fellowship plugin, we researched and designed the foundation
 
 ### 3. Nine Companions (Not Ten)
 
-**Decision:** The Fellowship includes 준수 (the user). There are 8 agents: 재호, 현수, 주혁, 승현, 동일, 우신, 선웅, 필엽, 영학.
+**Decision:** The Fellowship includes 주인공 (the user). There are 8 agents: 재호, 현수, 주혁, 승현, 동일, 우신, 선웅, 필엽, 영학.
 
-**Why:** 준수 carries the Ring — owns the product. The companions serve 준수의 vision. This asymmetry is central to the Fellowship metaphor and to solo dev reality.
+**Why:** 주인공 carries the Ring — owns the product. The companions serve 주인공의 vision. This asymmetry is central to the Fellowship metaphor and to solo dev reality.
 
-### 4. 재윤의 Craft: Plan Before Dispatch
+### 4. 민준수의 Craft: Plan Before Dispatch
 
-**Decision:** 재윤 brainstorms and plans in-session. Only dispatches agents when work is clear and scoped.
+**Decision:** 민준수 brainstorms and plans in-session. Only dispatches agents when work is clear and scoped.
 
 - Brainstorm (in-session) → Plan (in-session) → Dispatch (agents work independently)
 - 현수 handles deep technical architecture; 재호 handles product scope
-- 재윤 orchestrates the workflow, not the technical depth
+- 민준수 orchestrates the workflow, not the technical depth
 
 **Why:** Planning in-session preserves conversation context. Dispatching agents preserves their focus. Two different skills.
 
@@ -55,7 +55,7 @@ Before building the Fellowship plugin, we researched and designed the foundation
 
 | Score | Tier | Action |
 |-------|------|--------|
-| ≤ 0 | Tier 1 | 재윤 handles directly |
+| ≤ 0 | Tier 1 | 민준수 handles directly |
 | 1–3 | Tier 2 | One skill or one agent dispatch |
 | 4–6 | Tier 3 | Multi-step plan → sequential agents |
 | ≥ 7 | Tier 4 | Parallel agents or Agent Teams |
@@ -86,7 +86,7 @@ User enables with: `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`
 
 ### 8. Verification Gate: DONE Means Proven
 
-**Decision:** Companions report status. 재윤 verifies DONE reports before marking steps complete.
+**Decision:** Companions report status. 민준수 verifies DONE reports before marking steps complete.
 
 - DONE = task complete + verification output (test results, command output, screenshots)
 - DONE_WITH_CONCERNS = complete but has doubts
@@ -131,7 +131,7 @@ User enables with: `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`
 - **Future phases** (Phase 4+) inherit this architecture:
   - New companions plug in with consistent identity
   - New skills reuse the dual-architecture pattern
-  - Dispatch cycles follow proven 재윤 orchestration
+  - Dispatch cycles follow proven 민준수 orchestration
   - No breaking changes to core wiring
 
 ---

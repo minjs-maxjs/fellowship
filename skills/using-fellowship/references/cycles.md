@@ -20,7 +20,7 @@ After 주혁 DONE on critical paths, dispatch 승현. Cycle runs to completion o
 - 주혁 stays alive via SendMessage — preserves build context. Never spawn fresh 주혁 mid-cycle.
 - 승현 never edits code. Findings flow through you.
 - Filter findings: send 주혁 Critical + Important. Note Minor, don't burn a round trip.
-- Cap at three iterations. If Critical or Important findings remain after three rounds, escalate to 준수 with both the implementation and the accumulated findings — a fourth round usually means the spec is wrong, not the code.
+- Cap at three iterations. If Critical or Important findings remain after three rounds, escalate to 주인공 with both the implementation and the accumulated findings — a fourth round usually means the spec is wrong, not the code.
 
 **Statuses:**
 

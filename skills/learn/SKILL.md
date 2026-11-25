@@ -1,20 +1,20 @@
 ---
 name: learn
-description: "Use when 준수 asks 'what do you remember?', when memory references feel stale, or on explicit /fellowship:learn invocation. Reviews, prunes, or exports per-agent memory across the Fellowship. Curator only — never modifies memory without 준수의 approval."
+description: "Use when 주인공 asks 'what do you remember?', when memory references feel stale, or on explicit /fellowship:learn invocation. Reviews, prunes, or exports per-agent memory across the Fellowship. Curator only — never modifies memory without 주인공의 approval."
 user-invocable: false
 ---
 
 # Learn
 
-Curator for per-agent memory living under `.claude/agent-memory/fellowship-*/`. Reads, surfaces, and proposes changes. 준수 approves every write.
+Curator for per-agent memory living under `.claude/agent-memory/fellowship-*/`. Reads, surfaces, and proposes changes. 주인공 approves every write.
 
-**The hard rule:** this skill never modifies a companion's memory without explicit 준수 approval. Not once. Not for "small" edits. Not for batch cleanups. Every delete, every edit — one question at a time, one confirmation at a time.
+**The hard rule:** this skill never modifies a companion's memory without explicit 주인공 approval. Not once. Not for "small" edits. Not for batch cleanups. Every delete, every edit — one question at a time, one confirmation at a time.
 
 ## Memory layout — what you are reading
 
 ```
 .claude/agent-memory/
-  fellowship-jaeyun/
+  fellowship-minjunsu/
     MEMORY.md              # index — one-line pointers
     user_karolus.md        # individual memory file with frontmatter
     feedback_xyz.md
@@ -26,7 +26,7 @@ Curator for per-agent memory living under `.claude/agent-memory/fellowship-*/`. 
 
 Each individual file has frontmatter fields `name`, `description`, `type`. `MEMORY.md` is a flat index of one-line pointers, no frontmatter of its own. Memory types are `user`, `feedback`, `project`, `reference`.
 
-The canonical format is defined inside each agent's system prompt (see `agents/jaeyun.md` "Persistent Agent Memory" section, and equivalent sections in other companions). Do not redefine the format here; read from it.
+The canonical format is defined inside each agent's system prompt (see `agents/minjunsu.md` "Persistent Agent Memory" section, and equivalent sections in other companions). Do not redefine the format here; read from it.
 
 ## Detect the command
 
@@ -36,7 +36,7 @@ Parse the user's invocation:
 - `/fellowship:learn prune` → **Prune**
 - `/fellowship:learn export` → **Export**
 
-If loaded by 재윤 without a slash invocation, default to **Review** unless the loading context names a different mode.
+If loaded by 민준수 without a slash invocation, default to **Review** unless the loading context names a different mode.
 
 A fourth mode — `summarize` — is deferred to v2. If the user asks to summarize or collapse memories, tell them the mode is not yet available and offer prune + export as alternatives.
 
@@ -49,7 +49,7 @@ Walk each directory under `.claude/agent-memory/fellowship-*/`. For each agent:
 - The five most recently modified entries — show each file's `name` and `description` fields.
 - Flag obvious concerns inline. Examples: *"3 of 주혁의 12 memories reference files that no longer exist"*, *"Two 승현 feedback memories on the same topic look contradictory."*
 
-Group by agent. Do not merge across agents — each companion's voice is preserved. The output is conversational, not a file. 준수 reads it and decides what to do next.
+Group by agent. Do not merge across agents — each companion's voice is preserved. The output is conversational, not a file. 주인공 reads it and decides what to do next.
 
 ## Prune
 
@@ -59,13 +59,13 @@ Two automatic checks, then a decision loop.
 
 **Check 2 — Contradiction.** Scan for memories on the same topic with contradicting guidance. Example: two `feedback` entries where one says "always X" and a later one says "never X". Flag `CONFLICT`.
 
-For each flagged entry, present the content and ask 준수 via `AskUserQuestion`:
+For each flagged entry, present the content and ask 주인공 via `AskUserQuestion`:
 
 - **A) Remove** — delete the file, remove its pointer from `MEMORY.md`.
 - **B) Keep** — do nothing.
-- **C) Edit** — 준수 tells what to change. Propose the diff. Ask again before writing.
+- **C) Edit** — 주인공 tells what to change. Propose the diff. Ask again before writing.
 
-After 준수 answers for one entry, move to the next. **Do not batch-apply.** One entry, one decision, one write. This is deliberately slow. Speed is not the goal; the goal is that 준수 owns every change to companion memory.
+After 주인공 answers for one entry, move to the next. **Do not batch-apply.** One entry, one decision, one write. This is deliberately slow. Speed is not the goal; the goal is that 주인공 owns every change to companion memory.
 
 **When removing a file:** delete the memory file, then open `MEMORY.md` and drop the corresponding pointer line. If `MEMORY.md` ends up empty after the deletion — leave the index header in place, but clear the pointer lines. Do not delete `MEMORY.md` itself. An empty index is a valid state; a missing index signals "this agent has never remembered anything," which is false.
 
@@ -78,7 +78,7 @@ Write a consolidated, human-readable snapshot of all memory to `docs/fellowship/
 ```markdown
 # Fellowship Memory Snapshot — YYYY-MM-DD
 
-## 재윤
+## 민준수
 
 ### User
 - [name] — [description]
@@ -103,21 +103,21 @@ Group by agent, then by memory type in the order `user`, `feedback`, `project`, 
 
 The snapshot is for reading, sharing, or diffing against a future snapshot. It is additive — it never replaces or modifies the per-agent memory files.
 
-If a snapshot for today's date already exists, ask 준수 whether to overwrite or append a suffix like `-v2`.
+If a snapshot for today's date already exists, ask 주인공 whether to overwrite or append a suffix like `-v2`.
 
-## 재윤 auto-load signals
+## 민준수 auto-load signals
 
-재윤 loads this skill in session when:
+민준수 loads this skill in session when:
 
-- 준수 asks *"what do you remember?"* / *"what have we learned?"* / *"have we done this before?"*.
-- 재윤 notices a memory reference is stale mid-orchestration (e.g., a companion cites a file that no longer exists).
-- 준수 explicitly invokes `/fellowship:learn`.
+- 주인공 asks *"what do you remember?"* / *"what have we learned?"* / *"have we done this before?"*.
+- 민준수 notices a memory reference is stale mid-orchestration (e.g., a companion cites a file that no longer exists).
+- 주인공 explicitly invokes `/fellowship:learn`.
 
 Do **not** load proactively on every session. That is noise. Let the trigger be a real signal.
 
 ## Principles
 
-- Memory is the companion's journal. The curator proposes; 준수 decides.
+- Memory is the companion's journal. The curator proposes; 주인공 decides.
 - One change at a time. Never batch deletes.
 - Preserve voice — each agent's memory stays with that agent. Exports group by agent; they never merge.
 - Additive over destructive. Export and review before prune.

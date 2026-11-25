@@ -3,15 +3,15 @@ import json
 import os
 
 # Read holdout scenarios
-with open("evals/jaeyun/holdout.jsonl") as f:
+with open("evals/minjunsu/holdout.jsonl") as f:
     holdout_scenarios = [json.loads(line) for line in f if line.strip()]
 
-# Read agent file (재윤 identity now lives in the using-fellowship skill)
+# Read agent file (민준수 identity now lives in the using-fellowship skill)
 with open("skills/using-fellowship/SKILL.md") as f:
     agent_instructions = f.read()
 
 # Read soft assertions
-with open("evals/jaeyun/soft.md") as f:
+with open("evals/minjunsu/soft.md") as f:
     soft_assertions = [line.strip() for line in f if line.strip() and not line.startswith('#')]
 
 print(f"Running {len(holdout_scenarios)} holdout scenarios...")
@@ -48,7 +48,7 @@ for idx, scenario in enumerate(holdout_scenarios, 1):
 
         # Run hard assertions
         hard_result = subprocess.run(
-            ["python3", "evals/jaeyun/hard.py"],
+            ["python3", "evals/minjunsu/hard.py"],
             input=response, capture_output=True, text=True, cwd="/Users/Karolus/projects/Fellowship"
         )
 
@@ -120,7 +120,7 @@ overall = (hard_score * 0.7) + (soft_score * 0.3)
 
 print()
 print("=" * 60)
-print("HOLDOUT RESULTS — Compressed 재윤")
+print("HOLDOUT RESULTS — Compressed 민준수")
 print("=" * 60)
 print(f"Hard score: {hard_score:.3f} ({total_hard_passed}/{total_hard_possible})")
 print(f"Soft score: {soft_score:.3f} ({total_soft_passed}/{total_soft_possible})")

@@ -285,8 +285,8 @@ describe('health-check — settings.json failures', () => {
     }
   });
 
-  it('passes when settings.json has no agent field (재윤 injected via hook)', async () => {
-    // No default-agent override is correct architecture: 재윤 identity is injected
+  it('passes when settings.json has no agent field (민준수 injected via hook)', async () => {
+    // No default-agent override is correct architecture: 민준수 identity is injected
     // by the SessionStart hook (skills/using-fellowship/SKILL.md), not via agent override.
     const root = createFixture({ settingsJson: {} });
     try {

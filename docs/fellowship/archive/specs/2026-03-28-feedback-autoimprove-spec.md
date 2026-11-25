@@ -32,7 +32,7 @@ The cloud skill community, SQLite lineage tracking, and tool degradation trigger
 
 ### 1. Richer Feedback Entries
 
-**File:** `agents/jaeyun.md` (behavioral rule update)
+**File:** `agents/minjunsu.md` (behavioral rule update)
 **File:** `~/.claude/fellowship/feedback-log.jsonl` (format change)
 
 #### Motivation
@@ -49,7 +49,7 @@ Current entries:
 }
 ```
 
-This is enough to know *that* something went wrong. It's not enough to write a scenario without reconstructing the exchange from memory. The context is in the conversation — 재윤 should capture it at the moment of logging, not leave it to be recovered later.
+This is enough to know *that* something went wrong. It's not enough to write a scenario without reconstructing the exchange from memory. The context is in the conversation — 민준수 should capture it at the moment of logging, not leave it to be recovered later.
 
 #### New Format
 
@@ -72,9 +72,9 @@ This is enough to know *that* something went wrong. It's not enough to write a s
 New fields:
 - **`context.user_input`** — the user's message that led to the companion action being logged. Verbatim, truncated to 300 chars if long.
 - **`context.agent_response_snippet`** — the most relevant portion of the companion's response that illustrates the failure. The phrase or sentence that crossed the line, not the full response. 200 chars max.
-- **`no_scenario`** — `true` if 재윤 judges that no existing scenario covers this failure pattern. `false` or omitted if an existing scenario already tests this. See Change 3.
+- **`no_scenario`** — `true` if 민준수 judges that no existing scenario covers this failure pattern. `false` or omitted if an existing scenario already tests this. See Change 3.
 
-#### Behavioral Rule Update (jaeyun.md)
+#### Behavioral Rule Update (minjunsu.md)
 
 The feedback capture rule gains two additions:
 
@@ -89,17 +89,17 @@ When writing a feedback entry:
 
 ### 2. Inferred Failure Confirmation
 
-**File:** `agents/jaeyun.md` (behavioral rule update)
+**File:** `agents/minjunsu.md` (behavioral rule update)
 
 #### Motivation
 
-When the trigger is `explicit_report`, the failure is clear — the user named it. When the trigger is `attribution_question` and `inferred: true`, 재윤 is interpreting the failure from context. This is higher risk: a frustrated question ("why did 주혁 touch that file?") might be about curiosity, not a genuine failure.
+When the trigger is `explicit_report`, the failure is clear — the user named it. When the trigger is `attribution_question` and `inferred: true`, 민준수 is interpreting the failure from context. This is higher risk: a frustrated question ("why did 주혁 touch that file?") might be about curiosity, not a genuine failure.
 
 OpenSpace does a confirmation step before rule-based triggers fire: "is this actually worth evolving?" Fellowship needs the same gate for inferred failures.
 
 #### Rule
 
-Before writing an inferred failure to the log, 재윤 applies a one-question self-check:
+Before writing an inferred failure to the log, 민준수 applies a one-question self-check:
 
 > *Did the companion do something objectively contrary to its instructions — or is this ambiguous, external, or a user preference that isn't in the spec?*
 
@@ -113,8 +113,8 @@ The self-check is silent — no announcement, no "I'm checking whether to log th
 
 ### 3. Scenario Gap Flagging
 
-**File:** `agents/jaeyun.md` (behavioral rule update)
-**Files:** `evals/juhyeok/scenarios.jsonl`, `evals/seunghyeon/scenarios.jsonl`, `evals/jaeyun/scenarios.jsonl` (reference only — 재윤 reads, doesn't write)
+**File:** `agents/minjunsu.md` (behavioral rule update)
+**Files:** `evals/juhyeok/scenarios.jsonl`, `evals/seunghyeon/scenarios.jsonl`, `evals/minjunsu/scenarios.jsonl` (reference only — 민준수 reads, doesn't write)
 
 #### Motivation
 
@@ -124,7 +124,7 @@ Without a flag, a human reviewing the feedback log must read every entry and cro
 
 #### Rule
 
-When writing a feedback entry, 재윤 checks the relevant `evals/<agent>/scenarios.jsonl` file. The check is lightweight: does any existing scenario's `input` or `context` describe roughly the same failure mode?
+When writing a feedback entry, 민준수 checks the relevant `evals/<agent>/scenarios.jsonl` file. The check is lightweight: does any existing scenario's `input` or `context` describe roughly the same failure mode?
 
 - **No match found** → `"no_scenario": true`
 - **Match found** → `"no_scenario": false` (or omit the field)
@@ -207,12 +207,12 @@ These are independent changes. No dependency between them.
 
 | Change | Effort | Value | Build first? |
 |--------|--------|-------|-------------|
-| Richer feedback entries | Low — format change + jaeyun.md rule | High — directly enables scenario creation | Yes |
+| Richer feedback entries | Low — format change + minjunsu.md rule | High — directly enables scenario creation | Yes |
 | Inferred failure confirmation | Low — one behavioral rule | Medium — reduces noise in the log | Yes, same pass |
-| Scenario gap flagging | Low — jaeyun.md + one read per log entry | High — makes review fast | Yes, same pass |
+| Scenario gap flagging | Low — minjunsu.md + one read per log entry | High — makes review fast | Yes, same pass |
 | Assertion health tracking | Medium — SKILL.md update + new file format | Medium — improves targeting across sessions | Second pass |
 
-Changes 1–3 are one 주혁 task: update `agents/jaeyun.md`. Change 4 is a separate 주혁 task: update `skills/autoimprove/SKILL.md`.
+Changes 1–3 are one 주혁 task: update `agents/minjunsu.md`. Change 4 is a separate 주혁 task: update `skills/autoimprove/SKILL.md`.
 
 ---
 

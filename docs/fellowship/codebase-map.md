@@ -4,7 +4,7 @@
 **Generated:** 2026-06-11
 **Stack:** Claude Code plugin (with Cursor parity) · Node.js hooks · bash polyglots · Python + Node eval runners · MIT
 
-A LotR-themed multi-agent system for Claude Code. 재윤 (skill-injected orchestrator) routes work to nine companion agents. Distributed as a plugin for both Claude Code and Cursor. Released version: **v1.1.0** (`.claude-plugin/plugin.json`); the `[Unreleased]` section in `CHANGELOG.md` carries post-1.1.0 work (scorecard ledger, transport doctrine, marker relocation, voice layer-2 removal, agent-file trim).
+A LotR-themed multi-agent system for Claude Code. 민준수 (skill-injected orchestrator) routes work to nine companion agents. Distributed as a plugin for both Claude Code and Cursor. Released version: **v1.1.0** (`.claude-plugin/plugin.json`); the `[Unreleased]` section in `CHANGELOG.md` carries post-1.1.0 work (scorecard ledger, transport doctrine, marker relocation, voice layer-2 removal, agent-file trim).
 
 ---
 
@@ -20,7 +20,7 @@ A LotR-themed multi-agent system for Claude Code. 재윤 (skill-injected orchest
 
 ## Architecture
 
-A request enters via Claude Code or Cursor → four SessionStart hooks fire in order (`session-start` → `fellowship-voice-session-start` → `fellowship-opener-session-start` → `fellowship-drift-check-session-start`) → main thread inhabits **재윤** (the `using-fellowship` skill) → 재윤 routes to one of two surfaces:
+A request enters via Claude Code or Cursor → four SessionStart hooks fire in order (`session-start` → `fellowship-voice-session-start` → `fellowship-opener-session-start` → `fellowship-drift-check-session-start`) → main thread inhabits **민준수** (the `using-fellowship` skill) → 민준수 routes to one of two surfaces:
 
 - **In-session skills** (loaded by main thread for context-aware work) — `skills/<name>/SKILL.md`
 - **Subagent dispatches** (background agents with isolated context) — `agents/<name>.md`, invoked via `Agent({subagent_type: "fellowship:<name>", ...})`
@@ -35,9 +35,9 @@ Companion subagents work in isolated context, emit reports (status vocabulary: D
 
 Key files at each stage:
 
-- `skills/using-fellowship/SKILL.md` — 재윤 identity, tiered routing rules, dispatch protocol, memory rules, naming conventions
+- `skills/using-fellowship/SKILL.md` — 민준수 identity, tiered routing rules, dispatch protocol, memory rules, naming conventions
 - `agents/_shared/companion-protocol.md` — shared boilerplate every companion inherits (status vocabulary, files-to-read contract, pre-DONE checklist)
-- `hooks/session-start` — bash injection script: 재윤 identity + UNTRUSTED_*-wrapped project files (quest log, product, debug log, handoff <7 days, codebase map first 30 lines) + codebase-map staleness signal + project-local skills/agents survey
+- `hooks/session-start` — bash injection script: 민준수 identity + UNTRUSTED_*-wrapped project files (quest log, product, debug log, handoff <7 days, codebase map first 30 lines) + codebase-map staleness signal + project-local skills/agents survey
 - `hooks/lib/subagent-detection.mjs` — two-tier subagent detection (payload fields + state-dir marker) + `stateMarkerPath()` + legacy-marker migration + `FELLOWSHIP_HOOK_DEBUG=1` logging
 - `commands/<name>.md` — slash command shims (force `/fellowship:<name>` namespacing); load skills, load companion craft in-session, or trigger workflows
 
@@ -48,12 +48,12 @@ Key files at each stage:
         companion-protocol.md     # Status vocabulary, files-to-read contract, pre-DONE checklist
       references/                 # Per-agent templates and methodology (jaeho-templates.md,
                                   # owasp-checklist.md, playwright-tools.md, ...)
-      jaeho.md ... seonung.md       # 9 companion agents, 132-304 lines each (no jaeyun.md —
-                                  # 재윤 is a skill). Voice = ~9-line register sketch;
+      jaeho.md ... seonung.md       # 9 companion agents, 132-304 lines each (no minjunsu.md —
+                                  # 민준수 is a skill). Voice = ~9-line register sketch;
                                   # templates live in references/, protocol in _shared/.
 
     skills/                       # In-session skills (12 — NO per-companion skill mirrors)
-      using-fellowship/           # 재윤 orchestrator skill (injected at SessionStart)
+      using-fellowship/           # 민준수 orchestrator skill (injected at SessionStart)
         SKILL.md
         references/               # voice, tier-scoring, cycles, companions, workflows,
                                   # dispatch-transport, ethos, opening-examples,
@@ -89,7 +89,7 @@ Key files at each stage:
 
     evals/                        # Eval suites
       _runner/                    # Python runner (run_eval.py, improve.sh, README.md)
-      <companion>/                # 10 JSONL suites (9 companions + jaeyun):
+      <companion>/                # 10 JSONL suites (9 companions + minjunsu):
                                   # scenarios.jsonl, hard.py, soft.md (+ holdout/history where grown)
       voice-persistence/          # Node-based suite: run.mjs, assertions.mjs, baseline.json
 

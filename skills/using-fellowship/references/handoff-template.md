@@ -1,6 +1,6 @@
 # Handoff Template
 
-Write to `docs/fellowship/handoffs/jaeyun-[YYYY-MM-DD]-[slug].md` when the context monitor warns at ≥35% remaining on a Tier 3+ task. Stop new work first.
+Write to `docs/fellowship/handoffs/minjunsu-[YYYY-MM-DD]-[slug].md` when the context monitor warns at ≥35% remaining on a Tier 3+ task. Stop new work first.
 
 ```markdown
 ## What was done

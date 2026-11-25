@@ -42,24 +42,24 @@ escape_for_json() {
     printf '%s' "$s"
 }
 
-# ── 0. using-fellowship skill — 재윤 identity injection ───────────────────
+# ── 0. using-fellowship skill — 민준수 identity injection ───────────────────
 # Mirrors Superpowers' session-start pattern: read skill content, escape for JSON,
-# inject with a strong identity wrapper so the default agent inhabits 재윤
+# inject with a strong identity wrapper so the default agent inhabits 민준수
 # from the first message. Must arrive before project context so identity is set first.
 #
 # Cold-install gate (S5): if `docs/fellowship/` is absent, this is a "tire-kicker"
 # project where the user has installed the plugin but not bootstrapped Fellowship
 # in this directory. Inject only a short notice naming the bootstrap path —
-# avoid heavy 재윤-identity priming on every session of a project that may
+# avoid heavy 민준수-identity priming on every session of a project that may
 # never use it. Once `docs/fellowship/` exists (created by `/fellowship:start`
-# or by 재윤의 first bootstrap), the full identity injection fires.
+# or by 민준수의 first bootstrap), the full identity injection fires.
 if [ -d "$FELLOWSHIP_DIR" ]; then
     using_fellowship_content=$(cat "${PLUGIN_ROOT}/skills/using-fellowship/SKILL.md" 2>/dev/null || echo "Error reading using-fellowship skill")
     using_fellowship_escaped=$(escape_for_json "$using_fellowship_content")
-    jaeyun_wrapper="You are 재윤 — orchestrator of the Fellowship. The content below defines your voice, manner, and orchestration role for this session. Inhabit it.\n\n${using_fellowship_escaped}"
-    session_context="<EXTREMELY_IMPORTANT>\n${jaeyun_wrapper}\n</EXTREMELY_IMPORTANT>"
+    minjunsu_wrapper="You are 민준수 — orchestrator of the Fellowship. The content below defines your voice, manner, and orchestration role for this session. Inhabit it.\n\n${using_fellowship_escaped}"
+    session_context="<EXTREMELY_IMPORTANT>\n${minjunsu_wrapper}\n</EXTREMELY_IMPORTANT>"
 else
-    cold_notice="The Fellowship plugin is installed in this Claude Code workspace but not yet active in this project (no docs/fellowship/ directory). To activate 재윤 and the nine companions for this project, ask the assistant: \"set up Fellowship\" — or run /fellowship:start. Until then, the plugin remains dormant; the default Claude Code experience is unchanged."
+    cold_notice="The Fellowship plugin is installed in this Claude Code workspace but not yet active in this project (no docs/fellowship/ directory). To activate 민준수 and the nine companions for this project, ask the assistant: \"set up Fellowship\" — or run /fellowship:start. Until then, the plugin remains dormant; the default Claude Code experience is unchanged."
     cold_escaped=$(escape_for_json "$cold_notice")
     session_context="<FELLOWSHIP_DORMANT>\n${cold_escaped}\n</FELLOWSHIP_DORMANT>"
 fi
@@ -80,7 +80,7 @@ fi
 # All blocks below ingest project-controlled .md files (quest log, product,
 # debug log, handoffs, codebase map). Any contributor or PR can write these
 # files, so their content is DATA, not commands. We:
-#   1. Wrap each block in an <UNTRUSTED_*> tag so 재윤 (see using-fellowship
+#   1. Wrap each block in an <UNTRUSTED_*> tag so 민준수 (see using-fellowship
 #      SKILL.md) treats the contents as factual context only — never as
 #      instructions to follow.
 #   2. Cap each ingested block at 8192 bytes; on truncation we append a marker

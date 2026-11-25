@@ -51,7 +51,7 @@ Six new directories (`evals/{jaeho,pilyeop,yeonghak,dongil,hyeonsu,seonung}/`) e
 
 **Polish-grade:** The new suites lack a `history.jsonl` and `session-summary.md`. That is by design — those files materialize on first AutoImprove run. Not a finding.
 
-**Should-fix (collateral, not introduced this session):** `evals/usin/soft.md` is **missing**. 우신 is a "mature" suite per `improve.sh` line 343 and is in the `--all` rotation. The other three mature suites (주혁, 재윤, 승현) have `soft.md`. 우신의 directory has `assertion-health.jsonl`, `holdout.jsonl`, `history.jsonl`, `session-summary.md` — but no soft judges file. Either the file was deleted at some point and the loss went unnoticed, or 우신의 eval was authored without one. The `--all` runner will not fail — `run_eval.py` likely tolerates absence — but the soft scoring channel is dark for 우신. *Severity: Should-fix.*
+**Should-fix (collateral, not introduced this session):** `evals/usin/soft.md` is **missing**. 우신 is a "mature" suite per `improve.sh` line 343 and is in the `--all` rotation. The other three mature suites (주혁, 민준수, 승현) have `soft.md`. 우신의 directory has `assertion-health.jsonl`, `holdout.jsonl`, `history.jsonl`, `session-summary.md` — but no soft judges file. Either the file was deleted at some point and the loss went unnoticed, or 우신의 eval was authored without one. The `--all` runner will not fail — `run_eval.py` likely tolerates absence — but the soft scoring channel is dark for 우신. *Severity: Should-fix.*
 
 ### 2.4 New test files — clean
 
@@ -80,15 +80,15 @@ The consolidated spec at `docs/fellowship/specs/2026-04-26-fellowship-v1-improve
 
 | Claim | Status now |
 |---|---|
-| **B1.** AutoImprove for 재윤 reads `agents/jaeyun.md` | **Resolved.** `run_eval.py:131-133` and all three `evals/jaeyun/holdout*.py` files now read `skills/using-fellowship/SKILL.md`. |
+| **B1.** AutoImprove for 민준수 reads `agents/minjunsu.md` | **Resolved.** `run_eval.py:131-133` and all three `evals/minjunsu/holdout*.py` files now read `skills/using-fellowship/SKILL.md`. |
 | **B2.** `fellowship-brainstorming`, `fellowship-planning`, `fellowship-map` missing | **Resolved.** All three command files present and parse cleanly. |
-| **B3.** `codebase-map.md` stale (cites `agents/jaeyun.md`, manifest at `v1.5.0`) | **Resolved at the time the map regenerated** — but see §2.7 (already stale again on a new axis). |
+| **B3.** `codebase-map.md` stale (cites `agents/minjunsu.md`, manifest at `v1.5.0`) | **Resolved at the time the map regenerated** — but see §2.7 (already stale again on a new axis). |
 | **B4.** Orphan `hooks/fellowship-statusline.mjs` | **Resolved.** File deleted. |
 | **S1.** Six agent files inline templates | **Resolved.** All six references present and wired (§2.2). |
 | **S2.** `using-fellowship/SKILL.md` mis-instructs `TodoWrite` | **Resolved.** Lines 63, 66, 94, 164 all acknowledge the platform block and point to quest-log checkboxes as the substitute. |
 | **S3.** SessionStart hook re-injects handoff on `resume` | **Partially resolved.** `hooks.json` lines 19–28 now route `resume` to a separate `--resume` invocation. Whether the underlying script suppresses handoff re-injection on `--resume` was not verified end-to-end in this audit. |
 | **S4.** `hooks/session-start` untested | **Resolved.** `tests/session-start.test.mjs` exists and runs 18/0. |
-| **S5.** Cold-install primes 재윤 identity unconditionally | **Status unverified in this audit.** The session-start tests reference a "PROJECT_LOCAL block" and a "fail-silent on missing using-fellowship skill" path — suggests dormant-gating logic was added — but I did not read the hook source to confirm. |
+| **S5.** Cold-install primes 민준수 identity unconditionally | **Status unverified in this audit.** The session-start tests reference a "PROJECT_LOCAL block" and a "fail-silent on missing using-fellowship skill" path — suggests dormant-gating logic was added — but I did not read the hook source to confirm. |
 | **S6.** Three grammars, no documented rule | **Resolved.** `using-fellowship/SKILL.md:26-31` now states the rule. |
 | **V1.** Plan-before-build as hook gate | **Implemented.** `hooks/fellowship-plan-gate.mjs` exists and is registered in `hooks.json:30-41` on `Edit\|Write\|MultiEdit`. ADR back-link missing (§2.5). |
 | **V5.** Memory boundary schema | **Implemented as ADR + protocol cross-link.** No enforcement — but the ADR explicitly leaves enforcement to v1.1 lint. |
@@ -147,7 +147,7 @@ Every Bash shim has a `.mjs` partner and is referenced from `hooks.json`. No sil
 
 ### 2.11 Memory staleness — clean
 
-`.claude/agent-memory/fellowship-jaeyun/MEMORY.md` was checked. The `feedback_session_start_todowrite_check.md` entry remains accurate ("Verified open 2026-04-26. Allowlist fix and skill restructure both failed.") — this matches S2's resolution path (acknowledge, document, work around with quest-log checkboxes). **No findings.** Other entries (roster decisions, design principles, GSD patterns, etc.) are stable across the session.
+`.claude/agent-memory/fellowship-minjunsu/MEMORY.md` was checked. The `feedback_session_start_todowrite_check.md` entry remains accurate ("Verified open 2026-04-26. Allowlist fix and skill restructure both failed.") — this matches S2's resolution path (acknowledge, document, work around with quest-log checkboxes). **No findings.** Other entries (roster decisions, design principles, GSD patterns, etc.) are stable across the session.
 
 ### 2.12 Scratchpad pollution — clean
 
@@ -157,7 +157,7 @@ Every Bash shim has a `.mjs` partner and is referenced from `hooks.json`. No sil
 
 ## 3. DONE-claim cross-check (consolidated)
 
-Eleven items the consolidated spec marked DONE were spot-checked. **Eleven verified true.** One item (S5, dormant 재윤 gate) was not verified end-to-end in this read-only sweep — flagged for a follow-up confirmer, not as a finding. **Zero items mismarked DONE.**
+Eleven items the consolidated spec marked DONE were spot-checked. **Eleven verified true.** One item (S5, dormant 민준수 gate) was not verified end-to-end in this read-only sweep — flagged for a follow-up confirmer, not as a finding. **Zero items mismarked DONE.**
 
 ---
 

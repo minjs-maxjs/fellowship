@@ -1,7 +1,7 @@
 {
   "name": "fellowship",
   "displayName": "Fellowship",
-  "description": "A LotR-themed multi-agent system for solo product developers — 재윤 orchestrates, nine companions cover the full lifecycle.",
+  "description": "A LotR-themed multi-agent system for solo product developers — 민준수 orchestrates, nine companions cover the full lifecycle.",
   "version": "1.2.0",
   "author": {
     "name": "민준수",

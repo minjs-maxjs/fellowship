@@ -67,7 +67,7 @@ try {
   const voicePath = resolve(__dirname, '..', 'skills', 'using-fellowship', 'references', 'voice.md');
   const voiceContent = readFileSync(voicePath, 'utf8');
 
-  emitSessionStart(`# 재윤 Voice — Active Throughout This Conversation\n\n${voiceContent}\n`);
+  emitSessionStart(`# 민준수 Voice — Active Throughout This Conversation\n\n${voiceContent}\n`);
   process.exit(0);
 } catch {
   // Fail-silent: session continues without voice reinforcement.

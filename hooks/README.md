@@ -54,7 +54,7 @@ immediately after.
 | ---- | ----- | ----- | ------- |
 | `session-start` | SessionStart (`startup\|clear\|compact`, `resume`) | false | Bootstraps Fellowship context: skill loading, quest-log/codebase-map staleness checks, project state. |
 | `fellowship-voice-session-start` | SessionStart (`startup\|clear\|compact`, `resume`) | false | Voice persistence — claims the main-session marker, injects `skills/using-fellowship/references/voice.md` into the main-agent context. |
-| `fellowship-opener-session-start` | SessionStart (`startup\|clear\|compact`, `resume`) | false | Session opener — on a *returning* session, injects project state (recent commits, open quest-log items, in-flight memories) so 재윤 opens with orientation. Gated by a history marker; silent on the first session. Registered after the voice hook. |
+| `fellowship-opener-session-start` | SessionStart (`startup\|clear\|compact`, `resume`) | false | Session opener — on a *returning* session, injects project state (recent commits, open quest-log items, in-flight memories) so 민준수 opens with orientation. Gated by a history marker; silent on the first session. Registered after the voice hook. |
 | `fellowship-plan-gate` | PreToolUse (`Edit\|Write\|MultiEdit`) | false | Tier 3+ plan-before-build check for subagent dispatches. Fail-open in v1.0. |
 | `fellowship-context-monitor` | PostToolUse | true | Emits context-window warnings at 35% (warning) and 25% (critical) remaining. Evaluated for removal 2026-06-11, kept: Claude Code surfaces context pressure only to the *user* (`/context` UI) and auto-compacts reactively — it injects no signal into the *model's* context. This hook fills that gap so the model can wrap up or hand off before compaction hits. |
 | `fellowship-drift-check-session-start` | SessionStart (`startup\|clear\|compact`, `resume`) | false | Walks `docs/fellowship/` top level, flags any file or directory outside the project-state contract's canonical tree, emits one notice line on drift. Registered after the opener hook. Fail-silent. |
@@ -89,7 +89,7 @@ sessions is accepted.
 
 See `docs/fellowship/specs/2026-05-17-session-opener-design.md` and
 `docs/fellowship/plans/2026-05-17-session-opener.md` for the design. The opener
-makes 재윤의 first response in a *returning* session lead with project state
+makes 민준수의 first response in a *returning* session lead with project state
 — where we left off, what to tackle next, a brief welcome — before he addresses
 the user's prompt. It is the complement to voice persistence: voice carries the
 register, the opener carries the orientation.
@@ -110,8 +110,8 @@ Mechanism is two-layer, parallel to voice:
   computes three sections — recent commits (`git log --oneline -5`), the top
   three open quest-log items (`- [ ]` lines), and in-flight project memories
   (`description:` from `memory/project_*.md`) — and emits them as
-  `additionalContext` framed by an instruction telling 재윤 to open in his
-  register. The hook supplies *content*; 재윤 supplies *voice*. There is no
+  `additionalContext` framed by an instruction telling 민준수 to open in his
+  register. The hook supplies *content*; 민준수 supplies *voice*. There is no
   bullet template in the response — three short observations, then the prompt.
 
 The marker write uses write-then-rename (`<target>.<pid>.tmp` → `renameSync`)
@@ -161,7 +161,7 @@ folders only, so any subdirectory there is drift. The notice caps at 5
 entries with a `(+N more)` suffix on overflow.
 
 Output is plain stdout (terminal text), not `additionalContext` — drift is the
-user's housekeeping signal; it does not occupy 재윤의 context window.
+user's housekeeping signal; it does not occupy 민준수의 context window.
 Notice only, no question. Registered *after* the opener hook on SessionStart
 so the orientation message lands first. Fail-silent on every error path —
 permission errors, missing `docs/fellowship/`, unreadable directories all
@@ -253,7 +253,7 @@ so reading an agent file mid-session cannot fabricate records.
 → the write is skipped (same posture as the markers, no project-tree
 fallback). Any other ledger failure traces to the trace log and never
 affects the reconciliation pass or the exit code. The data is best-effort:
-if 재윤 quotes a companion report verbatim near an artifact path, the
+if 민준수 quotes a companion report verbatim near an artifact path, the
 outcome can be double-counted — accepted v1 noise.
 
 Every action — every reconcile, every archive, every error path — appends a

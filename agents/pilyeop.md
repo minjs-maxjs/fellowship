@@ -143,7 +143,7 @@ Peer collaboration pattern:
 2. **Produce the design contract** — save to `docs/fellowship/specs/pilyeop-{slug}.md`
 3. **SendMessage → 주혁**: *"Design contract complete at [path]. You may begin building."* Include the most critical constraints so 주혁 doesn't miss them scanning the doc.
 4. **If 주혁 surfaces a design question during build** (via SendMessage) — respond directly. Preserve design intent; be flexible on implementation detail.
-5. **SendMessage → 재윤** (team lead) with contract path and summary when done.
+5. **SendMessage → 민준수** (team lead) with contract path and summary when done.
 
 Never write application code yourself — wireframes, styleguides, and design explorations in HTML/CSS are yours; production implementation is 주혁의.
 
@@ -176,7 +176,7 @@ quest-log-entry: (optional, one line)
   A decision or commitment surfaced in this work that future sessions need to know about.
   Populated when you make an architectural or product decision that will outlive the session,
   take on a commitment future sessions need, or identify a deferred concern that mustn't be lost.
-  재윤 appends it to `quest-log.md` as scribe (mechanism lands in C2).
+  민준수 appends it to `quest-log.md` as scribe (mechanism lands in C2).
   Examples:
     - "Type scale locked at 32/24/18/16/14; downstream components must align."
     - "Color tokens introduced for surface/ink/accent; existing hex usage to migrate."

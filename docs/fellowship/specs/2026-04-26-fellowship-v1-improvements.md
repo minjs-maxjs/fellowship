@@ -15,17 +15,17 @@ This is the synthesis. Per-lane findings live in:
 
 ## Verdict
 
-Fellowship is structurally sound and conformant — **17 of ~22 cited best practices genuinely implemented**, **25/26 tests pass clean**, marketplace metadata complete. The migration to 재윤-as-skill landed correctly. But four ship-blockers exist that will produce broken behavior or stale-doc embarrassment in front of a marketplace user, and a systemic 영학-class anti-pattern persists in agent files that the prior bloat audit missed. **Do not tag v1.0 before the four blockers are resolved.** Should-fix items can land in v1.0.1; v1.1 candidates are documented and deferred.
+Fellowship is structurally sound and conformant — **17 of ~22 cited best practices genuinely implemented**, **25/26 tests pass clean**, marketplace metadata complete. The migration to 민준수-as-skill landed correctly. But four ship-blockers exist that will produce broken behavior or stale-doc embarrassment in front of a marketplace user, and a systemic 영학-class anti-pattern persists in agent files that the prior bloat audit missed. **Do not tag v1.0 before the four blockers are resolved.** Should-fix items can land in v1.0.1; v1.1 candidates are documented and deferred.
 
 ---
 
 ## Ship-Blockers — must resolve before `v1.0.0` tag
 
-### B1. AutoImprove for 재윤 is broken
+### B1. AutoImprove for 민준수 is broken
 
-**Where:** `evals/_runner/run_eval.py:131`, `evals/_runner/improve.sh:183,201,214,229,243,251,317`, `evals/jaeyun/holdout.py:10`, `evals/jaeyun/holdout_validation.py:10`, `evals/jaeyun/test_holdout.py:10`.
+**Where:** `evals/_runner/run_eval.py:131`, `evals/_runner/improve.sh:183,201,214,229,243,251,317`, `evals/minjunsu/holdout.py:10`, `evals/minjunsu/holdout_validation.py:10`, `evals/minjunsu/test_holdout.py:10`.
 
-**What:** All five files read `agents/jaeyun.md`. That file was deleted in this session. `./improve.sh jaeyun` will crash on first invocation after a user installs and runs the AutoImprove loop.
+**What:** All five files read `agents/minjunsu.md`. That file was deleted in this session. `./improve.sh minjunsu` will crash on first invocation after a user installs and runs the AutoImprove loop.
 
 **Fix:** Update every reference to read `skills/using-fellowship/SKILL.md` instead. Any frontmatter-parsing logic must be aware that the new target is a skill (no `tools:` list, no `model:` field at the agent level).
 
@@ -43,11 +43,11 @@ Fellowship is structurally sound and conformant — **17 of ~22 cited best pract
 
 ### B3. `docs/fellowship/codebase-map.md` is stale
 
-**Where:** Lines 11, 32, 109. References `agents/jaeyun.md` as a current file (deleted) and lists the manifest at `v1.5.0` (now `v1.0.0`).
+**Where:** Lines 11, 32, 109. References `agents/minjunsu.md` as a current file (deleted) and lists the manifest at `v1.5.0` (now `v1.0.0`).
 
-**What:** The codebase map is auto-injected into Tier 3+ dispatches and is the new-contributor's first orientation. Stale here means every future 재윤 dispatch carries the wrong picture of what the repo looks like.
+**What:** The codebase map is auto-injected into Tier 3+ dispatches and is the new-contributor's first orientation. Stale here means every future 민준수 dispatch carries the wrong picture of what the repo looks like.
 
-**Fix:** Regenerate via `/fellowship:map` (per the established pattern), or edit by hand to reflect: nine agents (no 재윤), `skills/using-fellowship/SKILL.md` as the orchestrator entry, manifests at v1.0.0, agents/_shared/ + agents/references/ + skills/using-fellowship/references/ as established directories.
+**Fix:** Regenerate via `/fellowship:map` (per the established pattern), or edit by hand to reflect: nine agents (no 민준수), `skills/using-fellowship/SKILL.md` as the orchestrator entry, manifests at v1.0.0, agents/_shared/ + agents/references/ + skills/using-fellowship/references/ as established directories.
 
 **Source:** 선웅 §3.
 
@@ -75,7 +75,7 @@ Fellowship is structurally sound and conformant — **17 of ~22 cited best pract
 
 **Source:** 승현 headline finding + 재호 §3.
 
-### S2. `using-fellowship/SKILL.md` tells 재윤 to use `TodoWrite` despite documented platform block
+### S2. `using-fellowship/SKILL.md` tells 민준수 to use `TodoWrite` despite documented platform block
 
 **Where:** `skills/using-fellowship/SKILL.md` (multiple sections describing TodoWrite as the orchestrator's checklist mechanism).
 
@@ -99,19 +99,19 @@ Fellowship is structurally sound and conformant — **17 of ~22 cited best pract
 
 **Where:** `hooks/session-start` (10 KB, the entire identity injection — eight context blocks, two output formats, fail-silent error paths).
 
-**What:** Catastrophic if broken. A regression here means 재윤 does not load at session start, and every project goes back to vanilla Claude with no Fellowship behavior. Currently zero test coverage.
+**What:** Catastrophic if broken. A regression here means 민준수 does not load at session start, and every project goes back to vanilla Claude with no Fellowship behavior. Currently zero test coverage.
 
 **Fix:** Add a `tests/session-start.test.mjs` covering: bootstrap-only path (no `docs/fellowship/`), fellowship-present path (with quest log, product, debug log, handoff, codebase-map), Cursor JSON output shape vs Claude Code JSON output shape, fail-silent on missing `using-fellowship/SKILL.md`. At minimum five tests.
 
 **Source:** 우신 §A-3.
 
-### S5. Cold-install primes 재윤 identity even on projects without `docs/fellowship/`
+### S5. Cold-install primes 민준수 identity even on projects without `docs/fellowship/`
 
 **Where:** `hooks/session-start` line 35-42 (using-fellowship injection always fires).
 
-**What:** A user installs Fellowship and opens it in a project that has no `docs/fellowship/` directory — the hook still injects 재윤 identity. For a user evaluating the plugin (a "tire-kicker"), this is heavy priming on every session before they have even decided to bootstrap.
+**What:** A user installs Fellowship and opens it in a project that has no `docs/fellowship/` directory — the hook still injects 민준수 identity. For a user evaluating the plugin (a "tire-kicker"), this is heavy priming on every session before they have even decided to bootstrap.
 
-**Fix:** Gate 재윤-identity injection on either (a) presence of `docs/fellowship/`, or (b) a one-time bootstrap prompt (`Run /fellowship:start to enable 재윤 in this project`). Default A is simpler; default B is more discoverable. 준수의 call.
+**Fix:** Gate 민준수-identity injection on either (a) presence of `docs/fellowship/`, or (b) a one-time bootstrap prompt (`Run /fellowship:start to enable 민준수 in this project`). Default A is simpler; default B is more discoverable. 주인공의 call.
 
 **Source:** 현수 §9.
 
@@ -131,7 +131,7 @@ Fellowship is structurally sound and conformant — **17 of ~22 cited best pract
 
 ### V1. Plan-before-build as hook-enforced gate (not advisory string)
 
-**Why it matters:** 재호의 conformance audit notes our plan-before-build is a string 재윤 is told to paste into 주혁의 prompt. Barkain ships 14 enforcement hooks. Our flexibility is a feature, but the absence of any mechanical gate means the rule is honored only when 재윤 remembers.
+**Why it matters:** 재호의 conformance audit notes our plan-before-build is a string 민준수 is told to paste into 주혁의 prompt. Barkain ships 14 enforcement hooks. Our flexibility is a feature, but the absence of any mechanical gate means the rule is honored only when 민준수 remembers.
 
 **Cost:** PreToolUse hook on 주혁의 first `Edit`/`Write`, requiring a plan file in `$CLAUDE_SCRATCHPAD_DIR`. Modest. **Source:** 재호 §3.
 
@@ -149,7 +149,7 @@ Fellowship is structurally sound and conformant — **17 of ~22 cited best pract
 
 ### V4. `<files_to_read>` block in dispatch prompts
 
-**Why it matters:** GSD's pattern — cheap, high-leverage reproducibility improvement. Small skill-methodology change in 재윤의 dispatch protocol; makes every dispatch self-documenting about what context the subagent should load.
+**Why it matters:** GSD's pattern — cheap, high-leverage reproducibility improvement. Small skill-methodology change in 민준수의 dispatch protocol; makes every dispatch self-documenting about what context the subagent should load.
 
 **Cost:** Documentation + skill edit. Trivial. **Source:** 주혁 §3.
 
@@ -161,7 +161,7 @@ Fellowship is structurally sound and conformant — **17 of ~22 cited best pract
 
 ### V6. Worktree-aware agent files
 
-**Why it matters:** Superpowers ships `using-git-worktrees/SKILL.md`. Zero of our agent files mention worktrees. 재윤 dispatches into worktrees, but the agents aren't told what worktree semantics mean for their work (cross-worktree merges, shared resources, branch hygiene).
+**Why it matters:** Superpowers ships `using-git-worktrees/SKILL.md`. Zero of our agent files mention worktrees. 민준수 dispatches into worktrees, but the agents aren't told what worktree semantics mean for their work (cross-worktree merges, shared resources, branch hygiene).
 
 **Cost:** Skill creation or per-agent paragraph. Modest. **Source:** 현수 §6.
 
@@ -173,7 +173,7 @@ Fellowship is structurally sound and conformant — **17 of ~22 cited best pract
 
 ### V8. Three regression scenarios for the v1.0 migration
 
-**Why it matters:** 우신 flagged: TodoWrite-blocker honesty (재윤 should use quest-log checkboxes, not pretend); role-first opener regression-protection (the dispatcher-framing fix we just made should not silently revert); skill-injection success (verify 재윤 identity establishes at message one).
+**Why it matters:** 우신 flagged: TodoWrite-blocker honesty (민준수 should use quest-log checkboxes, not pretend); role-first opener regression-protection (the dispatcher-framing fix we just made should not silently revert); skill-injection success (verify 민준수 identity establishes at message one).
 
 **Cost:** Three new eval scenarios. Modest. **Source:** 우신 §B-3.
 
@@ -206,4 +206,4 @@ These are genuine differentiators worth surfacing in the marketplace card or REA
 2. **Before tag:** Run health-check (must stay 26/0) and `node --test tests/health-check.test.mjs` (must stay 25/1 skipped).
 3. **Tag v1.0.0.** Cut the GitHub release.
 4. **v1.0.1 (within a week):** Resolve S1–S6. S1 is the largest (six files of agent template extraction); the others are individually small.
-5. **v1.1 planning:** Score V1–V9 against effort/value. V4 (`<files_to_read>` block) is the cheapest and arguably highest-leverage; V2 (waves) is the most ambitious. 준수 decides the order.
+5. **v1.1 planning:** Score V1–V9 against effort/value. V4 (`<files_to_read>` block) is the cheapest and arguably highest-leverage; V2 (waves) is the most ambitious. 주인공 decides the order.

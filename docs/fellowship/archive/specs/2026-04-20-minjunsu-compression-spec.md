@@ -1,4 +1,4 @@
-# 재윤 In-Place Compression Spec
+# 민준수 In-Place Compression Spec
 
 **Date:** 2026-04-20
 **Status:** Proposed — ready for 주혁
@@ -8,9 +8,9 @@
 
 ## Context
 
-재윤 (`agents/jaeyun.md`, 720 lines) is the primary agent. His file becomes the system prompt and stays resident every turn of every session. Every token is a permanent context cost. The other nine companions range 212–484 lines but only load when dispatched.
+민준수 (`agents/minjunsu.md`, 720 lines) is the primary agent. His file becomes the system prompt and stays resident every turn of every session. Every token is a permanent context cost. The other nine companions range 212–484 lines but only load when dispatched.
 
-The work is to compress 재윤 **in place**. No extraction to a new skill — orchestration IS 재윤의 craft, and the plugin principle stands: *"Agent craft lives in the agent."* The voice sections — hard-won across four AutoImprove cycles to 1.0 on 2026-03-28 — are untouched.
+The work is to compress 민준수 **in place**. No extraction to a new skill — orchestration IS 민준수의 craft, and the plugin principle stands: *"Agent craft lives in the agent."* The voice sections — hard-won across four AutoImprove cycles to 1.0 on 2026-03-28 — are untouched.
 
 **Target:** 720 → 500–550 lines without behavior regression.
 **Technique:** caveman-style tightening (see `examples/caveman/skills/caveman/SKILL.md`) applied **only to procedural sections**.
@@ -25,7 +25,7 @@ The work is to compress 재윤 **in place**. No extraction to a new skill — or
 ## Non-negotiables
 
 - **Voice sections untouched.** Not shortened, not re-ordered, not re-punctuated. Lines 22–133 are out of bounds. Lines 672–696 (Opening a Session examples) are out of bounds — they are voice disguised as procedure.
-- **Behavior preserved.** Every assertion in `evals/jaeyun/hard.py` must still pass. Every soft criterion in `evals/jaeyun/soft.md` must still hold.
+- **Behavior preserved.** Every assertion in `evals/minjunsu/hard.py` must still pass. Every soft criterion in `evals/minjunsu/soft.md` must still hold.
 - **Artifacts stay clean.** The voice colors conversation, never artifacts. The compressed procedural sections must still read as reference material, not as caveman prose. Caveman style is the compression *technique*, not the output voice.
 
 ## Compression technique (the caveman move, constrained)
@@ -51,7 +51,7 @@ Reference: `examples/caveman/skills/caveman/SKILL.md`. Apply **lite-to-full inte
 
 ## Section Audit
 
-Every block of `agents/jaeyun.md` is classified as **Voice (V)**, **Procedural (P)**, or **Structural (S)**.
+Every block of `agents/minjunsu.md` is classified as **Voice (V)**, **Procedural (P)**, or **Structural (S)**.
 
 | Lines | Section | Class | Current | Target | Notes |
 |---|---|---|---|---|---|
@@ -110,7 +110,7 @@ The Memory section is the biggest single win and the highest risk — compress c
 
 ## Risk Matrix
 
-For each procedural section, how likely is compression to affect behavior tested by `evals/jaeyun/`?
+For each procedural section, how likely is compression to affect behavior tested by `evals/minjunsu/`?
 
 | Section | Risk | Reason | Mitigation |
 |---|---|---|---|
@@ -120,9 +120,9 @@ For each procedural section, how likely is compression to affect behavior tested
 | Tier Scoring tables + worked example | **High** | Worked example is load-bearing: "spec exists (+1) … err down to Tier 3" wires the plan-before-dispatch instinct | **Tables + worked example preserved verbatim**; only tighten surrounding prose |
 | Multi-track, Teams | Low | No assertion | Tighten freely |
 | Companion table | None | Reference | Preserved |
-| Handling Reports | Medium | "DONE means verified" prose informs how 재윤 responds to `architect_done` scenario | Keep the rule sentence; tighten the paragraph around it |
+| Handling Reports | Medium | "DONE means verified" prose informs how 민준수 responds to `architect_done` scenario | Keep the rule sentence; tighten the paragraph around it |
 | Review Cycle | **High** | The `architect_done` scenario (`no_permission_seeking_before_dispatch`) and step-complete scenario depend on the "don't ask permission, just dispatch" framing being present elsewhere too; also "Never skip re-review" and "승현 never edits code" are behavioral rails | Preserve both rails verbatim; tighten the numbered cycle |
-| Testing Cycle | Medium | Workflows are reference, but the browser-verify MCP-registration line is user-facing (재윤 quotes it verbatim to the user) | Preserve the quoted command line verbatim |
+| Testing Cycle | Medium | Workflows are reference, but the browser-verify MCP-registration line is user-facing (민준수 quotes it verbatim to the user) | Preserve the quoted command line verbatim |
 | Design Review | Medium | Figma-MCP quoted line is user-facing | Preserve verbatim |
 | Dispatching, Model Routing | Low | Tables are reference | Preserved |
 | Planning | **High** | The plan-before-build-gate prompt is copied verbatim into 주혁 dispatches at Tier 3+ | Preserve that prompt verbatim; tighten surrounding prose |
@@ -136,7 +136,7 @@ For each procedural section, how likely is compression to affect behavior tested
 
 ## Addition 1 — Ethos injection hook
 
-A four-line "Fellowship Principles" ethos block lives at `templates/ethos.md` (created separately — not 주혁의 concern in this work). 재윤 reads it and includes it in the prompt for every Tier 3+ companion dispatch.
+A four-line "Fellowship Principles" ethos block lives at `templates/ethos.md` (created separately — not 주혁의 concern in this work). 민준수 reads it and includes it in the prompt for every Tier 3+ companion dispatch.
 
 **Where to add the hook:** inside the **Dispatching Companions** section (around line 491–500), append a new subsection.
 
@@ -153,14 +153,14 @@ If `templates/ethos.md` is absent, dispatch without it — do not block, do not 
 **Why these exact instructions:**
 - *"read … once"* — avoids re-reading on every dispatch in a Tier 4 parallel spawn
 - *"prepend … under a heading"* — gives the companion a predictable anchor to scan past or honor
-- *"do not paraphrase"* — the ethos file's voice matters; 재윤 must not translate it
+- *"do not paraphrase"* — the ethos file's voice matters; 민준수 must not translate it
 - *"If absent, dispatch without it"* — follows the plugin rule that nothing blocks core workflow on optional artifacts
 
 **Line budget:** 4 lines of prose + 2 lines of header/blank = 6 lines. Falls inside the 4-line target on the audit table once the one-line subsection header and blank line are counted separately.
 
 ## Addition 2 — Skill routing hooks
 
-Two new skills are landing in this batch: `fellowship:investigate` and `fellowship:learn`. 재윤 needs two tight routing hooks — no more.
+Two new skills are landing in this batch: `fellowship:investigate` and `fellowship:learn`. 민준수 needs two tight routing hooks — no more.
 
 **Where to add:** at the end of the **Companions** section (after line 308, before Handling Companion Reports at line 310). Add a new subsection.
 
@@ -184,7 +184,7 @@ Two new skills are landing in this batch: `fellowship:investigate` and `fellowsh
 
 ## Before / After sample — the Review Cycle
 
-This shows the compression style 주혁 should apply across all procedural sections. The Review Cycle is a good template because it has numbered steps, a statuses table, and "key rules" — the three patterns that repeat throughout 재윤.
+This shows the compression style 주혁 should apply across all procedural sections. The Review Cycle is a good template because it has numbered steps, a statuses table, and "key rules" — the three patterns that repeat throughout 민준수.
 
 ### Before (current lines 331–375, 45 lines)
 
@@ -282,7 +282,7 @@ After 주혁 DONE on critical paths, dispatch 승현. Cycle runs to completion o
 - The four-status taxonomy is preserved
 - Behavioral rails ("Never skip re-review", "승현 never edits code", "stays alive via SendMessage") remain intact — just shorter
 
-**Apply this same style across every P-classified section.** Do not go further (ultra mode, abbreviations like "req/res", arrows for every dependency). 재윤의 file is still human-read reference material.
+**Apply this same style across every P-classified section.** Do not go further (ultra mode, abbreviations like "req/res", arrows for every dependency). 민준수의 file is still human-read reference material.
 
 ---
 
@@ -290,7 +290,7 @@ After 주혁 DONE on critical paths, dispatch 승현. Cycle runs to completion o
 
 Do this in one pass. Do not commit partial compressions — AutoImprove validates the whole delta.
 
-1. **Read** `agents/jaeyun.md` fully. Confirm line ranges match this spec's audit table — if the file has shifted since 2026-04-20, re-check the V/P/S boundaries before touching anything.
+1. **Read** `agents/minjunsu.md` fully. Confirm line ranges match this spec's audit table — if the file has shifted since 2026-04-20, re-check the V/P/S boundaries before touching anything.
 2. **Section by section, top to bottom:**
    - Skip any section marked **V** (Voice). Do not edit. Do not re-punctuate. Do not move.
    - For each **P** section, apply the compression style shown in the Before/After sample.
@@ -298,26 +298,26 @@ Do this in one pass. Do not commit partial compressions — AutoImprove validate
 3. **Insert Addition 1** (Ethos hook) at the end of Dispatching Companions.
 4. **Insert Addition 2** (Skill routing hooks) at the end of Companions.
 5. **Count lines.** Target: 500–550. If under 500, something was cut that shouldn't have been — check the audit table. If over 560, identify the fattest P section and tighten further.
-6. **Read the whole file once, aloud-ish.** Does the voice still sound like 재윤 in the first 133 lines? (It must — those lines are untouched.) Does the procedural prose read as reference? Good.
-7. **Commit.** One commit. Message: `refactor(jaeyun): in-place compression of procedural sections`.
+6. **Read the whole file once, aloud-ish.** Does the voice still sound like 민준수 in the first 133 lines? (It must — those lines are untouched.) Does the procedural prose read as reference? Good.
+7. **Commit.** One commit. Message: `refactor(minjunsu): in-place compression of procedural sections`.
 
 **Do not:**
 - Edit voice sections even by a word
 - Remove a rule, even if it feels redundant
 - Introduce new headings not specified here
 - Change the frontmatter
-- Touch `evals/jaeyun/`, `templates/ethos.md`, or any other file in this commit
+- Touch `evals/minjunsu/`, `templates/ethos.md`, or any other file in this commit
 
 ---
 
 ## Validation Plan
 
-After 주혁 commits, run AutoImprove against the refactored 재윤.
+After 주혁 commits, run AutoImprove against the refactored 민준수.
 
-1. **Baseline run first.** Run `evals/jaeyun/` hard + soft against the new file before AutoImprove iterates. Compare to the 2026-03-28 quest-log entry (재윤 hit 1.0 across 4 cycles).
+1. **Baseline run first.** Run `evals/minjunsu/` hard + soft against the new file before AutoImprove iterates. Compare to the 2026-03-28 quest-log entry (민준수 hit 1.0 across 4 cycles).
 2. **Gap assessment:**
    - **Gap ≤ 0.05** (i.e. score ≥ 0.95) → ship. The compression did not regress. Merge.
-   - **Gap > 0.05** → open `evals/jaeyun/history.jsonl`. Identify which assertion regressed. Cross-reference the assertion to the section compressed (risk matrix above names the coupling). Restore that specific section from the pre-compression version of `agents/jaeyun.md`. Re-run. Iterate — not a full revert.
+   - **Gap > 0.05** → open `evals/minjunsu/history.jsonl`. Identify which assertion regressed. Cross-reference the assertion to the section compressed (risk matrix above names the coupling). Restore that specific section from the pre-compression version of `agents/minjunsu.md`. Re-run. Iterate — not a full revert.
 3. **AutoImprove cycles (up to 4)** may still refine the compressed file. This is expected and welcome. The spec only requires baseline ≥ 0.95 before AutoImprove runs.
 4. **If any hard assertion flips from pass to fail**, treat as blocker. The test suite is the rails — a regression there is not acceptable even if soft score is high.
 
@@ -327,7 +327,7 @@ After 주혁 commits, run AutoImprove against the refactored 재윤.
 
 ## Open Questions
 
-None blocking. Two notes for 준수의 awareness:
+None blocking. Two notes for 주인공의 awareness:
 
-- **Opening a Session is classified Voice.** That section (lines 672–696) contains inline HTML comments marking past AutoImprove hypotheses — it is actively a voice-calibration artifact, not reference prose. I've scoped it out of compression. If 준수 disagrees, the spec allows for that block to be tightened in a follow-up after ethos and skill hooks land clean.
+- **Opening a Session is classified Voice.** That section (lines 672–696) contains inline HTML comments marking past AutoImprove hypotheses — it is actively a voice-calibration artifact, not reference prose. I've scoped it out of compression. If 주인공 disagrees, the spec allows for that block to be tightened in a follow-up after ethos and skill hooks land clean.
 - **`templates/ethos.md` does not yet exist.** The ethos injection hook is written to fail-safe ("dispatch without it, do not block") — so this spec can ship before that file lands. But both should land in the same batch for the hook to mean anything on the next dispatch.

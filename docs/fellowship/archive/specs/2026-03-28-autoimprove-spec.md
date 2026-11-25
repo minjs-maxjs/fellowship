@@ -2,7 +2,7 @@
 
 **Date:** 2026-03-28
 **Status:** Planned
-**Author:** 재윤
+**Author:** 민준수
 
 ---
 
@@ -24,7 +24,7 @@ The agent (`skills/autoimprove/SKILL.md`) handles the loop. The human reviews th
 
 ## Design Principles
 
-**Individual agents, not whole workflows.** The loop requires clear attribution — change one file, measure one agent's output. Testing 재윤 → 주혁 → 승현 in sequence breaks attribution. When a workflow scenario fails, you can't tell which file to improve. Individual agent evals are the right unit.
+**Individual agents, not whole workflows.** The loop requires clear attribution — change one file, measure one agent's output. Testing 민준수 → 주혁 → 승현 in sequence breaks attribution. When a workflow scenario fails, you can't tell which file to improve. Individual agent evals are the right unit.
 
 **One change per cycle.** Each iteration proposes and tests exactly one change to the target agent file. Multiple simultaneous changes make score improvements unattributable. The hypothesis comment is mandatory.
 
@@ -36,7 +36,7 @@ The agent (`skills/autoimprove/SKILL.md`) handles the loop. The human reviews th
 
 ## Scope — Phase 1
 
-Three agents: **재윤**, **주혁**, **승현**. These are the critical path: every session goes through 재윤, every build goes through 주혁, every critical-path build gets 승현. High value, high testability.
+Three agents: **민준수**, **주혁**, **승현**. These are the critical path: every session goes through 민준수, every build goes through 주혁, every critical-path build gets 승현. High value, high testability.
 
 Other agents (우신, 동일, 현수, 필엽, 선웅, 영학) added incrementally once the loop proves out.
 
@@ -49,7 +49,7 @@ evals/
   _runner/
     improve.sh              ← entry point: ./improve.sh <agent>
     README.md               ← how to run
-  jaeyun/
+  minjunsu/
     scenarios.jsonl         ← 12-15 test inputs
     hard.py                 ← deterministic assertions
     soft.md                 ← qualitative assertions (LLM-as-judge)
@@ -89,7 +89,7 @@ skills/autoimprove/
 **Voice:**
 - `no_corporate_narration` — must not contain "I'll go ahead and", "I went ahead and", "I've gone ahead"
 
-### 재윤 — `hard.py` + `soft.md`
+### 민준수 — `hard.py` + `soft.md`
 
 **Hard — forbidden phrases:**
 - `no_survey_question` — must not contain "where do you want to start", "what would you like to work on", "how can i help you today", "what should we tackle"
@@ -97,7 +97,7 @@ skills/autoimprove/
 - `no_corporate_phrases` — must not contain "sounds like", "makes sense", "that's fair", "totally", "on deck", "circle back", "loop you in", "move the needle"
 
 **Hard — required elements:**
-- `response_is_brief` — opening responses under 80 words (재윤 is not verbose)
+- `response_is_brief` — opening responses under 80 words (민준수 is not verbose)
 - `no_trailing_summary` — must not end with a sentence starting "In summary", "To summarize", "So to recap"
 
 **Soft — LLM-as-judge (each returns TRUE/FALSE):**
@@ -137,7 +137,7 @@ skills/autoimprove/
 {"id":"gi010","input":"Update the README installation steps — step 3 is outdated"}
 ```
 
-### 재윤 scenarios (`scenarios.jsonl`)
+### 민준수 scenarios (`scenarios.jsonl`)
 
 ```jsonl
 {"id":"ga001","type":"session_start","context":"quest log: auth middleware 60% complete, 승현 review pending","input":"hey"}
@@ -235,7 +235,7 @@ Given: target agent name (e.g. "juhyeok")
 #!/bin/bash
 # Usage: ./evals/_runner/improve.sh <agent> [--cycles N]
 # Example: ./evals/_runner/improve.sh juhyeok
-#          ./evals/_runner/improve.sh jaeyun --cycles 15
+#          ./evals/_runner/improve.sh minjunsu --cycles 15
 
 TARGET=${1:-juhyeok}
 CYCLES=${3:-25}
@@ -307,10 +307,10 @@ Scores are disaggregated — format and voice tracked separately so regressions 
 | Agent | Starting estimate | Target | Key assertions |
 |---|---|---|---|
 | 주혁 | ~60% | ≥ 85% | Format compliance, no vague verification, no mid-build stop |
-| 재윤 | ~45% | ≥ 75% | No survey questions, no preamble, named next step |
+| 민준수 | ~45% | ≥ 75% | No survey questions, no preamble, named next step |
 | 승현 | ~65% | ≥ 85% | Structure compliance, severity present, no inline code edits |
 
-재윤의 target is lower — voice register is genuinely harder to improve with synthetic scenarios. Phase 2 (real-usage feedback) will push him further.
+민준수의 target is lower — voice register is genuinely harder to improve with synthetic scenarios. Phase 2 (real-usage feedback) will push him further.
 
 ---
 
@@ -334,7 +334,7 @@ The improvement loop then reads real failures as primary scenarios — synthetic
 1,200+ judge calls per overnight run at Sonnet prices is unnecessary cost. Haiku handles simple binary voice assertions reliably. Constraint: keep soft assertions simple enough for Haiku — one plain sentence, no aesthetic judgment required. If an assertion can't be evaluated by a junior developer reading the response, simplify it or drop it.
 
 **Runner supports `--all` for sequential overnight runs — but not on first use.**
-`./improve.sh --all` runs 주혁 → 재윤 → 승현 sequentially on separate worktrees, producing three independent branches and three clean diffs in the morning. Not parallel — no speed benefit, three simultaneous runs triple the cost unnecessarily. First two or three runs: individual agents only. Once the loop is proven, `--all` is the default.
+`./improve.sh --all` runs 주혁 → 민준수 → 승현 sequentially on separate worktrees, producing three independent branches and three clean diffs in the morning. Not parallel — no speed benefit, three simultaneous runs triple the cost unnecessarily. First two or three runs: individual agents only. Once the loop is proven, `--all` is the default.
 
 **Both changes kept — the sequential loop design handles this correctly.**
 Each cycle tests its change against the current running baseline. Change in cycle 5 was tested against the pre-cycle-5 state; change in cycle 8 was tested against the post-cycle-5 state. Each earned its place independently. The risk of semantic conflicts across many cycles is real — the session-summary.md per-cycle scores make this visible. If the score plateaus or dips after a run of improvements, read the full diff before merging rather than accepting blindly.

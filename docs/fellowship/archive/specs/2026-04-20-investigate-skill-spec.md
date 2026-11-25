@@ -143,7 +143,7 @@ Do not cross-reference skills we have not built.
 - **No tables unless they earn their keep.** Prose is usually shorter.
 - **No emojis.**
 
-## Open questions for 준수
+## Open questions for 주인공
 
 1. **Debug-log location.** Currently `docs/fellowship/debug-log.md`, owned by 주혁. 우신 and 선웅 will both start appending here when this skill ships. Confirm: single shared file, or per-agent files? *Counsel: single file. One place to read "has anyone seen this before" beats three.*
 2. **Skill name.** `investigate` is shorter and matches gstack. `systematic-debugging` is more explicit and matches Superpowers. The skill file lives at `skills/investigate/SKILL.md` either way — only the `name:` frontmatter field differs. *Counsel: `investigate`. Shorter. Consistent with how companions will refer to it in prose.*

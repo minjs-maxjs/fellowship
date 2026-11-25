@@ -2,7 +2,7 @@
 name: opus-4-8-possibilities
 status: reference
 created: 2026-05-30
-author: jaeyun-research
+author: minjunsu-research
 type: research
 ---
 
@@ -82,7 +82,7 @@ benchmark specifics and subagent caps from secondary write-ups are flagged
    fresh-context validators scoring assertions adversarially. 4×-fewer-unflagged-flaws
    + better honesty raises the floor on their core job. Design unchanged; execution
    improves.
-3. **Per-dispatch model routing.** Fast mode + flat `effort=high` give 재윤 two new
+3. **Per-dispatch model routing.** Fast mode + flat `effort=high` give 민준수 two new
    dials. Checklist-tier dispatches are the obvious fast-mode candidates.
 
 **Newly worth building (conceptually):**

@@ -8,7 +8,7 @@
 
 ## 1. Verdict
 
-Of roughly 22 distinct best-practice claims that `research.md` makes against named sources, **17 are genuinely implemented and visible in the codebase, 3 are partially implemented, and 2 are advisory rather than enforced.** No outright misrepresentations remain — the recent 영학 pass cleaned up the `learnings.md` staleness. The strongest conformance is in the orchestration layer (SessionStart skill injection, three-zone quest log, count-triggered consolidation, context monitor with agent-visible warnings, AutoImprove protected evaluator) — these match the cited sources verbatim, including thresholds (35%/25%, threshold=7). The weakest conformance is structural: the **plan-before-build gate** is a string 재윤 is supposed to paste into dispatch prompts, with no hook enforcement; the **three-layer memory architecture** is conceptually clean but specs/plans/per-agent boundaries have no schema to keep them separate; **eval coverage** stops at four of nine agents (재윤/주혁/승현/우신); and the orchestrator's mandated `TodoWrite` calls are blocked by a Claude Code platform constraint (already documented). Two cited best practices — Mem0's write-time conflict resolution and GSD's full artifact pyramid — are claimed loosely; we partially honor the principle but don't implement the mechanism.
+Of roughly 22 distinct best-practice claims that `research.md` makes against named sources, **17 are genuinely implemented and visible in the codebase, 3 are partially implemented, and 2 are advisory rather than enforced.** No outright misrepresentations remain — the recent 영학 pass cleaned up the `learnings.md` staleness. The strongest conformance is in the orchestration layer (SessionStart skill injection, three-zone quest log, count-triggered consolidation, context monitor with agent-visible warnings, AutoImprove protected evaluator) — these match the cited sources verbatim, including thresholds (35%/25%, threshold=7). The weakest conformance is structural: the **plan-before-build gate** is a string 민준수 is supposed to paste into dispatch prompts, with no hook enforcement; the **three-layer memory architecture** is conceptually clean but specs/plans/per-agent boundaries have no schema to keep them separate; **eval coverage** stops at four of nine agents (민준수/주혁/승현/우신); and the orchestrator's mandated `TodoWrite` calls are blocked by a Claude Code platform constraint (already documented). Two cited best practices — Mem0's write-time conflict resolution and GSD's full artifact pyramid — are claimed loosely; we partially honor the principle but don't implement the mechanism.
 
 ---
 
@@ -25,7 +25,7 @@ Of roughly 22 distinct best-practice claims that `research.md` makes against nam
 | 6 | "Effective harnesses" — checkpoint/resume via BLOCKED | Every agent's status table | **Implemented** | All agents include `BLOCKED` with mandatory `Blocker:` section; verified in `juhyeok.md:101`, `seunghyeon.md:232` |
 | **Superpowers** | | | | |
 | 7 | "4-status reporting protocol" (DONE / DONE_WITH_CONCERNS / NEEDS_CONTEXT / BLOCKED) | `_shared/companion-protocol.md` + each agent | **Implemented** | Line 22: "exactly one of the four status codes valid for your companion"; reproduced in all 9 agents |
-| 8 | SessionStart skill injection — `using-fellowship` SKILL loaded with strong identity wrapper | `hooks/session-start` | **Implemented** | Lines 35–42: reads `skills/using-fellowship/SKILL.md`, wraps with "You are 재윤 — orchestrator…", emits in `<EXTREMELY_IMPORTANT>` tag |
+| 8 | SessionStart skill injection — `using-fellowship` SKILL loaded with strong identity wrapper | `hooks/session-start` | **Implemented** | Lines 35–42: reads `skills/using-fellowship/SKILL.md`, wraps with "You are 민준수 — orchestrator…", emits in `<EXTREMELY_IMPORTANT>` tag |
 | 9 | "TDD as iron law" deliberately NOT adopted — 우신 owns testing, 주혁 verifies | `agents/usin.md` + `agents/juhyeok.md` | **Implemented** | TDD principles surgically folded into 우신 Mode 2 only (per quest log 2026-04-25); 주혁 verifies, doesn't TDD-mandate |
 | 10 | Decompose entry skill into `references/*.md` to avoid bloat | `skills/using-fellowship/references/` | **Implemented** | 8 reference files (voice, tier-scoring, companions, cycles, opening-examples, quest-log-format, handoff-template, feedback-log-schema) totalling 419 lines |
 | **Sub-agent research (Steve Kinney)** | | | | |
@@ -37,21 +37,21 @@ Of roughly 22 distinct best-practice claims that `research.md` makes against nam
 | 14 | Artifact pyramid (PROJECT→REQUIREMENTS→ROADMAP→...→SUMMARY) | `docs/fellowship/` | **Partial** | Quest log + specs + plans cover the *function* (handoff between phases via files), but Fellowship does not implement the named pyramid. The principle is honored; the pattern is not directly mirrored. |
 | 15 | Fresh context per spawned agent | Subagent platform behavior | **Implemented** | Subagents receive fresh context by default — Claude Code platform behavior, claimed correctly. |
 | **Mastra** | | | | |
-| 16 | Count-triggered consolidation: Recently Completed > 7 → fold oldest into archive | `hooks/fellowship-quest-log-consolidate.mjs` | **Implemented** | Line 30: `THRESHOLD = 7`; lines 137–142 split keep/overflow; archive-first atomic write with verification. Wired to SessionStart + SessionEnd in `hooks.json`. **Genuinely automated**, not 재윤의 manual responsibility. |
+| 16 | Count-triggered consolidation: Recently Completed > 7 → fold oldest into archive | `hooks/fellowship-quest-log-consolidate.mjs` | **Implemented** | Line 30: `THRESHOLD = 7`; lines 137–142 split keep/overflow; archive-first atomic write with verification. Wired to SessionStart + SessionEnd in `hooks.json`. **Genuinely automated**, not 민준수의 manual responsibility. |
 | 17 | Per-agent observational memory (`memory: project`) — episodic | All `agents/*.md` frontmatter | **Implemented** | All 9 agents have `memory: project`; jaeho.md:15, others identical |
-| 18 | Mem0 write-time conflict resolution (What Exists is summary, not append) | `quest-log.md` `## What Exists` zone | **Partial** | The zone exists and is curated by hand; the consolidation hook only moves overflow to archive — it does not merge or resolve conflicts in `What Exists`. That section is updated by 재윤 manually. |
+| 18 | Mem0 write-time conflict resolution (What Exists is summary, not append) | `quest-log.md` `## What Exists` zone | **Partial** | The zone exists and is curated by hand; the consolidation hook only moves overflow to archive — it does not merge or resolve conflicts in `What Exists`. That section is updated by 민준수 manually. |
 | **Letta/MemGPT** | | | | |
 | 19 | Three-zone quest log: Current (3) / Recently Completed (7) / What Exists (15) | `quest-log.md` + `references/quest-log-format.md` | **Implemented** | Live `quest-log.md` follows the three-zone structure (Current 3, Recently Completed 9 — currently overflowing by 2, will trim next session-end), What Exists at 8 lines |
 | **A-MEM / Collaborative Memory** | | | | |
-| 20 | Per-agent private memory + shared `docs/fellowship/` + 재윤-curated dispatch | Every dispatch has scoped context; agent memory not shared | **Implemented** | `using-fellowship` "Memory" section: "You are the memory curator. Companions don't search for context. You read shared memory, select what's relevant, include it in the dispatch." |
+| 20 | Per-agent private memory + shared `docs/fellowship/` + 민준수-curated dispatch | Every dispatch has scoped context; agent memory not shared | **Implemented** | `using-fellowship` "Memory" section: "You are the memory curator. Companions don't search for context. You read shared memory, select what's relevant, include it in the dispatch." |
 | 21 | A-MEM tagging NOT adopted — uncategorized prose | Per-agent memory | **Implemented (negative claim honored)** | No tagging schema in any agent; consistent with stated decision |
 | **Karpathy autoresearch / AutoImprove** | | | | |
 | 22 | Real invocations, not simulation — fresh subprocess per scenario | `skills/autoimprove/SKILL.md` Step 2 | **Implemented** | Lines 71–106: `subprocess.run(["claude", "--dangerously-skip-permissions", "--model", "claude-haiku-4-5", "--print", prompt])` per scenario; explicit "Do not simulate responses internally." (line 71) |
 | 23 | Protected evaluator (chmod 444, in `/tmp`) — agent cannot weaken assertions | `skills/autoimprove/SKILL.md` lines 113–119, 401–404 | **Implemented** | Run against `/tmp/fellowship_eval_<target>_hard.py`; explicit instruction not to modify `evals/<target>/hard.py`. Runner copies to /tmp before worktree. |
-| 24 | Balanced scenarios — both "should dispatch" and "must not dispatch" | `evals/jaeyun/scenarios.jsonl` | **Partial** | 25 scenarios across 19 distinct types including `routing_tier1/2/3`, `concern_pushback`, `escalation_pushback`, `survey_trap`. Genuinely balanced for 재윤. **But:** only 재윤+주혁+승현+우신 have eval suites — 5 of 9 companions (재호, 현수, 동일, 선웅, 필엽, 영학) have **no balanced scenario set at all**, already flagged in quest log. |
-| 25 | Holdout split + assertion-health tracking | `skills/autoimprove/SKILL.md` Step 8 | **Implemented** | Holdout validation, assertion-health.jsonl appended; `evals/jaeyun/holdout.jsonl` + `holdout_validation.py` exist |
+| 24 | Balanced scenarios — both "should dispatch" and "must not dispatch" | `evals/minjunsu/scenarios.jsonl` | **Partial** | 25 scenarios across 19 distinct types including `routing_tier1/2/3`, `concern_pushback`, `escalation_pushback`, `survey_trap`. Genuinely balanced for 민준수. **But:** only 민준수+주혁+승현+우신 have eval suites — 5 of 9 companions (재호, 현수, 동일, 선웅, 필엽, 영학) have **no balanced scenario set at all**, already flagged in quest log. |
+| 25 | Holdout split + assertion-health tracking | `skills/autoimprove/SKILL.md` Step 8 | **Implemented** | Holdout validation, assertion-health.jsonl appended; `evals/minjunsu/holdout.jsonl` + `holdout_validation.py` exist |
 | **Plan-before-build** | | | | |
-| 26 | Plan-before-build gate (Tier 3+) — 주혁 writes plan before code | `skills/using-fellowship/SKILL.md:142` + `agents/juhyeok.md:78` | **Advisory** | The "gate" is a sentence 재윤 is told to paste into the dispatch prompt; nothing enforces it. If 재윤 forgets the line, no plan is written. No hook intercepts a 주혁 dispatch missing this string. |
+| 26 | Plan-before-build gate (Tier 3+) — 주혁 writes plan before code | `skills/using-fellowship/SKILL.md:142` + `agents/juhyeok.md:78` | **Advisory** | The "gate" is a sentence 민준수 is told to paste into the dispatch prompt; nothing enforces it. If 민준수 forgets the line, no plan is written. No hook intercepts a 주혁 dispatch missing this string. |
 | **Agent Teams** | | | | |
 | 27 | Dual-mode architecture: env var `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` toggles Tier 4 to Agent Teams | `skills/using-fellowship/SKILL.md:73–75` | **Implemented (conditional)** | Tier 4 — Agent Teams mode section gates on env var; falls back to parallel subagents if unset. Honored as designed; Agent Teams not active by default per known bugs. |
 | **SkillsBench / context-mode / barkain virtual filesystem** | | | | |
@@ -65,7 +65,7 @@ Of roughly 22 distinct best-practice claims that `research.md` makes against nam
 
 **What we say:** "For any Tier 3+ dispatch to 주혁, include: 'Write your plan to `$CLAUDE_SCRATCHPAD_DIR/juhyeok-plan-[slug].md` before writing any code…'" — `using-fellowship/SKILL.md:142`.
 
-**What's actually true:** This is a string 재윤 is supposed to paste. There is no hook that inspects an outgoing 주혁 dispatch and rejects it if the plan instruction is missing. Compare to the cited barkain harness, which uses 14 hooks across 6 lifecycle events as **structural constraints**. Fellowship's gate is methodology-only.
+**What's actually true:** This is a string 민준수 is supposed to paste. There is no hook that inspects an outgoing 주혁 dispatch and rejects it if the plan instruction is missing. Compare to the cited barkain harness, which uses 14 hooks across 6 lifecycle events as **structural constraints**. Fellowship's gate is methodology-only.
 
 **Remediation framing (not the fix):** Either accept the gate as advisory and rename it ("plan-before-build *prompt*", not *gate*), or add a UserPromptSubmit-adjacent enforcement that blocks Tier 3+ 주혁 dispatches missing the scratchpad instruction. The latter is closer to what research.md cites; the former is honest about the current behavior.
 
@@ -81,23 +81,23 @@ Of roughly 22 distinct best-practice claims that `research.md` makes against nam
 
 **What we say:** AutoImprove "applies to agent instruction files." Implies generality.
 
-**What's actually true:** `evals/` contains suites only for 재윤, 주혁, 승현, 우신. 재호, 현수, 동일, 선웅, 필엽, 영학 have no scenario sets. Already in the quest log Up Next, but worth flagging that the research.md claim of an autoresearch loop applied to "agent files" is partially aspirational.
+**What's actually true:** `evals/` contains suites only for 민준수, 주혁, 승현, 우신. 재호, 현수, 동일, 선웅, 필엽, 영학 have no scenario sets. Already in the quest log Up Next, but worth flagging that the research.md claim of an autoresearch loop applied to "agent files" is partially aspirational.
 
 **Remediation framing:** State explicitly in research.md that AutoImprove is wired for four of nine companions and the rest are roadmap; the current phrasing implies generality.
 
 ### 3.4 TodoWrite mandate vs. platform reality
 
-**What we say:** `using-fellowship/SKILL.md:54,140` tells 재윤 to "**call `TodoWrite`**" before dispatching anyone, with the user watching the checklist tick live.
+**What we say:** `using-fellowship/SKILL.md:54,140` tells 민준수 to "**call `TodoWrite`**" before dispatching anyone, with the user watching the checklist tick live.
 
 **What's actually true:** Per the quest log Current section, `TodoWrite` "still fails in the main thread" with `exists but is not enabled in this context`. Documented as v1.0 known limitation in README.
 
-**Remediation framing:** Not a research.md gap — research.md doesn't claim this — but the using-fellowship skill is asking 재윤 to do something the platform won't allow. Soften the wording from "call TodoWrite" to "if TodoWrite is enabled, call it — otherwise the quest log checkboxes are the live progress" until the platform issue is resolved.
+**Remediation framing:** Not a research.md gap — research.md doesn't claim this — but the using-fellowship skill is asking 민준수 to do something the platform won't allow. Soften the wording from "call TodoWrite" to "if TodoWrite is enabled, call it — otherwise the quest log checkboxes are the live progress" until the platform issue is resolved.
 
 ### 3.5 Mem0 write-time conflict resolution is partially honored
 
 **What we say:** "What Exists is a living summary, not an append-only list" (research.md:183).
 
-**What's actually true:** The consolidation hook moves overflow Recently Completed entries to the archive file. It does **not** rewrite or merge `What Exists`. Updates to that zone are entirely 재윤의 responsibility, on a manual basis. The research claim is accurate in spirit (the zone is a summary, by convention) but the Mem0 mechanism (write-time merge) is not implemented.
+**What's actually true:** The consolidation hook moves overflow Recently Completed entries to the archive file. It does **not** rewrite or merge `What Exists`. Updates to that zone are entirely 민준수의 responsibility, on a manual basis. The research claim is accurate in spirit (the zone is a summary, by convention) but the Mem0 mechanism (write-time merge) is not implemented.
 
 **Remediation framing:** Either keep the citation but tighten the wording ("we adopt the principle, not the mechanism") or extend the consolidation hook to also fold archived items into a one-line `What Exists` update.
 

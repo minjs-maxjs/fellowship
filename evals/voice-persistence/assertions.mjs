@@ -260,7 +260,7 @@ export function assertNoDrift(firstHalf, secondHalf, { tolerance = 0.05 } = {}) 
 
 // ── Assertion 5 — subagent voice isolation (Scenario 3) ────────────────────
 //
-// A subagent response should NOT carry 재윤 vocabulary or exemplar rhythm.
+// A subagent response should NOT carry 민준수 vocabulary or exemplar rhythm.
 // This is the inverse of Assertion 1 + 3 — we want absence, not presence.
 export function assertSubagentVoiceClean(text) {
   const cleaned = stripArtifacts(text);
@@ -268,7 +268,7 @@ export function assertSubagentVoiceClean(text) {
   const rhythm = assertExemplarRhythm(text, { minCount: 1 });
   // Some Tolkien-cluster words are common English (`mark`, `burden`). To
   // reduce false positives, we count it as bleed only if BOTH vocabulary
-  // AND rhythm appear — 재윤 voice is the combination, not a single
+  // AND rhythm appear — 민준수 voice is the combination, not a single
   // shared word.
   const bleed = vocab.length >= 1 && rhythm.pass;
   return {

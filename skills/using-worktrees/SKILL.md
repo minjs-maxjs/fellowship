@@ -10,7 +10,7 @@ user-invocable: false
 
 ## Overview
 
-재윤 isolates parallel agent work in git worktrees so two builders can edit at once without stepping on each other's commits. A worktree is a full checkout of the repository on its own branch, sharing the same `.git` directory as `main`. Fellowship places worktrees under `.claude/worktrees/agent-<hash>/` (gitignored) and names the branch to match the directory.
+민준수 isolates parallel agent work in git worktrees so two builders can edit at once without stepping on each other's commits. A worktree is a full checkout of the repository on its own branch, sharing the same `.git` directory as `main`. Fellowship places worktrees under `.claude/worktrees/agent-<hash>/` (gitignored) and names the branch to match the directory.
 
 **Core principle:** the agent commits inside the worktree; the orchestrator merges back. Neither side does the other's job.
 
@@ -26,9 +26,9 @@ The floor (every dispatched agent, regardless of skill load) lives in [`agents/_
 
 If you are a reviewer (승현, 동일), you do not commit and do not need this skill in depth — read the floor in `companion-protocol.md` and write annotations to `$CLAUDE_SCRATCHPAD_DIR/`.
 
-## How 재윤 Dispatches Into a Worktree
+## How 민준수 Dispatches Into a Worktree
 
-재윤 creates the worktree before invoking the agent:
+민준수 creates the worktree before invoking the agent:
 
 ```bash
 hash=$(openssl rand -hex 8)
@@ -108,7 +108,7 @@ git merge --no-ff agent-<hash> -m "Merge <agent> work: <task slug>"
 git worktree remove .claude/worktrees/agent-<hash>
 ```
 
-If the merge surfaces a conflict (two parallel branches touched the same file), the orchestrator resolves before the next dispatch. This is by design — the conflict is a real disagreement that humans (or 재윤) must arbitrate, not a problem to defer.
+If the merge surfaces a conflict (two parallel branches touched the same file), the orchestrator resolves before the next dispatch. This is by design — the conflict is a real disagreement that humans (or 민준수) must arbitrate, not a problem to defer.
 
 ## Failure Modes (From This Session)
 
@@ -149,12 +149,12 @@ If the merge surfaces a conflict (two parallel branches touched the same file), 
 ## Pairs With
 
 - [`agents/_shared/companion-protocol.md`](../../agents/_shared/companion-protocol.md#worktree-awareness) — the floor every agent reads, with the minimum contract restated.
-- [`skills/using-fellowship/SKILL.md`](../using-fellowship/SKILL.md) — 재윤의 dispatch protocol; explains when `isolation: "worktree"` is chosen.
+- [`skills/using-fellowship/SKILL.md`](../using-fellowship/SKILL.md) — 민준수의 dispatch protocol; explains when `isolation: "worktree"` is chosen.
 
 ## Example — Builder Dispatch
 
 ```
-[재윤 creates worktree at .claude/worktrees/agent-7a3f.../, branch agent-7a3f...]
+[민준수 creates worktree at .claude/worktrees/agent-7a3f.../, branch agent-7a3f...]
 [Dispatches 주혁 with task: "implement the rate-limit middleware"]
 
 주혁:
@@ -178,5 +178,5 @@ If the merge surfaces a conflict (two parallel branches touched the same file), 
   Files changed: src/middleware/rate-limit.ts, tests/rate-limit.test.ts
   ...
 
-[재윤 merges agent-7a3f... into main, removes the worktree, dispatches the next agent.]
+[민준수 merges agent-7a3f... into main, removes the worktree, dispatches the next agent.]
 ```

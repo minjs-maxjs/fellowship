@@ -6,17 +6,17 @@
 
 ## Goal
 
-Make 재윤의 voice survive long main-agent conversations. Current state: voice rules exist in `references/voice.md` but the model is *instructed* to read them, not *given* them — nothing forces the content into context. Diagnosis is mechanical: add hook-driven reinforcement modelled on the Caveman plugin pattern.
+Make 민준수의 voice survive long main-agent conversations. Current state: voice rules exist in `references/voice.md` but the model is *instructed* to read them, not *given* them — nothing forces the content into context. Diagnosis is mechanical: add hook-driven reinforcement modelled on the Caveman plugin pattern.
 
 ## Key decisions from brainstorming
 
 - **Two-layer mechanism, not one.** SessionStart injects the full voice.md (Layer 1, the missing piece); UserPromptSubmit injects a ~270-char anchor every turn (Layer 2, the drift mitigation). Per the persona-drift literature, this is the highest-leverage combination available without model access.
 - **Skip Output Style for v1.** Anthropic's claimed adherence reminders are uncharacterized; revisit only if Layers 1+2 prove insufficient.
 - **Per-turn anchor is exemplar-led, not rule-led.** Literature (Crafting a Good Prompt vs. Providing Exemplary Dialogues, Li et al.) is unambiguous: exemplars beat abstract style descriptions under attention pressure.
-- **Voice.md compressed but LotR character protected.** Cut meta-framing and explanatory tags, not exemplars or character prose. 준수의 guardrail: *"the tone and the inspiration must be highly inspired by Lord of the Rings."*
+- **Voice.md compressed but LotR character protected.** Cut meta-framing and explanatory tags, not exemplars or character prose. 주인공의 guardrail: *"the tone and the inspiration must be highly inspired by Lord of the Rings."*
 - **Caveman cut-list discipline brought into voice.md "Never:" section** — enumeration of filler/pleasantries/empty hedges/trailing fluff. Lives in Layer 1 (SessionStart), not Layer 2 (per-turn) — pink-elephant problem is bounded once per session.
-- **Companion-aware gating.** Hooks bail in subagent context; Tier 2 in-session companion skill loads stay 재윤 voice.
-- **v1 = 재윤 only.** Per-companion voices listed as v1.1 follow-on; mechanism must prove itself first.
+- **Companion-aware gating.** Hooks bail in subagent context; Tier 2 in-session companion skill loads stay 민준수 voice.
+- **v1 = 민준수 only.** Per-companion voices listed as v1.1 follow-on; mechanism must prove itself first.
 
 ## Tech stack
 
@@ -108,7 +108,7 @@ try {
   const voicePath = resolve(__dirname, '..', 'skills', 'using-fellowship', 'references', 'voice.md');
   const voiceContent = readFileSync(voicePath, 'utf8');
 
-  process.stdout.write(`# 재윤 Voice — Active Throughout This Conversation\n\n${voiceContent}\n`);
+  process.stdout.write(`# 민준수 Voice — Active Throughout This Conversation\n\n${voiceContent}\n`);
   process.exit(0);
 } catch {
   // Fail-silent: session continues without voice reinforcement
@@ -135,11 +135,11 @@ Emits fixed anchor as `additionalContext` JSON on every user message.
 ```javascript
 #!/usr/bin/env node
 // UserPromptSubmit hook for Fellowship voice persistence (Layer 2).
-// Injects a fixed 재윤-voice anchor as additionalContext on every turn.
+// Injects a fixed 민준수-voice anchor as additionalContext on every turn.
 
 import { readFileSync } from 'fs';
 
-const ANCHOR = `JAEYUN VOICE ACTIVE. Speak in this register: "Even the very wise cannot see all ends." "When in doubt, follow your nose." "주혁 next — this is builder's work." A clause of context, then the sentence lands short. Counsel, folly, mark, prudent, peril, burden — words that do the work.`;
+const ANCHOR = `MINJUNSU VOICE ACTIVE. Speak in this register: "Even the very wise cannot see all ends." "When in doubt, follow your nose." "주혁 next — this is builder's work." A clause of context, then the sentence lands short. Counsel, folly, mark, prudent, peril, burden — words that do the work.`;
 
 try {
   try { readFileSync('/dev/stdin', 'utf8'); } catch {}
@@ -221,13 +221,13 @@ Document findings in `hooks/README.md` (create if missing) for v1.1 reference wh
 **Acceptance criteria for Task 1.4:**
 - [ ] Mechanism documented in `hooks/README.md` with the exact env var name or input payload field used.
 - [ ] `isSubagentContext()` stub in both hooks replaced with the working implementation.
-- [ ] Manual test: dispatch any Fellowship subagent (e.g. 주혁 for a trivial task) and confirm both hooks bail without injecting 재윤 voice into the subagent's context.
+- [ ] Manual test: dispatch any Fellowship subagent (e.g. 주혁 for a trivial task) and confirm both hooks bail without injecting 민준수 voice into the subagent's context.
 
 **Verification (full task 1):**
 - Run: `node hooks/fellowship-voice-session-start.mjs < /dev/null` → Expected: stdout contains the framing header followed by voice.md contents; exit 0.
-- Run: `echo '{}' | node hooks/fellowship-voice-prompt-submit.mjs` → Expected: stdout is valid JSON matching `{"hookSpecificOutput":{"hookEventName":"UserPromptSubmit","additionalContext":"JAEYUN VOICE ACTIVE..."}}`; exit 0.
-- Run: start a fresh Claude Code session in this project; first response should reflect 재윤 register without the user invoking any skill.
-- Run: dispatch a subagent (e.g. via `/fellowship:juhyeok` for a trivial task); confirm the subagent doesn't receive the 재윤 voice content.
+- Run: `echo '{}' | node hooks/fellowship-voice-prompt-submit.mjs` → Expected: stdout is valid JSON matching `{"hookSpecificOutput":{"hookEventName":"UserPromptSubmit","additionalContext":"MINJUNSU VOICE ACTIVE..."}}`; exit 0.
+- Run: start a fresh Claude Code session in this project; first response should reflect 민준수 register without the user invoking any skill.
+- Run: dispatch a subagent (e.g. via `/fellowship:juhyeok` for a trivial task); confirm the subagent doesn't receive the 민준수 voice content.
 
 **Notes:**
 - Follow the pattern at `hooks/fellowship-session-end.mjs` for the defensive stdin drain and fail-silent contract.
@@ -278,7 +278,7 @@ This list is too short. Default Claude register includes a wider filler/pleasant
 
 *Pleasantries:* great question, happy to help, sure thing, no problem, absolutely, of course.
 
-*Empty hedges:* I think (when not load-bearing), I believe, it seems like, sort of, kind of, I'd say. (재윤 hedges with *perhaps* and *I suspect* — and only when he means them.)
+*Empty hedges:* I think (when not load-bearing), I believe, it seems like, sort of, kind of, I'd say. (민준수 hedges with *perhaps* and *I suspect* — and only when he means them.)
 
 *Trailing fluff:* at the end of the day, to wrap up, in summary, hope this helps, let me know.
 
@@ -308,7 +308,7 @@ After the hook ships, voice.md is injected automatically. The line should reflec
 - Diff: every Tolkien quote and software exemplar from the current file appears in the new file (manual visual diff acceptable).
 
 **Notes:**
-- The file is human-edited regularly by 준수. It must stay readable as prose, not be compressed to incomprehensibility.
+- The file is human-edited regularly by 주인공. It must stay readable as prose, not be compressed to incomprehensibility.
 - If a cut feels load-bearing on second look, leave it. The token budget is a soft target; voice fidelity is hard.
 
 ---
@@ -363,10 +363,10 @@ Start a session, run a varied 10-turn exchange (routing question, code question,
 Same as Scenario 1 but extended. Assert the rate of register tells (forbidden phrases per response) does not increase between turns 1–10 and turns 11–20.
 
 **Scenario 3 — subagent isolation.**
-Dispatch a Fellowship companion subagent in the middle of a conversation. Confirm the subagent's response does *not* contain 재윤-specific vocabulary or exemplar rhythm. Confirm the main thread's voice resumes correctly after the subagent returns.
+Dispatch a Fellowship companion subagent in the middle of a conversation. Confirm the subagent's response does *not* contain 민준수-specific vocabulary or exemplar rhythm. Confirm the main thread's voice resumes correctly after the subagent returns.
 
 **Scenario 4 — artifact mode.**
-Ask 재윤 to produce a structured artifact (a plan, a spec section, a code block). Assert the artifact itself is clean technical prose (voice does not bleed in) while the surrounding conversational prose retains voice.
+Ask 민준수 to produce a structured artifact (a plan, a spec section, a code block). Assert the artifact itself is clean technical prose (voice does not bleed in) while the surrounding conversational prose retains voice.
 
 **Acceptance criteria:**
 - [ ] All four scenarios implemented and runnable.
@@ -380,7 +380,7 @@ Ask 재윤 to produce a structured artifact (a plan, a spec section, a code bloc
 When all four tasks land:
 
 1. **Update quest-log.** Move the "Voice persistence — implementation pending" entry to completed state (per the new contract, this means trimming or moving the bullet). Confirm the v1.1 follow-on entry remains.
-2. **Run the eval suite once in live use.** Real validation, not synthetic. 준수 runs a real session of meaningful length, observes whether the voice holds.
+2. **Run the eval suite once in live use.** Real validation, not synthetic. 주인공 runs a real session of meaningful length, observes whether the voice holds.
 3. **Token cost measurement.** Capture actual token consumption over a 50-turn session. Confirm the ~4500-token estimate in the spec holds; adjust the anchor length if cost is materially higher.
 4. **Decision: ship or iterate.** If voice holds across 20+ turn live sessions, v1 ships. If drift is still observable, evaluate whether Layer 3 (Output Style) earns inclusion, or whether the per-turn anchor needs tightening.
 

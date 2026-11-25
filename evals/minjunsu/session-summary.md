@@ -1,4 +1,4 @@
-# AutoImprove Session — jaeyun — 2026-04-22
+# AutoImprove Session — minjunsu — 2026-04-22
 
 ## Result
 - Cycles run: 0
@@ -19,7 +19,7 @@
 ## Holdout Validation
 Holdout validation skipped — `holdout.py` has a known stdin pipe bug (runs `hard.py` without piping the response, so all scenarios return empty-string results). This is an infrastructure gap, not a signal about agent quality.
 
-**Infrastructure gap noted:** `evals/jaeyun/holdout.py` needs to pipe `/tmp/fellowship_eval_response.txt` into the hard assertion runner. Until fixed, holdout scores cannot be trusted.
+**Infrastructure gap noted:** `evals/minjunsu/holdout.py` needs to pipe `/tmp/fellowship_eval_response.txt` into the hard assertion runner. Until fixed, holdout scores cannot be trusted.
 
 ## Assertion Health
 
@@ -77,7 +77,7 @@ All assertions passing on training set:
 | S6_challenges_config_in_db | soft | PASS | (first session) |
 
 ## Notes
-Session purpose was regression validation after the 720→555 line compression of `agents/jaeyun.md`. All 16 assertions passed at baseline; no improvement cycles were needed or run.
+Session purpose was regression validation after the 720→555 line compression of `agents/minjunsu.md`. All 16 assertions passed at baseline; no improvement cycles were needed or run.
 
 **Borderline pattern observed:** Terse Tier 1 responses (scenarios ga003, ga004, ga013, ga015, ga025) lack explicit register anchors (elevated vocabulary words) but are correct behavior — brevity is right for that tier. Under a stricter soft judge these would score approximately 0.947 soft and 0.984 overall. The current soft assertions correctly accept brevity as valid for Tier 1. No action needed, but worth tracking if soft assertion S2 (`S2_elevated_register`) is tightened in future sessions.
 

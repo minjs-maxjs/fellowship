@@ -2,11 +2,11 @@
 
 **Status:** Proposed
 **Date:** 2026-04-26
-**Decider:** 현수 (technical) + 준수 (final call on skill-vs-shared-paragraph and on merge-back ownership)
+**Decider:** 현수 (technical) + 주인공 (final call on skill-vs-shared-paragraph and on merge-back ownership)
 
 ## Context
 
-`skills/using-fellowship/SKILL.md:72` instructs 재윤 to use `isolation: "worktree"` on every parallel dispatch. Zero of the nine agent files mention worktrees (`grep -c worktree agents/*.md` → 0 — confirmed in `2026-04-26-comparison-architecture.md` §6). The mismatch produced the failure modes this session surfaced:
+`skills/using-fellowship/SKILL.md:72` instructs 민준수 to use `isolation: "worktree"` on every parallel dispatch. Zero of the nine agent files mention worktrees (`grep -c worktree agents/*.md` → 0 — confirmed in `2026-04-26-comparison-architecture.md` §6). The mismatch produced the failure modes this session surfaced:
 
 - **영학의 edits were stuck** in his worktree until the orchestrator manually merged. 영학 did not know to commit; the orchestrator did not know edits were stranded.
 - **선웅의 worktree disappeared** mid-quest. No agent contract names worktree lifetime or who cleans up.
@@ -49,7 +49,7 @@ This is the floor. Specific agent classes layer additional rules on top.
 
 ## The merge-back contract
 
-**Today:** falls to the orchestrator (재윤) as a manual step after every DONE. Brittle — 재윤 forgets, edits strand. 영학의 session this week is the proof.
+**Today:** falls to the orchestrator (민준수) as a manual step after every DONE. Brittle — 민준수 forgets, edits strand. 영학의 session this week is the proof.
 
 **Proposed:** *agent commits in the worktree, orchestrator merges*. Specifically:
 1. Agent commits all its work before reporting DONE.
@@ -57,7 +57,7 @@ This is the floor. Specific agent classes layer additional rules on top.
 3. Orchestrator's verification step: `git merge --no-ff <branch>` (or cherry-pick if the branch has unrelated commits), then `git worktree remove <path>`.
 4. If two parallel branches both touched the same file, the merge surfaces the conflict — orchestrator resolves before next dispatch.
 
-**준수의 call:** should the orchestrator merge eagerly (right after DONE, before next dispatch) or lazily (at the end of the quest)? Eager is safer (catches conflicts immediately); lazy is faster (one merge for the quest, not N). Recommend eager for v1.0 — we are still learning what conflicts look like.
+**주인공의 call:** should the orchestrator merge eagerly (right after DONE, before next dispatch) or lazily (at the end of the quest)? Eager is safer (catches conflicts immediately); lazy is faster (one merge for the quest, not N). Recommend eager for v1.0 — we are still learning what conflicts look like.
 
 ## Failure modes mapped to contract
 
@@ -82,4 +82,4 @@ Adopting Superpowers's `using-git-worktrees/SKILL.md` directly is a candidate; i
 1. Add the floor paragraph to `agents/_shared/companion-protocol.md` for v1.0.
 2. Adopt Superpowers's `using-git-worktrees` as `skills/using-worktrees/`, then layer the Fellowship-specific merge-back contract onto it. v1.0 if scope allows; v1.0.1 if not.
 3. Lock eager-merge as the default. Revisit lazy-merge in v1.1 once we have data.
-4. Update 재윤의 dispatch protocol: when isolation is `worktree`, append the floor paragraph to the prompt; when isolation is `none` (main), skip it.
+4. Update 민준수의 dispatch protocol: when isolation is `worktree`, append the floor paragraph to the prompt; when isolation is `none` (main), skip it.

@@ -20,7 +20,7 @@ The voice-anchor / applied-to-X structure that was extracted from `using-fellows
 
 ### `agents/jaeho.md` (205 lines)
 
-What it does well: tier positions are explicit; "준수 Counsel" structure (line 141) is a tight four-beat formulation.
+What it does well: tier positions are explicit; "주인공 Counsel" structure (line 141) is a tight four-beat formulation.
 
 1. **Inline PRD template (lines 84–137).** A 53-line markdown-fenced template — Problem Statement, v1, AC, v2, Out of Scope, Open Questions. Superpowers' analog is `writing-plans/SKILL.md`, which puts the plan-document header in the skill body but reserves long output structure for the file the user ultimately writes. The Fellowship pattern force-loads the entire 재호 PRD shape on every dispatch where 재호 might *not* be writing a PRD (the Tier 2 "scope read only" path explicitly exists, line 35–36, and yet the template still loads).
 2. **Scope smell table (lines 56–66) duplicates content in `references/voice.md` lines 64–69 ("ship without tests" cadence example).** Both teach "name the smell, surface, stop." Two surfaces, one rule.
@@ -99,7 +99,7 @@ No issues with the protocol itself. The issue is partial adoption.
 
 What it does well: the prior refactor extracted voice, companions, cycles, tier-scoring, and four other concerns to `references/`. That extraction matches the Superpowers `using-superpowers/SKILL.md` + `references/codex-tools.md` pattern (line 38 of that file).
 
-1. **Description (line 3) summarizes workflow:** *"establishes 재윤 as orchestrator, defines voice, routing tiers, memory rules, and dispatch decisions"*. Superpowers `writing-skills/SKILL.md` lines 150–172 is explicit: descriptions that summarize the skill's process cause Claude to skip the skill body and follow the description. The fix in Superpowers' own skill (line 168) is "Use when starting any conversation in a Fellowship project — establishes how to find and use skills" — note the difference: triggering condition only.
+1. **Description (line 3) summarizes workflow:** *"establishes 민준수 as orchestrator, defines voice, routing tiers, memory rules, and dispatch decisions"*. Superpowers `writing-skills/SKILL.md` lines 150–172 is explicit: descriptions that summarize the skill's process cause Claude to skip the skill body and follow the description. The fix in Superpowers' own skill (line 168) is "Use when starting any conversation in a Fellowship project — establishes how to find and use skills" — note the difference: triggering condition only.
 2. **Memory section (lines 152–179) is 27 lines.** Quest-log format already extracted; consolidation rule lives in two places (line 153 of SKILL.md and `references/quest-log-format.md`). Drop the duplicate from SKILL.md.
 3. **Multi-track execution (lines 60–67)** is operational detail that belongs in `references/cycles.md` — currently lives twice (here and in cycles.md indirectly).
 
@@ -198,13 +198,13 @@ Effect: inconsistency. If 동일의 grep is reference-extracted, 영학의 and �
 
 **G1 — No `verification-before-completion` skill.** Closest analog: the universal pre-DONE checklist line *"Existing tests still pass (or explained why not)"*. Superpowers' skill is 139 lines on the discipline — Iron Law, gate function, common failures table, rationalization prevention, key patterns. We have one bullet. 주혁의 report format says "BAD: 'it should work', 'seems to work'" (juhyeok.md lines 96–97) — that's the kernel. Worth lifting to a skill the way Superpowers did.
 
-**G2 — No `requesting-code-review` skill.** We have the cycle in `references/cycles.md`, but Superpowers separates the *requesting* discipline (how to dispatch a reviewer with precisely-crafted context, never session history) from the *receiving* discipline. The "never session history" rule is Fellowship-relevant — 재윤 already does this in the orchestration skill (using-fellowship line 116, "paste it, don't make them hunt") but it's not enforced as its own loadable discipline.
+**G2 — No `requesting-code-review` skill.** We have the cycle in `references/cycles.md`, but Superpowers separates the *requesting* discipline (how to dispatch a reviewer with precisely-crafted context, never session history) from the *receiving* discipline. The "never session history" rule is Fellowship-relevant — 민준수 already does this in the orchestration skill (using-fellowship line 116, "paste it, don't make them hunt") but it's not enforced as its own loadable discipline.
 
 **G3 — No `receiving-code-review` skill.** Superpowers' skill (213 lines) addresses performative agreement, blind implementation, technical pushback — directly relevant for 주혁 receiving 승현 findings. 주혁의 agent file has nothing on how to receive a review. The Fellowship cycle says "fix and re-dispatch" — but how 주혁 engages with the findings is not codified.
 
-**G4 — No `using-git-worktrees` skill.** Mentioned in 재윤의 multi-track execution (using-fellowship line 60: `isolation: "worktree"`) but the actual mechanics — directory selection, gitignore verification, baseline test verification — are not codified. Fellowship users on multi-track work today rely on 재윤의 tribal knowledge.
+**G4 — No `using-git-worktrees` skill.** Mentioned in 민준수의 multi-track execution (using-fellowship line 60: `isolation: "worktree"`) but the actual mechanics — directory selection, gitignore verification, baseline test verification — are not codified. Fellowship users on multi-track work today rely on 민준수의 tribal knowledge.
 
-**G5 — No `subagent-driven-development` or `dispatching-parallel-agents` skill.** Tiered routing (using-fellowship lines 49–76) covers when to use parallel; Superpowers' skill covers *how*. Specifically the "answer questions before letting them proceed" pattern (Superpowers line 251) and the model-selection guidance (Superpowers lines 87–101) — both relevant for 재윤 as orchestrator.
+**G5 — No `subagent-driven-development` or `dispatching-parallel-agents` skill.** Tiered routing (using-fellowship lines 49–76) covers when to use parallel; Superpowers' skill covers *how*. Specifically the "answer questions before letting them proceed" pattern (Superpowers line 251) and the model-selection guidance (Superpowers lines 87–101) — both relevant for 민준수 as orchestrator.
 
 **G6 — No browser-verify skill.** 우신의 Mode 4 in-agent block (usin.md lines 113–144) plays the role. But this should be a `skills/browser-verify/SKILL.md` called by the 우신 agent, not 32 lines of operating procedure embedded in the agent.
 

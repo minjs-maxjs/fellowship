@@ -2,11 +2,11 @@
 
 **Status:** Proposed
 **Date:** 2026-04-26
-**Decider:** 현수 (technical) + 준수 (final call on fail-open vs fail-closed and on opt-out marker shape)
+**Decider:** 현수 (technical) + 주인공 (final call on fail-open vs fail-closed and on opt-out marker shape)
 
 ## Context
 
-The plan-before-build rule today is a string. `skills/using-fellowship/SKILL.md:162` instructs 재윤 to paste a sentence into 주혁의 Tier 3+ dispatch: *"Write your plan to `$CLAUDE_SCRATCHPAD_DIR/juhyeok-plan-[slug].md` before writing any code…"*. 주혁의 own file repeats it (`agents/juhyeok.md:69-78`). If 재윤 forgets the paste — or omits it because the task feels Tier 2 when it isn't — 주혁 builds without a plan and the orchestrator-side correction loop is gone.
+The plan-before-build rule today is a string. `skills/using-fellowship/SKILL.md:162` instructs 민준수 to paste a sentence into 주혁의 Tier 3+ dispatch: *"Write your plan to `$CLAUDE_SCRATCHPAD_DIR/juhyeok-plan-[slug].md` before writing any code…"*. 주혁의 own file repeats it (`agents/juhyeok.md:69-78`). If 민준수 forgets the paste — or omits it because the task feels Tier 2 when it isn't — 주혁 builds without a plan and the orchestrator-side correction loop is gone.
 
 Barkain ships 14 enforcement hooks. We ship zero on this axis. The consolidated v1.0 spec lifted this from v1.1 to v1.0 (see `2026-04-26-fellowship-v1-improvements.md` §V1). What follows is the design.
 
@@ -29,7 +29,7 @@ The hook reads the tool input from stdin (Claude Code's documented protocol), in
 
 ## False-positive avoidance
 
-The `<no-plan>` marker (or `Tier: 1|2` declaration) in the dispatch is the orchestrator's explicit opt-out. 재윤 already classifies tier — surfacing the classification into the prompt costs nothing and makes the gate honest. **준수의 call:** which marker shape — `<no-plan>` (explicit), `Tier: 1` / `Tier: 2` (declarative), or both? Recommend declarative; it doubles as routing documentation.
+The `<no-plan>` marker (or `Tier: 1|2` declaration) in the dispatch is the orchestrator's explicit opt-out. 민준수 already classifies tier — surfacing the classification into the prompt costs nothing and makes the gate honest. **주인공의 call:** which marker shape — `<no-plan>` (explicit), `Tier: 1` / `Tier: 2` (declarative), or both? Recommend declarative; it doubles as routing documentation.
 
 ## Rollback / failure mode
 
@@ -37,7 +37,7 @@ If the hook script crashes or times out:
 - **Fail-open** (default recommended for v1.0): allow the tool call, print a stderr warning. Rationale: a broken gate that bricks every 주혁 edit is worse than a missed gate. Consistent with `run-hook.cmd:38` "loud failure, continue" pattern.
 - **Fail-closed**: block. Safer in principle; risky on first ship.
 
-**준수의 call.** Recommend fail-open with a stderr warning that surfaces in the next session-start banner ("plan-gate hook failed N times last session — investigate"). Upgrade to fail-closed in v1.1 once the hook is proven.
+**주인공의 call.** Recommend fail-open with a stderr warning that surfaces in the next session-start banner ("plan-gate hook failed N times last session — investigate"). Upgrade to fail-closed in v1.1 once the hook is proven.
 
 ## Implementation outline (for 주혁)
 
@@ -49,4 +49,4 @@ If the hook script crashes or times out:
 
 ## Recommendation
 
-Ship the gate. Default fail-open. Use declarative `Tier: N` opt-out (재윤 already knows the tier; surfacing it costs nothing and creates a paper trail). Defer fail-closed and a broader "plan required for 재호/현수 too" expansion to v1.1.
+Ship the gate. Default fail-open. Use declarative `Tier: N` opt-out (민준수 already knows the tier; surfacing it costs nothing and creates a paper trail). Defer fail-closed and a broader "plan required for 재호/현수 too" expansion to v1.1.

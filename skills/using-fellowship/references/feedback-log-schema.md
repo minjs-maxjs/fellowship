@@ -12,7 +12,7 @@ User signals something went wrong — explicitly (`"report this as issue"`, `"lo
 
 Capture at log time — don't reconstruct.
 
-- `agent` — companion name (jaeyun, juhyeok, seunghyeon, etc.)
+- `agent` — companion name (minjunsu, juhyeok, seunghyeon, etc.)
 - `trigger` — `explicit_report` (user said "log this") or `attribution_question` (user asked why something was done)
 - `inferred` — `true` when derived from context; `false` when the user stated it
 - `failure` — one sentence: what went wrong

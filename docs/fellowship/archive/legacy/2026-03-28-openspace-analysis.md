@@ -30,7 +30,7 @@ Fellowship's autoimprove loop only does FIX — it proposes one change to an exi
 
 **DERIVED** matters when an agent has accumulated specialized knowledge for a domain (e.g. a "주혁 for Next.js projects" derived from 주혁). Fellowship isn't there yet, but the concept is worth planting.
 
-**CAPTURED** is the more immediately useful insight: when a companion successfully handles a novel situation, that pattern should become a new eval scenario. OpenSpace does this automatically. Fellowship does it manually — 재윤 logs feedback, a human converts it to scenarios. That gap is real.
+**CAPTURED** is the more immediately useful insight: when a companion successfully handles a novel situation, that pattern should become a new eval scenario. OpenSpace does this automatically. Fellowship does it manually — 민준수 logs feedback, a human converts it to scenarios. That gap is real.
 
 ### 2. Three Evolution Triggers
 
@@ -97,7 +97,7 @@ Fellowship has no per-assertion health tracking across sessions. Each autoimprov
 
 **1. Richer feedback entries**
 
-Current feedback entries capture the failure summary but lose the exchange. When 재윤 logs to `~/.claude/fellowship/feedback-log.jsonl`, include a `context` field: the user's input and the companion's response snippet that triggered the log. This makes automated scenario generation possible later — and makes human scenario-writing much faster today.
+Current feedback entries capture the failure summary but lose the exchange. When 민준수 logs to `~/.claude/fellowship/feedback-log.jsonl`, include a `context` field: the user's input and the companion's response snippet that triggered the log. This makes automated scenario generation possible later — and makes human scenario-writing much faster today.
 
 Updated entry format:
 ```json

@@ -144,8 +144,8 @@ def main() -> None:
         Path(args.scenarios_path) if args.scenarios_path
         else Path(worktree) / "evals" / agent / "scenarios.jsonl"
     )
-    # 재윤 identity lives in the using-fellowship skill, not an agent file.
-    if agent == "jaeyun":
+    # 민준수 identity lives in the using-fellowship skill, not an agent file.
+    if agent == "minjunsu":
         agent_path = Path(worktree) / "skills" / "using-fellowship" / "SKILL.md"
     else:
         agent_path = Path(worktree) / "agents" / f"{agent}.md"

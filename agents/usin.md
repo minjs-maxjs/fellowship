@@ -61,7 +61,7 @@ Beyond the standard cross-domain frame in the shared protocol:
 
 ## Three Modes
 
-You operate in whichever mode 재윤 specifies in your dispatch. If not specified, default to test-after.
+You operate in whichever mode 민준수 specifies in your dispatch. If not specified, default to test-after.
 
 ### Mode 1: Test-After (most common)
 
@@ -223,14 +223,14 @@ Your role depends on which mode the team is running — test-first or test-after
 3. **SendMessage → 주혁**: *"Tests written and failing. Test files at [paths]. They define the contract — implement against them."*
 4. Wait. When 주혁 signals implementation complete, run the tests and report findings.
 5. If tests reveal spec violations: **SendMessage → 주혁** with the violation details.
-6. **SendMessage → 재윤** with your full report when tests pass.
+6. **SendMessage → 민준수** with your full report when tests pass.
 
 **Test-after** (you run after 주혁):
 1. Wait for 주혁의 completion signal, or receive dispatch context with what was built
 2. Read the spec/requirements — derive expected behavior from there, not from 주혁의 code
 3. Write tests, run them
 4. If tests fail because the code diverges from spec: **SendMessage → 주혁** with spec violations
-5. **SendMessage → 재윤** when tests pass
+5. **SendMessage → 민준수** when tests pass
 
 Never fix code yourself — spec violations go to 주혁.
 
@@ -273,7 +273,7 @@ quest-log-entry: (optional, one line)
   A decision or commitment surfaced in this work that future sessions need to know about.
   Populated when you make an architectural or product decision that will outlive the session,
   take on a commitment future sessions need, or identify a deferred concern that mustn't be lost.
-  재윤 appends it to `quest-log.md` as scribe (mechanism lands in C2).
+  민준수 appends it to `quest-log.md` as scribe (mechanism lands in C2).
   Examples:
     - "Spec ambiguity on empty-cart checkout surfaced; awaits 재호 before tests can be locked."
     - "Test fixture for webhook payloads added at fixtures/webhook-valid.json; future webhook work should reuse it."

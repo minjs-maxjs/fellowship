@@ -9,27 +9,27 @@ reviewer: 승현 (clarity, internal consistency, doctrinal coherence between wor
 
 # Workflow Templates — Design Spec
 
-A workflow layer above the existing atomic cycles in `cycles.md`. Three named recipes (`feature-flow`, `bug-flow`, `security-flow`) that 재윤 cites and adapts when orchestrating Tier 2+ critical or heavy work. The recipes are reference patterns with named variations, not prescriptive scripts. The work also corrects the Tier 2 doctrine, which currently contradicts the cycles in plain view.
+A workflow layer above the existing atomic cycles in `cycles.md`. Three named recipes (`feature-flow`, `bug-flow`, `security-flow`) that 민준수 cites and adapts when orchestrating Tier 2+ critical or heavy work. The recipes are reference patterns with named variations, not prescriptive scripts. The work also corrects the Tier 2 doctrine, which currently contradicts the cycles in plain view.
 
 ## Problem
 
 Two problems, the same underlying gap.
 
-**재윤 routes per turn but doesn't sequence.** With nine companion voices in place and the session opener landed, the auto-handoff chain (주혁 DONE → 승현 without asking) will sound coherent end-to-end. What's missing is the *workflow* that knows the chain. Today the user re-specifies the workflow each prompt — *"now dispatch 승현," "now 우신 should test gaps"* — because 재윤의 mental model of multi-step orchestration is invisible. No file names the patterns; nothing makes them citeable.
+**민준수 routes per turn but doesn't sequence.** With nine companion voices in place and the session opener landed, the auto-handoff chain (주혁 DONE → 승현 without asking) will sound coherent end-to-end. What's missing is the *workflow* that knows the chain. Today the user re-specifies the workflow each prompt — *"now dispatch 승현," "now 우신 should test gaps"* — because 민준수의 mental model of multi-step orchestration is invisible. No file names the patterns; nothing makes them citeable.
 
 **The tier doctrine contradicts itself.** `tier-scoring.md` says *"Tier 2 — One companion. One skill or one agent dispatch."* `cycles.md` says *"After 주혁 DONE on critical paths, dispatch 승현."* A single-file critical-path feature scores into Tier 2 (1–3 range), where the doctrine says one companion — yet cycles say 승현 is automatic. The two pages have contradicted each other since both were written. The contradiction sits invisible because most work either lands cleanly in Tier 1 (where the question doesn't arise) or escalates by score into Tier 3 (where multi-companion is expected). The borderline Tier 2 cases get routed inconsistently because the doctrine offers no coherent answer.
 
 The two problems share a root: the doctrine names *counts* of companions instead of *shapes* of work. Counts are arbitrary; shapes are recognizable. Naming the shapes — workflows — and re-grounding the tier doctrine in shape rather than count fixes both.
 
-A corroborating observation: the quest-log entry from 2026-04-27 — *"Tier 4 utilization audit. 준수 flagged Fellowship rarely reaches Tier 4 in practice; default conservativism may be over-tuned"* — points at the same gap one tier higher. Without named shapes, the conservatism is mechanical. With names, 재윤 has cues for when complex work *fits* a heavier tier rather than only a score threshold for when it *exceeds* a lighter one.
+A corroborating observation: the quest-log entry from 2026-04-27 — *"Tier 4 utilization audit. 주인공 flagged Fellowship rarely reaches Tier 4 in practice; default conservativism may be over-tuned"* — points at the same gap one tier higher. Without named shapes, the conservatism is mechanical. With names, 민준수 has cues for when complex work *fits* a heavier tier rather than only a score threshold for when it *exceeds* a lighter one.
 
 ## Constraints
 
 Three constraints shape the work:
 
 1. **Cycles are atomic and stay atomic.** `cycles.md` defines the three review, testing, and design cycles. Workflows compose cycles; they do not replace them. A workflow that contradicted a cycle would create two competing sources of truth for the same orchestration question.
-2. **Workflows must be reference patterns, not prescriptive scripts.** The earliest version of this brainstorm raised the failure mode plainly: a mechanical `bug-flow` running on a one-line typo, a mechanical `feature-flow` dispatching 현수 when no architectural choice is at stake. The recipes must name their canonical shape *and* their conditional steps *and* their legitimate variations, so 재윤 can adapt without leaving the recipe.
-3. **No always-on overhead.** The session-opener spec just established a ~2 KB output budget conversation for SessionStart hooks. Workflow content is only relevant when 재윤 is doing Tier 2+ orchestration; paying token cost on every turn for a reference most turns don't need is exactly the wrong trade.
+2. **Workflows must be reference patterns, not prescriptive scripts.** The earliest version of this brainstorm raised the failure mode plainly: a mechanical `bug-flow` running on a one-line typo, a mechanical `feature-flow` dispatching 현수 when no architectural choice is at stake. The recipes must name their canonical shape *and* their conditional steps *and* their legitimate variations, so 민준수 can adapt without leaving the recipe.
+3. **No always-on overhead.** The session-opener spec just established a ~2 KB output budget conversation for SessionStart hooks. Workflow content is only relevant when 민준수 is doing Tier 2+ orchestration; paying token cost on every turn for a reference most turns don't need is exactly the wrong trade.
 
 ## Decision
 
@@ -37,15 +37,15 @@ Six decisions, each load-bearing.
 
 ### 1 — Architecture: content-only
 
-Workflows are *nameable reference content*, not enforced infrastructure. No new hook. No marker file. No per-session state. The recipes live in `skills/using-fellowship/references/workflows.md` and 재윤 loads the file when his routing judgment encounters work that fits a recipe shape.
+Workflows are *nameable reference content*, not enforced infrastructure. No new hook. No marker file. No per-session state. The recipes live in `skills/using-fellowship/references/workflows.md` and 민준수 loads the file when his routing judgment encounters work that fits a recipe shape.
 
-This is the middle path between two rejected alternatives. *Pure judgment* (no doc, no file, just sharpening the routing skill with examples) preserves flexibility but leaves the patterns invisible — the exact problem this work exists to fix. *Stateful workflows* (marker file, active-workflow state per session, UserPromptSubmit anchor reinforcing the current step) ossify what should stay situational; the same failure mode that made a stateful session-opener wrong makes stateful workflows wrong. Content-only preserves 재윤의 judgment while making the patterns nameable, citeable, and consistent across sessions.
+This is the middle path between two rejected alternatives. *Pure judgment* (no doc, no file, just sharpening the routing skill with examples) preserves flexibility but leaves the patterns invisible — the exact problem this work exists to fix. *Stateful workflows* (marker file, active-workflow state per session, UserPromptSubmit anchor reinforcing the current step) ossify what should stay situational; the same failure mode that made a stateful session-opener wrong makes stateful workflows wrong. Content-only preserves 민준수의 judgment while making the patterns nameable, citeable, and consistent across sessions.
 
 ### 2 — Recipe set: three end-to-end recipes
 
 `feature-flow`, `bug-flow`, `security-flow`. Each is an end-to-end recipe describing a recognizable shape of Tier 2+ work. *Refactor-flow* is deferred — it is rare enough to start as a noted variant inside `feature-flow` and promoted to its own recipe only if practice shows it earns the space.
 
-Rejected: an orchestration-primitives layer (`sequential-chain`, `parallel-fan-out-reconcile`, `iterate-on-feedback`) authored alongside the recipes. The benefit of primitives is mostly pedagogical — they help a *reader* of the docs, not 재윤 at dispatch time. Recipes already imply their primitives by spelling out the sequence; the separate layer adds maintenance and reader decision-friction (*"is this a known recipe or a one-off composition?"*) without runtime benefit.
+Rejected: an orchestration-primitives layer (`sequential-chain`, `parallel-fan-out-reconcile`, `iterate-on-feedback`) authored alongside the recipes. The benefit of primitives is mostly pedagogical — they help a *reader* of the docs, not 민준수 at dispatch time. Recipes already imply their primitives by spelling out the sequence; the separate layer adds maintenance and reader decision-friction (*"is this a known recipe or a one-off composition?"*) without runtime benefit.
 
 ### 3 — Recipe register: reference patterns with named variations
 
@@ -53,7 +53,7 @@ Each recipe documents four things:
 - **Canonical shape** — one line, the typical path.
 - **Companions involved**, with explicit conditions: *when this companion enters*, *when they skip*.
 - **Sequence**, including parallel branches and reconcile points.
-- **Variations** — legitimate swaps, additions, omissions 재윤 can make. Cross-references to other recipes are soft (*"if security-relevant, consider security-flow"*) rather than hard transitions.
+- **Variations** — legitimate swaps, additions, omissions 민준수 can make. Cross-references to other recipes are soft (*"if security-relevant, consider security-flow"*) rather than hard transitions.
 - **When this is the wrong recipe** — the escape clauses. Tier 1 cutoffs, recipe substitutions.
 
 The recipe inspires the dispatch; it does not dictate it. The principle this rests on is already in the voice doc: *"the simplest path that serves the task — that is prudent. The elegant one that serves a future that hasn't arrived — that is folly."* Workflows make that principle citeable for routing.
@@ -70,15 +70,15 @@ A two-line meta-rule appears at the top of `workflows.md`:
 
 ### 5 — Mechanism: on-demand reference
 
-Workflow content is not in the SessionStart cached prefix. The `using-fellowship` routing skill references it; 재윤 reads it when his routing judgment encounters work that fits a recipe shape. This is the natural seam — the routing skill already references `cycles.md` the same way.
+Workflow content is not in the SessionStart cached prefix. The `using-fellowship` routing skill references it; 민준수 reads it when his routing judgment encounters work that fits a recipe shape. This is the natural seam — the routing skill already references `cycles.md` the same way.
 
 Rejected: SessionStart hook injection in the voice-hook pattern. Voice content is in the cached prefix because it shapes every response. Workflow content is only relevant on Tier 2+ orchestration turns. Most turns don't need it, and paying the token cost on every turn for an always-on reference is the wrong trade.
 
-Rejected: a UserPromptSubmit anchor reinforcing the active workflow per turn. Requires per-session state (which workflow is active), which contradicts the content-only architecture above. Also turns workflows into something 재윤 cannot adapt freely mid-session.
+Rejected: a UserPromptSubmit anchor reinforcing the active workflow per turn. Requires per-session state (which workflow is active), which contradicts the content-only architecture above. Also turns workflows into something 민준수 cannot adapt freely mid-session.
 
-### 6 — Selection: 재윤 judgment, Tier 2+ gate
+### 6 — Selection: 민준수 judgment, Tier 2+ gate
 
-재윤 invokes a workflow when his routing decision encounters work that is (a) Tier 2 or higher and (b) shaped like one of the recipes. Tier 1 (typos, one-liners, two-three line changes) uses cycles alone — no workflow.
+민준수 invokes a workflow when his routing decision encounters work that is (a) Tier 2 or higher and (b) shaped like one of the recipes. Tier 1 (typos, one-liners, two-three line changes) uses cycles alone — no workflow.
 
 The routing skill (`skills/using-fellowship/SKILL.md`) gets a short *Workflows* subsection in or adjacent to the *Workflow Cycles* area, naming the three workflows and the activation rule, pointing at `references/workflows.md` for the contents.
 
@@ -96,7 +96,7 @@ Corrected meanings:
 
 | Tier | Current doctrine (incoherent) | Corrected doctrine (this spec) |
 |---|---|---|
-| **Tier 1 — Direct** | 재윤 handles. No agents. | Unchanged. |
+| **Tier 1 — Direct** | 민준수 handles. No agents. | Unchanged. |
 | **Tier 2 — Focused dispatch** | *"One companion. One skill or one agent dispatch."* | *"Focused work. One primary companion. Cycles still run automatically on critical paths — 승현 review on a 주혁 build at Tier 2 is the cycle, not a tier escalation."* |
 | **Tier 3 — Workflow-shaped** | *"Sequential chain. Plan first. 주혁 → 승현 → 우신 cycle."* | *"Workflow-shaped. The work fits a named recipe — `feature-flow`, `bug-flow`, `security-flow`. Multi-companion sequence with conditional steps. Plan first."* |
 | **Tier 4 — Parallel / Teams** | Unchanged in meaning. | Unchanged. |
@@ -146,7 +146,7 @@ The three recipes as drafted and approved in the brainstorm. These are the canon
 
 | Companion | Step | Enter when… | Skip when… |
 |---|---|---|---|
-| **investigate** (in-session, 재윤-led) | investigate | always — this is the discipline that distinguishes bug-flow from feature-flow | never; skipping investigation is how the wrong fix gets shipped |
+| **investigate** (in-session, 민준수-led) | investigate | always — this is the discipline that distinguishes bug-flow from feature-flow | never; skipping investigation is how the wrong fix gets shipped |
 | 우신 | reproducer test | bug can be expressed as a failing assertion; valuable for regression-proofing | bug is visual/UX and not test-expressible — use browser-verify after the fix instead |
 | 주혁 | fix | always, *after* root cause is known | never; if no root cause, no 주혁 |
 | 승현 | code review | always on Tier 2+ fixes touching meaningful logic | trivial fix path where the diff is one safe line and review-cycle would be ceremony |
@@ -218,7 +218,7 @@ The three recipes as drafted and approved in the brainstorm. These are the canon
 
 ## Considered and rejected
 
-**Pure judgment — no workflow files at all.** Sharpen `cycles.md` and the routing skill with composition examples; trust 재윤의 voice and routing to do the work. Cheapest. Rejected because it leaves the patterns invisible — the very problem this work exists to fix.
+**Pure judgment — no workflow files at all.** Sharpen `cycles.md` and the routing skill with composition examples; trust 민준수의 voice and routing to do the work. Cheapest. Rejected because it leaves the patterns invisible — the very problem this work exists to fix.
 
 **Stateful workflows — marker file, active-workflow state per session, UserPromptSubmit anchor.** Most prescriptive. Rejected because it ossifies what should stay situational and re-introduces the brittleness the session-opener spec explicitly designed away from.
 
@@ -236,9 +236,9 @@ The three recipes as drafted and approved in the brainstorm. These are the canon
 
 ## Risks and unknowns
 
-**Adoption inertia.** Naming workflows does not guarantee 재윤 uses them. The risk is the workflows file gets written, 재윤 cites it in the first few sessions, then drifts back to the old patterns. Mitigation: the routing skill update names the workflows directly in its *Workflows* subsection, so the activation rule lives in the prompt 재윤 reads on dispatch — not in a reference file he might forget to load. The eval-scenarios entry on the v1.1 quest log is the longer-term answer.
+**Adoption inertia.** Naming workflows does not guarantee 민준수 uses them. The risk is the workflows file gets written, 민준수 cites it in the first few sessions, then drifts back to the old patterns. Mitigation: the routing skill update names the workflows directly in its *Workflows* subsection, so the activation rule lives in the prompt 민준수 reads on dispatch — not in a reference file he might forget to load. The eval-scenarios entry on the v1.1 quest log is the longer-term answer.
 
-**The corrected Tier 2 meaning may still feel "where most work lives."** If 재윤 continues to over-prefer Tier 2 even with the corrected semantics, the under-utilization of Tier 3 the quest log already flags will persist. Mitigation: the workflow recipes give Tier 3 a clearer shape to recognize than the score signals alone. Worth re-evaluating after a few real Tier 3 dispatches.
+**The corrected Tier 2 meaning may still feel "where most work lives."** If 민준수 continues to over-prefer Tier 2 even with the corrected semantics, the under-utilization of Tier 3 the quest log already flags will persist. Mitigation: the workflow recipes give Tier 3 a clearer shape to recognize than the score signals alone. Worth re-evaluating after a few real Tier 3 dispatches.
 
 **Variations may grow faster than recipes can absorb them.** As practice surfaces edge cases, the *Variations* section of each recipe may bloat. The split trigger (recipe > 200 lines) catches this mechanically; the more interesting question is whether bloated variations are themselves a signal that the recipe-as-pattern register is breaking down. Worth marking — if a recipe's variations outweigh its canonical, the recipe itself may need rethinking.
 
@@ -252,8 +252,8 @@ The three recipes as drafted and approved in the brainstorm. These are the canon
 
 ## Next moves
 
-1. 준수 reviews this spec.
+1. 주인공 reviews this spec.
 2. Invoke `fellowship:planning` to produce the implementation plan.
 3. Tier 2 — focused dispatch. 주혁 authors the new file and edits the two existing ones; 승현 reviews for clarity, internal consistency, and the doctrinal coherence between `workflows.md` and the revised tier doctrine.
-4. 준수 reads the diff before commit because the tier doctrine is load-bearing across the plugin.
+4. 주인공 reads the diff before commit because the tier doctrine is load-bearing across the plugin.
 5. Commit. Quest log update marking the workflow-templates entry done; new quest-log items captured for the deferred work (refactor-flow, primitives, doctrine sweep, eval scenarios).

@@ -20,15 +20,15 @@ No reference implementation has an agent that navigates a running app, checks th
 
 ---
 
-## Design Decision: 우신 + 재윤, Not a New Companion
+## Design Decision: 우신 + 민준수, Not a New Companion
 
-Browser verification is testing. It belongs with 우신 (test engineer) and 재윤 (orchestrator who decides when to verify).
+Browser verification is testing. It belongs with 우신 (test engineer) and 민준수 (orchestrator who decides when to verify).
 
 Introducing a new companion (e.g., Faramir) was considered and rejected:
 - The 10-companion roster exists for good reason — depth over breadth.
 - Browser verification is a mode of testing, not a separate domain.
 - 우신 already has three modes (test-after, test-first, test-infrastructure). A fourth mode fits naturally.
-- 재윤 already decides when to dispatch 우신 and in which mode.
+- 민준수 already decides when to dispatch 우신 and in which mode.
 
 ---
 
@@ -83,7 +83,7 @@ The Playwright MCP is **opt-in** — users must register it. 우신의 browser v
 
 ### New Mode: Browser Verification (Mode 4)
 
-Added alongside the existing three modes. 재윤 specifies `browser-verify` in the dispatch prompt.
+Added alongside the existing three modes. 민준수 specifies `browser-verify` in the dispatch prompt.
 
 **When this mode is used:**
 - After 주혁 builds a UI feature and 승현 approves the code
@@ -193,7 +193,7 @@ Add browser verification to the examples:
 
 ---
 
-## Changes to 재윤
+## Changes to 민준수
 
 ### New Dispatch Option: Browser Verification
 
@@ -234,7 +234,7 @@ Add as a new workflow subsection after "Test-first workflow":
 
 ### When NOT to Browser-Verify
 
-재윤 should NOT dispatch 우신 for browser verification on:
+민준수 should NOT dispatch 우신 for browser verification on:
 - Backend/API-only changes (no UI)
 - Config changes, refactors, dependency updates
 - Changes already covered by 우신의 automated tests (don't duplicate)
@@ -261,9 +261,9 @@ Browser verification dispatches use `sonnet` — it's structured checklist work 
 
 ## What This Does NOT Cover
 
-### Not in scope — 재윤 self-verification
+### Not in scope — 민준수 self-verification
 
-재윤 already has a verification posture: "DONE means verified, not believed" and "Never skip verification." This spec does not change 재윤의 own verification behavior — he already runs tests and checks diffs. Browser verification is a *new capability* dispatched to 우신, not a change to 재윤의 personal verification loop.
+민준수 already has a verification posture: "DONE means verified, not believed" and "Never skip verification." This spec does not change 민준수의 own verification behavior — he already runs tests and checks diffs. Browser verification is a *new capability* dispatched to 우신, not a change to 민준수의 personal verification loop.
 
 ### Not in scope — CI/CD integration
 
@@ -292,12 +292,12 @@ Playwright MCP supports `--device "iPhone 15"` for device emulation. Responsive 
 | 1 | Add Mode 4: Browser Verification section | `agents/usin.md` | Medium |
 | 2 | Add Browser Verification Tools section (MCP docs) | `agents/usin.md` | Medium |
 | 3 | Update 우신 description in frontmatter | `agents/usin.md` | Low |
-| 4 | Add browser-verify dispatch option | `agents/jaeyun.md` | Low |
-| 5 | Add browser verification workflow | `agents/jaeyun.md` | Low |
-| 6 | Add MCP prerequisite check rule | `agents/jaeyun.md` | Low |
+| 4 | Add browser-verify dispatch option | `agents/minjunsu.md` | Low |
+| 5 | Add browser verification workflow | `agents/minjunsu.md` | Low |
+| 6 | Add MCP prerequisite check rule | `agents/minjunsu.md` | Low |
 | 7 | Update health check tests | `health-check.mjs` | Low |
 
-Steps 1-3 are one unit (우신). Steps 4-6 are one unit (재윤). Step 7 validates both.
+Steps 1-3 are one unit (우신). Steps 4-6 are one unit (민준수). Step 7 validates both.
 
 ---
 
@@ -307,7 +307,7 @@ Steps 1-3 are one unit (우신). Steps 4-6 are one unit (재윤). Step 7 validat
 
 2. **Screenshot storage:** Save to `docs/fellowship/verifications/` for persistent evidence. Screenshots in conversation context vanish after the session — files give 주혁 something to reference when fixing.
 
-3. **Step limit:** No artificial limit. 재윤의 dispatch prompt must specify exactly which flows, routes, and components to verify. 우신 walks what he's told to walk — no more, no less.
+3. **Step limit:** No artificial limit. 민준수의 dispatch prompt must specify exactly which flows, routes, and components to verify. 우신 walks what he's told to walk — no more, no less.
 
 4. **Re-verification:** Same flow, same steps. When 주혁 fixes an issue, 우신 re-runs the full verification. Simple, no special logic.
 

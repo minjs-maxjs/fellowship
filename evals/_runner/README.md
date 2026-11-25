@@ -19,13 +19,13 @@ Headless overnight loop that improves Fellowship agent files using eval-driven i
 ```bash
 # Single agent, default 25 cycles
 ./improve.sh juhyeok
-./improve.sh jaeyun
+./improve.sh minjunsu
 ./improve.sh seunghyeon
 
 # Single agent, custom cycle count
-./improve.sh jaeyun --cycles 15
+./improve.sh minjunsu --cycles 15
 
-# All three agents sequentially (주혁 → 재윤 → 승현)
+# All three agents sequentially (주혁 → 민준수 → 승현)
 ./improve.sh --all
 
 # All three, custom cycles
@@ -56,7 +56,7 @@ git branch -d autoimprove/<agent>-YYYYMMDD-HHMM
 ## Scoring
 
 - **Hard score**: % of deterministic assertions passing (`hard.py`)
-- **Soft score**: % of LLM-as-judge assertions passing (`soft.md`, 재윤 only)
+- **Soft score**: % of LLM-as-judge assertions passing (`soft.md`, 민준수 only)
 - **Overall**: `(hard * 0.7) + (soft * 0.3)` when soft.md present, `hard` only when absent
 
 Pass rate history is appended to `evals/<agent>/history.jsonl` each cycle.

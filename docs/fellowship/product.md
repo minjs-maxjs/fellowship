@@ -2,7 +2,7 @@
 
 ## What We're Building
 
-Fellowship is a LotR-themed multi-agent system for solo product developers, built as a Claude Code plugin. Ten named companions — each with distinct domain expertise, character voice, and tool scoping — handle the full product development lifecycle: planning, architecture, engineering, code review, security, testing, design, DevOps, and technical writing. 재윤 orchestrates. The user carries the Ring.
+Fellowship is a LotR-themed multi-agent system for solo product developers, built as a Claude Code plugin. Ten named companions — each with distinct domain expertise, character voice, and tool scoping — handle the full product development lifecycle: planning, architecture, engineering, code review, security, testing, design, DevOps, and technical writing. 민준수 orchestrates. The user carries the Ring.
 
 The core insight: named personas with genuine character produce more consistent, predictable agent behavior than generic functional labels. Identity constrains behavior in ways job descriptions don't.
 
@@ -27,7 +27,7 @@ Success metric: developers who install it and keep it across multiple real proje
 
 ## Current State
 
-Usable. All ten companions are built and tested. The plugin installs, 재윤 orchestrates, companions dispatch and report. Health check passes 18/0.
+Usable. All ten companions are built and tested. The plugin installs, 민준수 orchestrates, companions dispatch and report. Health check passes 18/0.
 
 What's not yet built: debug knowledge base, plan-before-build gate, context handoff protocol, codebase map command. All four are designed (spec at `docs/fellowship/specs/2026-03-27-plugin-improvement-spec.md`) and ready to implement.
 

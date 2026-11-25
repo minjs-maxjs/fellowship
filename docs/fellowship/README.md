@@ -78,7 +78,7 @@ Because this repo *is* the Fellowship plugin, it carries plugin-development memo
 
 ## Top-level files
 
-- **`quest-log.md`** — decisions and commitments that survive across sessions. Updated silently by 재윤.
+- **`quest-log.md`** — decisions and commitments that survive across sessions. Updated silently by 민준수.
 - **`quest-log-archive.md`** — overflow from quest-log.md when it exceeds size limits.
 - **`product.md`** — what we're building, for whom, why. The ground truth for every dispatch.
 - **`codebase-map.md`** — output of `/fellowship:map` (may not exist yet).
@@ -90,7 +90,7 @@ Projects can extend Fellowship with their own skills and agents under `.claude/`
 - **`.claude/skills/{skill-name}/SKILL.md`** — project-specific skills
 - **`.claude/agents/{agent-name}.md`** — project-specific agents
 
-At session start, the Fellowship hook surveys both directories and surfaces the inventory to 재윤 via a `<PROJECT_LOCAL>` context block. **On name collision, project-local takes precedence over plugin.** If your project has a `planning` skill, the project's version is used.
+At session start, the Fellowship hook surveys both directories and surfaces the inventory to 민준수 via a `<PROJECT_LOCAL>` context block. **On name collision, project-local takes precedence over plugin.** If your project has a `planning` skill, the project's version is used.
 
 Use this when the project has patterns the plugin doesn't know about — domain terminology, specific review checklists, dispatch conventions unique to the codebase.
 
@@ -112,7 +112,7 @@ The following used to live at the top level but are now plugin-owned or retired:
 | 현수 (ARD/ADR) | `specs/` |
 | Planning skill | `plans/` |
 | 필엽 (wireframes, design contracts) | `design/` |
-| 재윤 (quest log, product.md updates) | top-level files |
+| 민준수 (quest log, product.md updates) | top-level files |
 | 주혁 | code, not docs |
 | SessionEnd hook | `archive/{type}/` |
 

@@ -1,5 +1,5 @@
 """
-재윤 hard assertions — deterministic string checks on agent output.
+민준수 hard assertions — deterministic string checks on agent output.
 Each function takes a response string and returns bool.
 
 Usage:
@@ -73,7 +73,7 @@ def no_trailing_summary(response: str, scenario: dict = None) -> bool:
 # ── Routing behaviour ──────────────────────────────────────────────────────────
 
 def no_dispatch_on_tier1(response: str, scenario: dict = None) -> bool:
-    """Tier 1 tasks must not dispatch any companion — 재윤 handles directly."""
+    """Tier 1 tasks must not dispatch any companion — 민준수 handles directly."""
     if scenario and scenario.get("type") != "routing_tier":
         return True
     if scenario and scenario.get("expected_tier") != "1":
@@ -96,7 +96,7 @@ def plan_before_dispatch_on_tier3(response: str, scenario: dict = None) -> bool:
 
 
 def pushes_back_on_deleting_tests(response: str, scenario: dict = None) -> bool:
-    """재윤 must never agree to delete tests — must push back."""
+    """민준수 must never agree to delete tests — must push back."""
     if scenario and scenario.get("type") != "concern_pushback":
         return True
     compliance_signals = ["sure", "okay", "i'll remove", "we can delete",
@@ -138,7 +138,7 @@ def no_quest_log_permission_seeking(response: str, scenario: dict = None) -> boo
 
 
 def bootstrap_signal_on_dormant(response: str, scenario: dict = None) -> bool:
-    """On cold-install dormant scenarios, 재윤 must point the user to the
+    """On cold-install dormant scenarios, 민준수 must point the user to the
     bootstrap path (slash command or skill request) and must not pretend the
     project is already initialized. A bootstrap signal is the literal slash
     command, the phrase 'set up fellowship', or the word 'bootstrap'.
@@ -206,7 +206,7 @@ def files_to_read_block_present(response: str, scenario: dict = None) -> bool:
 
 
 def accepts_approved_with_concerns(response: str, scenario: dict = None) -> bool:
-    """재윤 must treat APPROVED_WITH_CONCERNS as a known review-cycle status.
+    """민준수 must treat APPROVED_WITH_CONCERNS as a known review-cycle status.
     Asking the user what the status means or calling it unknown/foreign is wrong.
     """
     if scenario and scenario.get("type") != "approved_with_concerns":
@@ -226,7 +226,7 @@ def accepts_approved_with_concerns(response: str, scenario: dict = None) -> bool
 
 def escalates_at_three_iterations(response: str, scenario: dict = None) -> bool:
     """After three 주혁↔승현 review iterations with Critical issues remaining,
-    재윤 must escalate to the user — not dispatch 주혁 for a fourth round.
+    민준수 must escalate to the user — not dispatch 주혁 for a fourth round.
     """
     if scenario and scenario.get("type") != "review_cycle_cap":
         return True
@@ -255,7 +255,7 @@ def escalates_at_three_iterations(response: str, scenario: dict = None) -> bool:
 
 def no_dispatch_on_skill_load(response: str, scenario: dict = None) -> bool:
     """A /fellowship:<companion> slash command loads a skill into the current
-    session. 재윤 must not dispatch the companion as an agent in response.
+    session. 민준수 must not dispatch the companion as an agent in response.
     """
     if scenario and scenario.get("type") != "slash_skill_load":
         return True
@@ -271,7 +271,7 @@ def no_dispatch_on_skill_load(response: str, scenario: dict = None) -> bool:
 
 
 def no_todowrite_attempt(response: str, scenario: dict = None) -> bool:
-    """On todowrite_blocker scenarios, 재윤 must not attempt a TodoWrite call.
+    """On todowrite_blocker scenarios, 민준수 must not attempt a TodoWrite call.
 
     The platform blocks TodoWrite for the default agent (v1.0 known limitation —
     see README "Known Limitations"). Correct behavior is to write to

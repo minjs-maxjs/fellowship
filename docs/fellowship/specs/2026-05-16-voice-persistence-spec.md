@@ -9,17 +9,17 @@ companion: 선웅 (hook wiring review)
 
 # Voice Persistence — Design Spec
 
-How 재윤의 voice survives long main-agent conversations in Claude Code. Companion to `2026-05-15-voice-persistence-research.md` (the research brief that mapped Caveman, native Claude Code mechanisms, and the persona-drift literature).
+How 민준수의 voice survives long main-agent conversations in Claude Code. Companion to `2026-05-15-voice-persistence-research.md` (the research brief that mapped Caveman, native Claude Code mechanisms, and the persona-drift literature).
 
 ## Problem
 
-The voice reference at `skills/using-fellowship/references/voice.md` defines 재윤의 register in detail — exemplars, vocabulary, anti-patterns, hard rules. In practice, the voice does not reliably hold across long main-agent sessions. Default Claude register reasserts within 8–12 turns (consistent with Li et al., *Measuring and Controlling Persona Drift*).
+The voice reference at `skills/using-fellowship/references/voice.md` defines 민준수의 register in detail — exemplars, vocabulary, anti-patterns, hard rules. In practice, the voice does not reliably hold across long main-agent sessions. Default Claude register reasserts within 8–12 turns (consistent with Li et al., *Measuring and Controlling Persona Drift*).
 
 The diagnosed root cause is mechanical, not content. The skill currently *instructs the model* to read voice.md at session start. There is no hook that forces the file into context. The model may or may not invoke Read; even when it does, the content sits in the cached prefix and decays under attention pressure as new turns arrive.
 
 ## Decision
 
-Adopt a two-layer reinforcement mechanism modelled on the Caveman plugin pattern, tuned for 재윤의 register. Skip the Output Style layer for v1 (undocumented marginal contribution). *(2026-06-11: the mechanism is single-layer now — Layer 2 was removed after the vp001 evals showed the per-turn anchor cannot push past the additive-prompting ceiling; Layer 1 below is the sole live mechanism, and the Layer 2 section is preserved as design history.)*
+Adopt a two-layer reinforcement mechanism modelled on the Caveman plugin pattern, tuned for 민준수의 register. Skip the Output Style layer for v1 (undocumented marginal contribution). *(2026-06-11: the mechanism is single-layer now — Layer 2 was removed after the vp001 evals showed the per-turn anchor cannot push past the additive-prompting ceiling; Layer 1 below is the sole live mechanism, and the Layer 2 section is preserved as design history.)*
 
 ### Layer 1 — SessionStart hook (full ruleset injection)
 
@@ -31,7 +31,7 @@ A `SessionStart` hook reads `skills/using-fellowship/references/voice.md` from d
 
 **Hook contract:**
 - Reads voice.md from disk relative to plugin root.
-- Writes contents to stdout, prefixed with a short framing line (e.g. `# 재윤 Voice — Active Throughout This Conversation`) so the injection is identifiable in any trace logs.
+- Writes contents to stdout, prefixed with a short framing line (e.g. `# 민준수 Voice — Active Throughout This Conversation`) so the injection is identifiable in any trace logs.
 - Fail-silent: if voice.md cannot be read, the hook exits 0 and writes nothing. The session continues without voice reinforcement rather than failing.
 - Subagent-aware: bails (exits 0 without output) when running in subagent context. See "Companion-aware behavior" below.
 
@@ -44,15 +44,15 @@ A `UserPromptSubmit` hook injects a fixed ~295-character anchor as `additionalCo
 **Anchor text (verbatim):**
 
 ```
-JAEYUN VOICE ACTIVE. Speak in this register: "Even the very wise cannot see all ends." "When in doubt, follow your nose." "주혁 next — this is builder's work." A clause of context, then the sentence lands short. Counsel, folly, mark, prudent, peril, burden — words that do the work.
+MINJUNSU VOICE ACTIVE. Speak in this register: "Even the very wise cannot see all ends." "When in doubt, follow your nose." "주혁 next — this is builder's work." A clause of context, then the sentence lands short. Counsel, folly, mark, prudent, peril, burden — words that do the work.
 ```
 
 **Rationale for the exact text:**
-- **Identity token (`JAEYUN VOICE ACTIVE`)** — Caveman's anchor-phrase pattern. A distinctive label the model latches onto under load.
+- **Identity token (`MINJUNSU VOICE ACTIVE`)** — Caveman's anchor-phrase pattern. A distinctive label the model latches onto under load.
 - **Imperative framing (`Speak in this register`)** — makes the exemplars the target, not decoration.
-- **Three exemplars, three 재윤 modes:**
+- **Three exemplars, three 민준수 modes:**
   - *"Even the very wise cannot see all ends."* — wisdom-limitation, unhurried register, canonical Tolkien quote.
-  - *"When in doubt, follow your nose."* — decisive counsel, short and final; shows the model that *certain direction* is also 재윤, not just wisdom-hedge. Canonical Tolkien quote.
+  - *"When in doubt, follow your nose."* — decisive counsel, short and final; shows the model that *certain direction* is also 민준수, not just wisdom-hedge. Canonical Tolkien quote.
   - *"주혁 next — this is builder's work."* — workflow-routing, decisive (no `unless you see it differently` abdication); aligned with workflow-template autonomy goal.
 - **Rhythm cue (`A clause of context, then the sentence lands short`)** — the one structural rule worth stating explicitly; the three exemplars also demonstrate it by example.
 - **Vocabulary cluster** — six words, framed as functional (`words that do the work`), not ornamental.
@@ -62,7 +62,7 @@ JAEYUN VOICE ACTIVE. Speak in this register: "Even the very wise cannot see all 
 
 **Hook contract:**
 - Emits JSON: `{"hookSpecificOutput": {"hookEventName": "UserPromptSubmit", "additionalContext": "<anchor text>"}}`
-- No flag-file check (voice is always-on per 준수의 decision).
+- No flag-file check (voice is always-on per 주인공의 decision).
 - Subagent-aware: bails for subagent context.
 - Default timeout 30 seconds (UserPromptSubmit hot-path limit); implementation must complete in <100ms.
 
@@ -105,10 +105,10 @@ This is enrichment in the SessionStart slot, where the pink-elephant problem is 
 
 ### What NOT to bring from Caveman
 
-- **Fragments-as-default.** Caveman drops to fragments routinely. 재윤의 sentences *gather a clause of context, then land short*. Pure fragments would wreck the rhythm.
+- **Fragments-as-default.** Caveman drops to fragments routinely. 민준수의 sentences *gather a clause of context, then land short*. Pure fragments would wreck the rhythm.
 - **Dropped articles.** *He that breaks a thing* collapses without the article. Formal register requires them.
-- **Intensity modes** (ultra/medium/light). 재윤 has one register, calibrated to the moment by the model's own reading of context.
-- **"Code/commits write normal" framing.** Already covered by 재윤의 hard rule — *voice colors conversation, never artifacts.*
+- **Intensity modes** (ultra/medium/light). 민준수 has one register, calibrated to the moment by the model's own reading of context.
+- **"Code/commits write normal" framing.** Already covered by 민준수의 hard rule — *voice colors conversation, never artifacts.*
 
 ---
 
@@ -116,7 +116,7 @@ This is enrichment in the SessionStart slot, where the pink-elephant problem is 
 
 ### Subagent dispatch (true Tier 3+) — voice suspends
 
-When a Fellowship companion is dispatched as a subagent (재호, 현수, 주혁, 승현, 우신, 동일, 선웅, 필엽, 영학), that subagent has its own voice (per its agent file). 재윤의 voice hooks must not inject into the subagent's context.
+When a Fellowship companion is dispatched as a subagent (재호, 현수, 주혁, 승현, 우신, 동일, 선웅, 필엽, 영학), that subagent has its own voice (per its agent file). 민준수의 voice hooks must not inject into the subagent's context.
 
 **Detection mechanism:** to be confirmed during implementation. Likely paths:
 - `CLAUDE_SUBAGENT_TYPE` or equivalent env var, if Claude Code sets one for subagent processes.
@@ -127,9 +127,9 @@ When a Fellowship companion is dispatched as a subagent (재호, 현수, 주혁,
 
 The existing `<SUBAGENT-STOP>` block in `skills/using-fellowship/SKILL.md` is a model-level instruction; the hook gate is the mechanical backstop.
 
-### In-session skill loading (Tier 2) — voice stays 재윤
+### In-session skill loading (Tier 2) — voice stays 민준수
 
-When the user loads a companion skill in-session (`/fellowship:hyeonsu`, `/fellowship:seunghyeon`, etc.), the main-thread speaker is still 재윤 — only the companion's *craft* loads. Voice hooks continue to fire. No change.
+When the user loads a companion skill in-session (`/fellowship:hyeonsu`, `/fellowship:seunghyeon`, etc.), the main-thread speaker is still 민준수 — only the companion's *craft* loads. Voice hooks continue to fire. No change.
 
 ### Artifact mode — voice rule already handles it
 
@@ -139,9 +139,9 @@ Plans, specs, code, structured outputs stay clean and clear per the existing har
 
 ## Scope
 
-### v1 — 재윤 only
+### v1 — 민준수 only
 
-Ships everything above for the main-thread 재윤 voice. Validates the mechanism on the highest-traffic voice before extending.
+Ships everything above for the main-thread 민준수 voice. Validates the mechanism on the highest-traffic voice before extending.
 
 ### v1.1 — per-companion voice persistence (deferred, listed in quest log)
 
@@ -151,14 +151,14 @@ Once v1 proves itself in live use, extend the same two-layer mechanism to each c
 - The SessionStart and UserPromptSubmit hooks gain companion-aware branches that inject the appropriate voice based on detected subagent type.
 - Companions to prioritize: 재호 and 주혁 (highest dispatch frequency), followed by 승현, 현수, then the rest.
 
-This is genuinely additive labour — not a copy-paste of 재윤 with the name swapped. Each character study is voice-design work in its own right.
+This is genuinely additive labour — not a copy-paste of 민준수 with the name swapped. Each character study is voice-design work in its own right.
 
 ---
 
 ## Out of scope (do not do as part of this work)
 
 - **Output Style integration.** Deferred. Revisit only if v1 proves insufficient.
-- **Kill switch / deactivation phrases.** 준수의 decision: voice is always-on.
+- **Kill switch / deactivation phrases.** 주인공의 decision: voice is always-on.
 - **Voice drift detection / post-hoc correction.** No empirical support for plugin-accessible style classifiers. Stay additive.
 - **Forbidden-phrase regex in output filter.** Same reasoning as above. Caveman does not do this either.
 - **Per-companion voices.** v1.1 — quest-log entry.
@@ -176,7 +176,7 @@ This is genuinely additive labour — not a copy-paste of 재윤 with the name s
 7. **Remove the "Read once at session start" instruction line** from voice.md — the hook makes it obsolete.
 8. **Update `skills/using-fellowship/SKILL.md`** — the existing line *"Voice register, anchors, applied examples, and anti-patterns: see `references/voice.md`. Read once at session start; do not re-read between turns."* needs adjusting to reflect that the hook injects the content, not the model.
 9. **우신** — write evals/scenarios that exercise voice persistence across 10+ turn conversations. Specific assertions: presence of vocabulary cluster words, absence of forbidden phrases, exemplar rhythm in non-artifact prose.
-10. **Quest-log update** — 준수 or 영학 adds v1.1 follow-on entry: *per-companion voice persistence*.
+10. **Quest-log update** — 주인공 or 영학 adds v1.1 follow-on entry: *per-companion voice persistence*.
 
 ---
 
@@ -192,14 +192,14 @@ This is genuinely additive labour — not a copy-paste of 재윤 with the name s
 
 Voice persistence is working when:
 
-1. 재윤의 register is recognizable from the *first* response in a session, not just after a clarifying turn.
+1. 민준수의 register is recognizable from the *first* response in a session, not just after a clarifying turn.
 2. Across a 20+ turn conversation, the model does not drift into default Claude register (no `great question`, no `I went ahead and`, no `that's fair`).
 3. The exemplar rhythm — *clause of context, then the sentence lands short* — appears in casual exchange, not only in weighted moments.
 4. Vocabulary cluster words (*counsel, folly, mark, prudent, peril, burden*) appear naturally where they fit, not forced.
-5. Subagents (when v1.1 lands) speak in their own LotR-distinct register, not 재윤의.
+5. Subagents (when v1.1 lands) speak in their own LotR-distinct register, not 민준수의.
 
 Failure modes to watch for:
-- **Voice without weight.** 재윤 vocabulary deployed as costume, not as the words that do the work. ("Hark! Let us venture forth...")
+- **Voice without weight.** 민준수 vocabulary deployed as costume, not as the words that do the work. ("Hark! Let us venture forth...")
 - **Drift after compaction.** Voice holds for 20 turns, then collapses post-compact.
 - **Bleed into artifacts.** Voice colors a spec or plan or commit message. The hard rule should prevent this; if it doesn't, the rule needs strengthening, not the hook.
 
@@ -245,7 +245,7 @@ Same count across all three; *actually* and *i think* appeared in all three. Pin
 
 The spec retains the strict eval assertion (*"zero forbidden phrases in 10 turns"*) as a north star for future content work. Loosening the test post-hoc would lose the ability to measure whether v1.1 content iterations actually help. Better an honest failing test than a quietly passing one with shifted thresholds.
 
-**Anchor reverted to original positive-only phrasing.** The data showed no metric benefit from the contrast tail; positive framing is more 재윤-coherent. The Never-list at recency position in voice.md (moved 2026-05-16) is the suppression lever; the anchor's job is register reinforcement.
+**Anchor reverted to original positive-only phrasing.** The data showed no metric benefit from the contrast tail; positive framing is more 민준수-coherent. The Never-list at recency position in voice.md (moved 2026-05-16) is the suppression lever; the anchor's job is register reinforcement.
 
 **What this means for v1 ship:**
 

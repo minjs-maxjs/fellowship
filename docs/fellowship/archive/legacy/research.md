@@ -8,24 +8,24 @@ Fellowship's architecture isn't guesswork — it's informed by academic research
 
 **How should an orchestrator communicate with its workers?**
 
-The most critical design question for any multi-agent system. Fellowship uses a **principles + reporting protocol** pattern: workers (companions) get engineering principles for craft quality and a structured reporting format for communication. The orchestrator (재윤) owns the workflow and routing logic.
+The most critical design question for any multi-agent system. Fellowship uses a **principles + reporting protocol** pattern: workers (companions) get engineering principles for craft quality and a structured reporting format for communication. The orchestrator (민준수) owns the workflow and routing logic.
 
 ### Key findings
 
-- **Anthropic's multi-agent research system** found that "simple, short instructions" caused worker misinterpretation. They evolved to granular task descriptions with specific objectives, output formats, and clear boundaries. Fellowship's dispatching protocol follows this — 재윤 provides full task text, relevant context, and scope boundaries. ([Source](https://www.anthropic.com/engineering/multi-agent-research-system))
+- **Anthropic's multi-agent research system** found that "simple, short instructions" caused worker misinterpretation. They evolved to granular task descriptions with specific objectives, output formats, and clear boundaries. Fellowship's dispatching protocol follows this — 민준수 provides full task text, relevant context, and scope boundaries. ([Source](https://www.anthropic.com/engineering/multi-agent-research-system))
 
 - **Anthropic's agent-building guide** recommends: "Instill good heuristics rather than rigid rules by studying how skilled humans approach tasks and encoding these strategies in prompts." This directly informed our choice of principles over prescriptive workflow stages. ([Source](https://www.anthropic.com/research/building-effective-agents))
 
 - **Superpowers plugin** (the most mature open-source Claude Code multi-agent system) uses a 4-status reporting protocol (DONE / DONE_WITH_CONCERNS / NEEDS_CONTEXT / BLOCKED) that Fellowship adopts. Their pattern: heavy process in the orchestrator, principles in the worker. ([Source](https://github.com/obra/superpowers))
 
-- **OpenAI Agents SDK** distinguishes "agents as tools" (orchestrator keeps control) from "handoffs" (ownership transfers). Fellowship uses the tools pattern — 재윤 keeps control, companions assist. ([Source](https://openai.github.io/openai-agents-python/multi_agent/))
+- **OpenAI Agents SDK** distinguishes "agents as tools" (orchestrator keeps control) from "handoffs" (ownership transfers). Fellowship uses the tools pattern — 민준수 keeps control, companions assist. ([Source](https://openai.github.io/openai-agents-python/multi_agent/))
 
 
 ### What we chose NOT to do
 
 - **Prescriptive workflow stages** — research showed that worker performance degrades with too much instruction (~3,000 token threshold per CodeScene). The orchestrator should own the workflow; the worker should own the craft.
 - **Background observer agents** — Mastra uses these for memory compression, but Claude Code can't run background agents. Not architecturally possible.
-- **Agent-to-agent handoffs** — Claude Code subagents can't spawn other subagents. All orchestration goes through 재윤.
+- **Agent-to-agent handoffs** — Claude Code subagents can't spawn other subagents. All orchestration goes through 민준수.
 
 ---
 
@@ -33,11 +33,11 @@ The most critical design question for any multi-agent system. Fellowship uses a 
 
 **How does the orchestrator establish its identity at message one without polluting the default agent?**
 
-A central design problem: 재윤 needs a substantial operating manual (routing logic, dispatch protocol, escalation triggers, voice), but the *default* Claude Code agent should remain vanilla — preserving its native tool surface and avoiding the performance cost of a heavy persona on every session. Fellowship resolves this by injecting 재윤의 identity at session start via a skill, rather than registering 재윤 as an always-on agent file.
+A central design problem: 민준수 needs a substantial operating manual (routing logic, dispatch protocol, escalation triggers, voice), but the *default* Claude Code agent should remain vanilla — preserving its native tool surface and avoiding the performance cost of a heavy persona on every session. Fellowship resolves this by injecting 민준수의 identity at session start via a skill, rather than registering 민준수 as an always-on agent file.
 
 ### The pattern
 
-A `SessionStart` hook reads an entry-point skill (`skills/using-fellowship/SKILL.md`) and emits its contents as `additionalContext` wrapped in a strong identity declaration. The first message of every session therefore begins with the orchestrator's full operating manual — the Fellowship principles, dispatch protocol, companion roster, and reporting format — established before the user has typed anything. The default agent itself remains untouched: tools, permissions, and base behavior are unchanged. 재윤 is a *layer* on top, not a replacement.
+A `SessionStart` hook reads an entry-point skill (`skills/using-fellowship/SKILL.md`) and emits its contents as `additionalContext` wrapped in a strong identity declaration. The first message of every session therefore begins with the orchestrator's full operating manual — the Fellowship principles, dispatch protocol, companion roster, and reporting format — established before the user has typed anything. The default agent itself remains untouched: tools, permissions, and base behavior are unchanged. 민준수 is a *layer* on top, not a replacement.
 
 ### Why it matters
 
@@ -45,7 +45,7 @@ Two failure modes are avoided. First, **default-agent pollution**: registering a
 
 ### Where Fellowship learned it
 
-The pattern is adapted from **Superpowers**, which uses an identical structure: a `using-superpowers` SKILL.md as the orchestrator's entry-point manual, loaded by a session-start hook that wraps it with an identity declaration. Superpowers proved the pattern works at scale for a multi-agent system; Fellowship adopted it after the earlier experiment of registering 재윤 as a default agent file produced exactly the default-pollution problem described above. ([Source](https://github.com/obra/superpowers))
+The pattern is adapted from **Superpowers**, which uses an identical structure: a `using-superpowers` SKILL.md as the orchestrator's entry-point manual, loaded by a session-start hook that wraps it with an identity declaration. Superpowers proved the pattern works at scale for a multi-agent system; Fellowship adopted it after the earlier experiment of registering 민준수 as a default agent file produced exactly the default-pollution problem described above. ([Source](https://github.com/obra/superpowers))
 
 ### Trade-off currently being navigated
 
@@ -83,7 +83,7 @@ Superpowers mandates TDD as an iron law: "NO PRODUCTION CODE WITHOUT A FAILING T
 
 - **주혁** (engineer) verifies his work — runs existing tests, writes new tests only for non-trivial logic
 - **우신** (test engineer) writes thorough test suites as planned, dedicated work
-- **재윤** (orchestrator) decides whether to dispatch 우신 based on the criticality of the code
+- **민준수** (orchestrator) decides whether to dispatch 우신 based on the criticality of the code
 
 This avoids test sprawl while maintaining verification as a mandatory practice. The research supports both approaches — Fellowship's advantage is having specialized companions, so the engineer doesn't need to be a TDD zealot.
 
@@ -107,7 +107,7 @@ Fellowship uses a three-layer memory architecture. Each layer was chosen based o
 
 - **File-based memory consensus** (claude-mem, Manus, OpenClaw, Claude Code itself) — multiple successful projects converge on markdown files as the memory store. The pattern works well up to ~5MB. Beyond that, you need search. Fellowship will stay well under this threshold. ([Source](https://dev.to/imaginex/ai-agent-memory-management-when-markdown-files-are-all-you-need-5ekk))
 
-- **Collaborative Memory** (ICML 2025, arXiv:2505.18279) explores multi-agent memory with access controls: private memory visible only to the originating agent, shared memory with selective fragments. Fellowship implements this naturally: per-agent memory is private, `docs/fellowship/` is shared, and 재윤 curates what each companion receives.
+- **Collaborative Memory** (ICML 2025, arXiv:2505.18279) explores multi-agent memory with access controls: private memory visible only to the originating agent, shared memory with selective fragments. Fellowship implements this naturally: per-agent memory is private, `docs/fellowship/` is shared, and 민준수 curates what each companion receives.
 
 ### The three layers
 
@@ -119,7 +119,7 @@ Fellowship uses a three-layer memory architecture. Each layer was chosen based o
 
 ### The curator pattern
 
-Rather than giving every agent access to all memory, 재윤 reads shared memory and selects what's relevant for each companion's dispatch. This is supported by:
+Rather than giving every agent access to all memory, 민준수 reads shared memory and selects what's relevant for each companion's dispatch. This is supported by:
 
 - **Context engineering research** (Weaviate, 2026): treat the context window as a scarce resource. Optimize what information is included. ([Source](https://weaviate.io/blog/context-engineering))
 - **Anthropic's context engineering guidance** (Sep 2025): "Every unnecessary word actively degrades agent performance." ([Source](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents))
@@ -202,7 +202,7 @@ When Recently Completed overflows, oldest items consolidate into What Exists and
 
 ### Why Agent Teams matters for Fellowship
 
-Agent Teams is fundamentally different from subagent dispatch — teammates are peers that communicate directly, share a task list, and self-coordinate. This is more lore-accurate than our current hierarchical model: the Fellowship in Tolkien operates as peers. 재윤 guides but doesn't command. Decisions are made through debate (Council of Elrond, Moria vs Gap of Rohan).
+Agent Teams is fundamentally different from subagent dispatch — teammates are peers that communicate directly, share a task list, and self-coordinate. This is more lore-accurate than our current hierarchical model: the Fellowship in Tolkien operates as peers. 민준수 guides but doesn't command. Decisions are made through debate (Council of Elrond, Moria vs Gap of Rohan).
 
 Anthropic's own guidance captures the distinction perfectly:
 
@@ -218,9 +218,9 @@ The Agent Teams docs describe use cases that map directly to Fellowship scenario
 
 - **Cross-layer coordination** — "Changes that span frontend, backend, and tests, each owned by a different teammate." 주혁 building API + 우신 writing tests, synchronizing on interfaces.
 
-- **Direct conversation with companions** — "Each teammate is a full, independent Claude Code session. You can message any teammate directly to give additional instructions, ask follow-up questions, or redirect their approach." 준수 can Shift+Down to talk directly to 동일 about security without going through 재윤.
+- **Direct conversation with companions** — "Each teammate is a full, independent Claude Code session. You can message any teammate directly to give additional instructions, ask follow-up questions, or redirect their approach." 주인공 can Shift+Down to talk directly to 동일 about security without going through 민준수.
 
-- **Plan approval** — "Require teammates to plan before implementing. The teammate works in read-only plan mode until the lead approves their approach." 재윤 reviews a companion's plan, approves or rejects with feedback. The companion stays in plan mode until approved. ([Source](https://code.claude.com/docs/en/agent-teams#require-plan-approval-for-teammates))
+- **Plan approval** — "Require teammates to plan before implementing. The teammate works in read-only plan mode until the lead approves their approach." 민준수 reviews a companion's plan, approves or rejects with feedback. The companion stays in plan mode until approved. ([Source](https://code.claude.com/docs/en/agent-teams#require-plan-approval-for-teammates))
 
 ### Best practices from the docs (relevant to Fellowship)
 
@@ -235,9 +235,9 @@ The Agent Teams docs describe use cases that map directly to Fellowship scenario
 
 Agent Teams isn't just about running things in parallel. It's about **persistent, direct collaboration with a specialist.**
 
-With subagents, every design iteration goes: 준수 → 재윤 → dispatch 필엽 → 필엽 works → reports to 재윤 → 재윤 tells 준수. For a 2-hour design session with 15 iterations, that's 15 round-trips through a middleman who isn't adding value.
+With subagents, every design iteration goes: 주인공 → 민준수 → dispatch 필엽 → 필엽 works → reports to 민준수 → 민준수 tells 주인공. For a 2-hour design session with 15 iterations, that's 15 round-trips through a middleman who isn't adding value.
 
-With Agent Teams, 준수 Shift+Downs to 필엽의 pane and talks directly. 필엽 persists as a full session — she remembers previous iterations, design direction, preferences. The conversation flows naturally. 재윤 stays available as the lead but doesn't block.
+With Agent Teams, 주인공 Shift+Downs to 필엽의 pane and talks directly. 필엽 persists as a full session — she remembers previous iterations, design direction, preferences. The conversation flows naturally. 민준수 stays available as the lead but doesn't block.
 
 This applies to any sustained work with one companion:
 - A deep design session with 필엽 (2 hours of iteration)
@@ -254,7 +254,7 @@ Subagents are fire-and-forget workers. Teammates are persistent collaborators. F
 | Teammates communicate directly | Companions can debate and challenge each other (Council of Elrond) |
 | Shared task list with dependencies | Natural quest log — tasks auto-unblock when dependencies complete |
 | Self-claiming tasks | Companions pick up work based on their expertise, not just assignment |
-| Plan approval mode | 재윤 reviews a companion's plan before they implement |
+| Plan approval mode | 민준수 reviews a companion's plan before they implement |
 | TeammateIdle / TaskCompleted hooks | Quality gates — enforce review before marking done |
 | Split-pane display | See all companions working at once (tmux/iTerm2) |
 
@@ -285,12 +285,12 @@ Subagents are fire-and-forget workers. Teammates are persistent collaborators. F
 
 | Tier | Model | Why |
 |---|---|---|
-| 1 — Direct | 재윤 alone | No dispatch needed |
+| 1 — Direct | 민준수 alone | No dispatch needed |
 | 2 — One specialist | Subagent | Focused task, result is all that matters |
 | 3 — Sequential chain | Subagent chain | Dependencies between tasks, sequential by nature |
 | 4 — Parallel/debate | **Agent Teams** | Companions need to communicate, challenge, coordinate |
 
-**Fellowship's memory files (quest-log, per-agent memory, product.md) are safe** because our design already says only 재윤 writes to shared memory. Companions report back; 재윤 curates. In Agent Teams mode, the same rule applies — teammates report via messages, the lead persists to files.
+**Fellowship's memory files (quest-log, per-agent memory, product.md) are safe** because our design already says only 민준수 writes to shared memory. Companions report back; 민준수 curates. In Agent Teams mode, the same rule applies — teammates report via messages, the lead persists to files.
 
 **Companion skills would load automatically** (teammates load project skills). The companion identity (personality, boundaries) would need to come via the spawn prompt since teammate support for custom agent files is unclear.
 
@@ -330,12 +330,12 @@ Four projects were studied for implementation patterns:
 Key finding: **Fellowship can support both subagents and Agent Teams without code conflicts.**
 
 - The env var `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` makes TeamCreate available but doesn't force any plugin to use it
-- The lead (재윤) has access to BOTH the Agent tool and TeamCreate simultaneously
-- Our agent files (juhyeok.md, jaeyun.md) use the same markdown + YAML frontmatter format that Agent Teams plugins use
+- The lead (민준수) has access to BOTH the Agent tool and TeamCreate simultaneously
+- Our agent files (juhyeok.md, minjunsu.md) use the same markdown + YAML frontmatter format that Agent Teams plugins use
 - The orchestration skill can check the env var at runtime and branch behavior
 - Plugin `settings.json` can only set `agent` key — users must opt into Agent Teams via their own settings
 
-The toggle: 재윤 checks availability before dispatching. Agent Teams enabled → spawn as teammates. Not enabled → dispatch as subagents. Same companions, same skills, same reporting.
+The toggle: 민준수 checks availability before dispatching. Agent Teams enabled → spawn as teammates. Not enabled → dispatch as subagents. Same companions, same skills, same reporting.
 
 ### Preset Fellowship team compositions (future)
 
@@ -392,7 +392,7 @@ Across these implementations, a consistent pattern emerges:
 |---|---|---|
 | Inter-phase artifacts | Quest log + per-agent memory (session-level) | Phase-level artifact files for Tier 4 work |
 | Context resets | Companions dispatch fresh | Already implemented — each companion starts clean |
-| Focused prompts | 재윤 scopes dispatch context per task | Already aligned with the principle |
+| Focused prompts | 민준수 scopes dispatch context per task | Already aligned with the principle |
 | Validation gates | health-check.mjs (structural) | Hook-based quality gates for Tier 3+ work |
 | Artifact persistence | Subagent output is transient | `CLAUDE_SCRATCHPAD_DIR` pattern for durable output |
 
@@ -400,7 +400,7 @@ The most actionable insight: for Tier 4 work, companions should write output to 
 
 ### What we chose NOT to adopt
 
-- **Mandatory delegation enforcement** (barkain's primary hook): Fellowship doesn't block direct tool use. 재윤 is trusted to route appropriately, not coerced by hooks.
+- **Mandatory delegation enforcement** (barkain's primary hook): Fellowship doesn't block direct tool use. 민준수 is trusted to route appropriately, not coerced by hooks.
 - **Virtual filesystem / database-backed state**: too heavy for a solo-dev plugin. File-based artifacts via `CLAUDE_SCRATCHPAD_DIR` achieve most of the benefit.
 - **Phase type system with hard typing**: Fellowship's Tier system is a simpler form of the same idea — how much autonomy does this task need?
 
@@ -521,7 +521,7 @@ The Karpathy autoresearch pattern applied to agent instruction files. Three ingr
 - **Real invocations over simulation** — same-context simulation is circular: the loop agent knows what "correct" looks like because it wrote the instructions. Fresh subprocess invocations with the agent file as context produce honest signal. Simulation produced 1.0 scores in 5 cycles; real invocations are expected to start at 0.5–0.7.
 - **Protected evaluator** — `hard.py` is copied to `/tmp` and chmod 444 before the worktree starts. The loop can modify `agents/<target>.md` only. This prevents reward hacking by weakening assertions.
 - **Correctness scenarios** — beyond structural compliance (does the report have a Status field?), 승현 scenarios embed real code with planted bugs and assert the agent finds them. Structure tests are a floor, not a ceiling.
-- **Balanced problem sets** — 재윤 scenarios include both "should dispatch" and "must not dispatch" cases; "should push back" and neutral cases. One-sided scenario sets produce one-sided improvements.
+- **Balanced problem sets** — 민준수 scenarios include both "should dispatch" and "must not dispatch" cases; "should push back" and neutral cases. One-sided scenario sets produce one-sided improvements.
 
 ---
 

@@ -3,15 +3,15 @@ name: transport-agnostic-dispatch
 status: implemented
 implemented_by: juhyeok
 created: 2026-06-11
-author: jaeyun
+author: minjunsu
 type: spec
 ---
 
 # Transport-Agnostic Dispatch — Deference Rule + Handoff File Contract
 
-Fellowship's biggest live-usage pain (준수, 2026-06-11): Tier 2+ dispatches serialize through the main session — the user waits on every build, then waits again on every review. Parallel, observable transports exist (herdr splits, tmux panes, Conductor workspaces, native agent teams), but Fellowship has no doctrine for using them.
+Fellowship's biggest live-usage pain (주인공, 2026-06-11): Tier 2+ dispatches serialize through the main session — the user waits on every build, then waits again on every review. Parallel, observable transports exist (herdr splits, tmux panes, Conductor workspaces, native agent teams), but Fellowship has no doctrine for using them.
 
-This spec settles the doctrine. Brainstorm happened in-conversation 2026-06-11; decisions below are 준수의 calls, recorded with rationale.
+This spec settles the doctrine. Brainstorm happened in-conversation 2026-06-11; decisions below are 주인공의 calls, recorded with rationale.
 
 ## Decisions
 

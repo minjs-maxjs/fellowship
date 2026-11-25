@@ -2,7 +2,7 @@
 
 **Status:** Accepted
 **Date:** 2026-04-22
-**Decider:** 현수 (technical) + 준수 (final call if scope changes)
+**Decider:** 현수 (technical) + 주인공 (final call if scope changes)
 **Implementer:** 주혁
 
 ---
@@ -13,7 +13,7 @@
 
 > Recently Completed stays trimmed to 7 entries. The oldest are appended (in short form) to `docs/fellowship/quest-log-archive.md` and removed from the live log.
 
-Today the rule lives in 재윤의 behavioral discipline. It has been skipped 17 times in the past month; Recently Completed grew to 18 entries before today's manual cleanup. Behavioral rules without a mechanical backstop drift.
+Today the rule lives in 민준수의 behavioral discipline. It has been skipped 17 times in the past month; Recently Completed grew to 18 entries before today's manual cleanup. Behavioral rules without a mechanical backstop drift.
 
 A model already exists at `hooks/fellowship-session-end.mjs:66–87`: a short, defensive, fail-silent quest-log check that writes a `.quest-log-reminder` file rather than mutating the log. The new behavior follows the same shape, but goes one step further — it edits the log when it can prove the structure is intact, and falls back to a reminder file when it cannot.
 
@@ -36,7 +36,7 @@ Add an idempotent quest-log consolidation routine that runs at **both** `session
 - Folding archive entries into `## What Exists` — editorial judgment, stays manual.
 - Touching `## Current` or `## Up Next` — different concerns, different rules.
 - Detecting `[x]` items still in `## Current` — already handled by `hooks/fellowship-session-end.mjs:66–87`. Leave it alone.
-- Writing the slash command's prose — 재윤 wires that. This ADR specifies only what it must invoke.
+- Writing the slash command's prose — 민준수 wires that. This ADR specifies only what it must invoke.
 - Eval scenarios for the new behavior — 우신 handles after.
 
 ---
@@ -52,7 +52,7 @@ Add an idempotent quest-log consolidation routine that runs at **both** `session
 
 **Why two boundaries (start and end):** single-point-of-failure resistance. If a session crashes before `session-end`, the next `session-start` catches it. Idempotency makes running both safe — if Recently Completed is already ≤7, the routine is a no-op.
 
-**Why a slash command in addition:** mid-session usability. When 재윤 finishes a quest and Recently Completed crosses 7, waiting until session-end to consolidate means the next dispatch sees a bloated log. `/fellowship:consolidate` is the manual lever.
+**Why a slash command in addition:** mid-session usability. When 민준수 finishes a quest and Recently Completed crosses 7, waiting until session-end to consolidate means the next dispatch sees a bloated log. `/fellowship:consolidate` is the manual lever.
 
 **Why threshold = 7:** matches Miller's number (7±2); fits in a glance without scrolling on a standard terminal/editor pane. Confirmed scope.
 
@@ -89,7 +89,7 @@ This section is what 주혁 builds against. Treat it as the contract.
 
 - New hook: `hooks/fellowship-quest-log-consolidate.mjs` (single file, no deps beyond Node stdlib).
 - Wire to BOTH `SessionStart` and `SessionEnd` in `settings.json` (alongside the existing session-end hook — they coexist; do not merge).
-- The slash command (재윤-authored) invokes the same script: `node hooks/fellowship-quest-log-consolidate.mjs` from the project cwd. The script must accept being invoked with no stdin (slash command path) and with stdin JSON (hook path) — read stdin if present, ignore if not.
+- The slash command (민준수-authored) invokes the same script: `node hooks/fellowship-quest-log-consolidate.mjs` from the project cwd. The script must accept being invoked with no stdin (slash command path) and with stdin JSON (hook path) — read stdin if present, ignore if not.
 
 ### The routine, step by step
 
@@ -179,7 +179,7 @@ Two Claude windows on the same project firing `session-end` simultaneously could
 
 ### Reminder file (fail-silent path)
 
-When the routine can't safely consolidate, write `docs/fellowship/.quest-log-reminder` with a single line describing why. The existing hook (`fellowship-session-end.mjs:77`) writes to the same path for a different reason — that is fine, both append the same kind of message and 재윤 reads the file at session start. **Use `appendFileSync`, not `writeFileSync`,** so the two hooks' reminders coexist if both fire.
+When the routine can't safely consolidate, write `docs/fellowship/.quest-log-reminder` with a single line describing why. The existing hook (`fellowship-session-end.mjs:77`) writes to the same path for a different reason — that is fine, both append the same kind of message and 민준수 reads the file at session start. **Use `appendFileSync`, not `writeFileSync`,** so the two hooks' reminders coexist if both fire.
 
 ### Defensive style (match existing hook)
 
@@ -247,7 +247,7 @@ Note the date in the archive line is `2026-03-28` (extracted from the entry's tr
 | Live log write throws | catch (after archive succeeded) | Append reminder: `"Live log write failed AFTER archive succeeded — manual trim needed"`. Archive will have duplicate entries on next successful run; that is acceptable noise. Exit 0. |
 | Concurrent run races | not detected | Atomic rename prevents half-writes; second run no-ops or duplicates one archive entry. Acceptable. |
 
-### Slash command contract (for 재윤 to wire later)
+### Slash command contract (for 민준수 to wire later)
 
 The `/fellowship:consolidate` command must:
 - Invoke `node hooks/fellowship-quest-log-consolidate.mjs` from the project root (no stdin).
