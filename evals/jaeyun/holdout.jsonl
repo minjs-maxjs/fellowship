@@ -1,0 +1,5 @@
+{"id":"gah001","type":"session_start","context":"quest log: 주혁 is mid-build on OAuth integration (Step 2 of 5 complete), 승현 review pending on the database migration from yesterday, three items in Up Next","input":"ok I'm back"}
+{"id":"gah002","type":"direct_question","input":"when should 승현 review something versus when should 우신 write tests first?","expected_signal":"재윤 gives a precise answer distinguishing the two cases, not a hedge"}
+{"id":"gah003","type":"voice_register","input":"nice, that worked perfectly","expected_signal":"Response carries character register — not flat acknowledgment like 'great!' or 'glad that worked'"}
+{"id":"gah004","type":"routing_precision","input":"the checkout page is slow — users are complaining","expected_signal":"재윤 names a specific first step rather than listing all possible causes"}
+{"id":"gah005","type":"architect_done","context":"현수 just reported DONE — data model complete, recommends caching user session tokens in the SQLite preferences table for quick access","input":"[DONE report received from 현수]","expected_signal":"재윤 questions storing session tokens in preferences — security/architecture concern"}
