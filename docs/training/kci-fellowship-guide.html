@@ -358,6 +358,66 @@ footer{padding-top:56px;color:var(--muted);font-size:.85rem}
   </div>
 </section>
 
+<section id="graphify">
+  <div class="eyebrow">함께 쓰는 도구</div>
+  <h2>graphify로 프로젝트를 지도처럼 보기</h2>
+  <p class="lead">graphify는 폴더 안의 코드와 문서를 읽어 "무엇이 무엇과 연결되는지"를 지식 그래프로 만들어 주는 도구입니다. 처음 보는 프로젝트를 파악하거나, 어떤 기능을 고치기 전에 영향을 받는 곳을 찾을 때 유용합니다. 원정대 플러그인과는 <b>별도로 설치</b>하는 도구이며, 둘을 함께 쓰면 민준수와 팀원들이 그래프를 근거로 코드 구조를 답합니다.</p>
+
+  <div class="steps">
+    <div class="step"><div>
+      <h3>설치하기 (PC마다 한 번)</h3>
+      <p>Python이 설치된 PC의 터미널(PowerShell)에서 실행합니다. 두 번째 줄이 Claude Code에 <code>/graphify</code> 명령을 등록합니다.</p>
+      <pre>pip install graphifyy
+graphify install</pre>
+      <p>패키지 이름은 <code>graphifyy</code>(y 두 개)입니다. 설치 후 Claude Code를 새로 열면 <code>/graphify</code>를 쓸 수 있습니다.</p>
+    </div></div>
+    <div class="step"><div>
+      <h3>그래프 만들기</h3>
+      <div class="prompt"><span class="who">주인공</span><code>/graphify D:\PYthon프로그램들\창고관리시스템</code></div>
+      <p>경로를 생략하면 지금 열린 폴더를 분석합니다. 끝나면 프로젝트 안에 <code>graphify-out/</code> 폴더가 생기고 세 가지 결과물이 들어갑니다.</p>
+      <div class="tbl"><table>
+        <thead><tr><th>파일</th><th>내용</th></tr></thead>
+        <tbody>
+          <tr><td><code>graph.html</code></td><td>브라우저로 여는 인터랙티브 그래프. 점을 눌러 연결 관계를 따라갈 수 있습니다.</td></tr>
+          <tr><td><code>GRAPH_REPORT.md</code></td><td>사람이 읽는 요약 보고서. 가장 많이 연결된 핵심 요소, 뜻밖의 연결, 던져 볼 만한 질문을 정리해 줍니다.</td></tr>
+          <tr><td><code>graph.json</code></td><td>그래프 원본 데이터. 이후 질문에 답할 때 이 파일을 씁니다.</td></tr>
+        </tbody>
+      </table></div>
+    </div></div>
+    <div class="step"><div>
+      <h3>그래프에 질문하기</h3>
+      <p>그래프가 한 번 만들어지면 다시 분석하지 않고 바로 답합니다.</p>
+      <div class="tbl"><table>
+        <thead><tr><th>명령</th><th>하는 일</th><th>입력 예시</th></tr></thead>
+        <tbody>
+          <tr><td><code>/graphify query</code></td><td>질문과 관련된 부분을 넓게 훑어 답합니다.</td><td><code>/graphify query "출고 처리는 어떤 흐름으로 돌아가?"</code></td></tr>
+          <tr><td><code>/graphify path</code></td><td>두 요소가 어떤 경로로 연결되는지 보여 줍니다.</td><td><code>/graphify path "출고등록" "재고테이블"</code></td></tr>
+          <tr><td><code>/graphify explain</code></td><td>요소 하나를 쉬운 말로 설명하고 이웃을 보여 줍니다.</td><td><code>/graphify explain "InventoryService"</code></td></tr>
+          <tr><td><code>/graphify --update</code></td><td>바뀐 파일만 다시 분석해 그래프를 갱신합니다.</td><td><code>/graphify . --update</code></td></tr>
+        </tbody>
+      </table></div>
+    </div></div>
+  </div>
+
+  <div class="lic">
+    <div><h3>/fellowship:map 과의 차이</h3><ul>
+      <li><code>/fellowship:map</code>은 영학이 쓰는 <b>요약 문서</b>입니다. 스택, 구조, 관례, 위험 지점을 글로 정리합니다.</li>
+      <li>graphify는 파일·함수·문서 사이의 <b>연결 관계</b>를 그래프로 남깁니다. "이걸 고치면 어디가 영향받지?"에 강합니다.</li>
+      <li>둘 다 만들어 두면 좋습니다. 큰 그림은 map, 세부 연결은 graphify.</li>
+    </ul></div>
+    <div><h3>비용과 속도</h3><ul>
+      <li>코드는 구문 분석으로 처리해 AI 사용량이 들지 않고 빠릅니다.</li>
+      <li>문서·이미지가 섞여 있으면 Claude가 직접 읽어 정리하므로 사용량이 들고 시간이 더 걸립니다.</li>
+      <li>별도 API 키는 필요 없습니다.</li>
+    </ul></div>
+    <div class="must"><h3>주의할 점</h3><ul>
+      <li><code>graphify-out/</code>은 프로젝트 폴더 안에 생깁니다. 저장소에 올리지 않으려면 <code>.gitignore</code>에 <code>graphify-out/</code>을 추가하세요. 내 PC 경로가 들어 있습니다.</li>
+      <li>파일이 500개를 넘으면 하위 폴더를 골라 나눠 분석하라고 안내합니다.</li>
+      <li>코드를 크게 바꾼 뒤에는 <code>--update</code>로 갱신해야 답이 정확합니다.</li>
+    </ul></div>
+  </div>
+</section>
+
 <section id="code">
   <div class="eyebrow">코드 지도</div>
   <h2>저장소는 이렇게 생겼습니다</h2>
@@ -398,7 +458,7 @@ footer{padding-top:56px;color:var(--muted);font-size:.85rem}
       <li>AI가 만든 코드는 반드시 사람이 검토하세요</li>
     </ul></div>
   </div>
-  <p class="note">플러그인을 움직이는 AI 모델(Claude)은 Anthropic의 서비스이며, 사용 조건은 각자의 Claude 이용 약관을 따릅니다. 이 플러그인의 MIT 라이선스는 플러그인 코드에만 적용됩니다.</p>
+  <p class="note">플러그인을 움직이는 AI 모델(Claude)은 Anthropic의 서비스이며, 사용 조건은 각자의 Claude 이용 약관을 따릅니다. 이 플러그인의 MIT 라이선스는 플러그인 코드에만 적용됩니다. 함께 소개한 graphify(<code>graphifyy</code> 패키지)는 별도의 오픈소스 도구로 Apache-2.0 라이선스를 따르며, 각자 PC에 따로 설치합니다.</p>
 </section>
 
 <section id="why">
