@@ -45,18 +45,18 @@ Open Claude Code in any project. 재윤 greets you and reads the state of the re
 
 Ten companions walk beside you. Each carries a distinct purpose — no two share the same blade.
 
-| | Name | Role | Why this character |
+| | 이름 (Name) | 역할 (Role) | 이 캐릭터를 배정한 이유 (Why this character) |
 |---|---|---|---|
-| 🧙 | **재윤** | Orchestrator | Assembled the Fellowship, chose the path, knew when to guide and when to step aside. Routes tasks, classifies complexity, handles the small things directly. |
-| 👑 | **재호** | Product Manager | The king who served before he ruled — made the hardest calls, chose the Paths of the Dead when no other road remained. Decides *what* to build and *why*. |
-| 🍺 | **현수** | Technical Architect | Most scholarly hobbit — mapped the Old Forest, studied Rohan's military history, wrote *The Reckoning of Years*. Decides *how* to build it. |
-| 🪓 | **주혁** | Engineer | Dwarves built Khazad-dûm and reforged the gates of Minas Tirith in mithril. Builds new features, new code, new systems. |
-| 🏹 | **승현** | Code Reviewer | Elven eyes that never miss — spotted threats from miles away, counted every kill at Helm's Deep. Reviews code for spec compliance and quality. |
-| 🗡️ | **동일** | Security Engineer | Defended the White City his whole life — and fell to the Ring's corruption. He knows what it costs to leave a door unguarded. |
-| 🍄 | **우신** | Test Engineer | Dropped a stone in Moria, looked into the Palantír, lit the beacons on instinct. The fool finds what careful minds overlook. |
-| 🌻 | **선웅** | DevOps / Infrastructure | Gardener of Bag End — tended the soil so others could grow. Maintained the supply lines into Mordor. The unglamorous work that keeps everything else alive. |
-| 🌟 | **필엽** | Product Designer | Wove the banner of the King — designed 재호의 identity before he claimed it. Shapes visual language, user flows, and audits the craft for UX, accessibility, and style. |
-| 📖 | **영학** | Technical Writer | Author of *There and Back Again*. Built the map that made the Lonely Mountain quest repeatable. Clear writing is a form of engineering. |
+| 🧙 | **민준수** | 오케스트레이터 (Orchestrator) | KCI 임무대를 결성하고 갈 길을 정했으며, 언제 이끌고 언제 물러나야 할지 알았던 인물(민준수). 작업을 분배하고 복잡도를 분류하며, 사소한 일은 직접 처리합니다. |
+| 👑 | **재호** | 프로덕트 매니저 (Product Manager) | 민준수의 오른팔(양재호) — 가장 어려운 결정을 내렸고, 다른 길이 남지 않았을 때 끝까지 우리를 지켜냈습니다. *무엇을*, 그리고 *왜* 만들지 결정합니다. |
+| 🍺 | **현수** | 테크니컬 아키텍트 (Technical Architect) | 가장 학구적인 연구자 — 언제나 탐구하고 공부하며 연구소로 이직했습니다. *어떻게* 만들지 결정합니다. |
+| 🪓 | **주혁** | 엔지니어 (Engineer) | 가장 처음 새로운 길을 개척해 내었습니다. 이주혁은 제일 먼저 이직한 사람입니다. 새로운 기능, 새로운 코드, 새로운 시스템을 구축합니다. |
+| 🏹 | **승현** | 코드 리뷰어 (Code Reviewer) | 결코 놓치는 법이 없는 천재의 눈(배승현) — 미래의 위협을 포착하고, 외국계 대기업으로 이직하였습니다. 명세 준수 여부와 품질을 기준으로 코드를 리뷰합니다. |
+| 🗡️ | **동일** | 보안 엔지니어 (Security Engineer) | 평생 KCI를 수호해 주는 인물(이동일). 문 하나를 경계하지 않고 비워 두었을 때 어떤 대가를 치르는지 누구보다 잘 압니다. |
+| 🍄 | **우신** | 테스트 엔지니어 (Test Engineer) | 모든 위험 상황을 파악하고 있으며 본능적으로 위험을 피할 수 있는 인물(우신). 엉뚱해 보이는 호기심이 신중한 이들이 놓치는 허점을 찾아냅니다. |
+| 🌻 | **선웅** | 데브옵스 / 인프라 (DevOps / Infrastructure) | 백 엔드(Bag End)의 정원사(선웅) — 다른 이들이 자라날 수 있도록 흙을 가꾸고, 매우 강한 힘으로 보급선을 유지했습니다. 화려하진 않지만 다른 모든 것이 살아 움직이게 만드는 기반 작업을 맡습니다. |
+| 🌟 | **필엽** | 프로덕트 디자이너 (Product Designer) | KCI의 깃발을 수놓은 인물(이필엽) — 민준수가 왕권을 주장하기 전부터 그의 정체성을 디자인했습니다. 시각 언어와 사용자 흐름을 설계하고, UX·접근성·스타일 측면에서 완성도를 검수합니다. |
+| 📖 | **영학** | 테크니컬 라이터 (Technical Writer) | 누구보다 논리적인 인물(고영학). 외로운 KCI 원정을 다시 수행할 수 있도록 지도를 만들었습니다. 명확한 글쓰기 역시 엔지니어링의 한 형태입니다. |
 
 > *You (준수) are the eleventh. You carry the weight. You make the final call. The Fellowship serves the Ring-bearer.*
 
